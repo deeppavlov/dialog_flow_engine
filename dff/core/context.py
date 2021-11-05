@@ -1,3 +1,10 @@
+"""
+Context
+---------
+Структура данных, которая используется для хранения контекста.
+Предаставляет удомный интерфейс работы с данными: добавлени данных,
+сериализация, проверка типов и т.д.
+"""
 import logging
 from uuid import UUID, uuid4
 
@@ -15,16 +22,54 @@ Context = ForwardRef("Context")
 
 @validate_arguments
 def sort_dict_keys(dictionary: dict) -> dict:
+    """
+    Сортировка ключей в словаре. Это необходимо делать после десериализвации.
+    Т.к. десерализироваться ключи могут в случайном порядке.
+    """
     return {key: dictionary[key] for key in sorted(dictionary)}
 
 
 @validate_arguments
 def get_last_index(dictionary: dict) -> int:
+    """
+    Получение последнего индекса из `dict`, если `dict` пустой возвращается `-1`.
+    """
     indexes = list(dictionary)
     return indexes[-1] if indexes else -1
 
 
 class Context(BaseModel):
+    """
+    Структура, которая используется для хранения данных о контексте диалога.
+    
+    Parameters
+    ----------
+    id : Union[UUID, int, str]
+        `id` это уикальный идентификатор контекста, поумолчанию используется 
+        случайно сгенеренный `id` с помощью `uuid4`.
+        `id` может использоваться для отслеживания поведения отдельного пользоватателя
+        например при сборе статистики.
+
+    labels : dict[int, NodeLabel2Type]
+        `labels` хранит историю всех пройденных `labels`:
+        * ключ - `id` терна
+        * значение - `label` на этом терне
+
+    requests : dict[int, Any]
+        `requests` хранит историю всех `requests` - полученных агентом запросов:
+        * ключ - `id` терна
+        * значение - `request` на этом терне
+
+    responses : dict[int, Any]
+        `responses` хранит историю всех `responses` - ответо агента:
+        * ключ - `id` терна
+        * значение - `response` на этом терне
+
+    misc : dict[int, Any]
+        `misc` хранит данные, которые непредусмотренны были заранее, но являются необходимыми для 
+        для 
+
+    """
     id: Union[UUID, int, str] = Field(default_factory=uuid4)
     labels: dict[int, NodeLabel2Type] = {}
     requests: dict[int, Any] = {}
