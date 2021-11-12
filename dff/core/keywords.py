@@ -1,6 +1,6 @@
 """
 Keywords
----------
+---------------------------
 Ключевые слова используются для описания сенария диалога.
 """
 from enum import Enum, auto
@@ -14,7 +14,6 @@ class Keywords(Enum):
     По разным ключам лежат разные типы значений преднозначенные для разных целей.
 
     Enums:
-    ----------
     GLOBAL : keyword is used to define a global node.
     Значение, которое лежит по ключу `GLOBAL`  имеет тип `dict` с ключевыми словами:
     `{TRANSITIONS:..., RESPONSE:..., PROCESSING:..., MISC:...}`
