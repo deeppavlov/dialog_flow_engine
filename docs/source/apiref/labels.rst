@@ -1,0 +1,2 @@
+.. automodule:: dff.labels
+   :members:

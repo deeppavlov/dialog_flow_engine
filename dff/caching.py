@@ -1,4 +1,8 @@
-# %%
+"""
+Caching
+---------
+
+"""
 import functools
 
 from dff.core import Actor, Context

@@ -1,3 +1,8 @@
+"""
+Plot
+---------
+
+"""
 # %%
 
 import logging

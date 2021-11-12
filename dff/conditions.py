@@ -1,3 +1,8 @@
+"""
+Conditions
+---------
+
+"""
 from typing import Callable, Pattern, Union, Any
 import logging
 import re

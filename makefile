@@ -39,8 +39,12 @@ test: venv
 	@$(VENV_PATH)/bin/python -m pytest --cov-report html --cov-report term --cov=dff tests/
 .PHONY: test
 
-test-all: venv test lint
-`.PHONY: test-all
+test_all: venv test lint
+`.PHONY: test_all
+
+build_doc:
+	sphinx-build -M html docs/source docs/build
+`.PHONY: build_doc
 
 # dist: venv
 # 	rm -rf dist build

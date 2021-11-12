@@ -1,0 +1,2 @@
+.. automodule:: dff.caching
+   :members:

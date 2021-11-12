@@ -1,3 +1,8 @@
+"""
+Labels
+---------
+
+"""
 from typing import Optional, Callable
 from .core.actor import Actor
 from .core.context import Context

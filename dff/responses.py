@@ -1,3 +1,8 @@
+"""
+Responses
+---------
+
+"""
 import random
 from .core.context import Context
 from .core.actor import Actor

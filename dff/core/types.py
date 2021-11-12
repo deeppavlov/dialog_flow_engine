@@ -1,3 +1,8 @@
+"""
+Types
+---------
+
+"""
 from typing import Union, Callable
 from enum import Enum, auto
 

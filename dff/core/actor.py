@@ -1,3 +1,8 @@
+"""
+Actor
+---------
+Базовый набор функций для нормализации данных в сценарии диалога.
+"""
 import logging
 from typing import Union, Callable, Optional
 
