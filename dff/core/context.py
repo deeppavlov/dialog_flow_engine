@@ -65,9 +65,22 @@ class Context(BaseModel):
         * ключ - `id` терна
         * значение - `response` на этом терне
 
-    misc : dict[int, Any]
-        `misc` хранит данные, которые непредусмотренны были заранее, но являются необходимыми для 
-        для 
+    misc : dict[str, Any]
+        `misc` хранит произвольные данные, этот дикт не используется самими фреймворком, 
+        поэтому хранение любых данных не будет отражаться на логике работы внутренних функций Dialog Flow Framework
+        * ключ - название произвольных данных
+        * значение - произвольные данные
+
+    validation : bool
+        `validation` - это флаг, который сигнализирует о том, что `Actor` выполняет проверку `Plot`, проверка выполняется при инициализании `Actor`.
+        Tе функции, которые во время вализации могут давать не валидируемые значения, должны использовать этот флаг, чтобы учитывать режим валидации
+        иначе валидация не будет пройдена.
+
+    actor_state : dict[str, Any]
+        `actor_state` или `a_s` используется каждый раз при обработке `Context`. В `actor_state` записывает все промежуточные состояния `Actor`.
+        После того, как обработка `Context` заканчивается, `Actor` очищает `actor_state`  и возвращает `Context`.
+        * ключ - название временных переменных
+        * значение - данные временных переменных
 
     """
     id: Union[UUID, int, str] = Field(default_factory=uuid4)
@@ -89,9 +102,23 @@ class Context(BaseModel):
         ctx: Union[Context, dict, str] = {},
         *args,
         **kwargs,
-    ) -> Union[Context, dict, str]:
+    ) -> Context:
+        """
+        Преобразует разные типы данных в объект класса `Context`
+
+        Parameters
+        ----------
+        ctx : Union[Context, dict, str]
+            Разные типы данных, которые используются для инициалиации объекта типа `Context`
+            Если данных не подается создается пустой объект типа `Context`.
+
+        Returns
+        -------
+        Context 
+            инициализированный входными данными объект типа `Context`
+        """
         if not ctx:
-            ctx = Context()
+            ctx = Context(*args, **kwargs)
         elif isinstance(ctx, dict):
             ctx = Context.parse_obj(ctx)
         elif isinstance(ctx, str):
@@ -104,21 +131,58 @@ class Context(BaseModel):
 
     @validate_arguments
     def add_request(self, request: Any):
+        """
+        Добавляет в контекст следующий `request`, который соответствует следующему терну.
+        Добавление происходит в `requests`, при этом `new_index = last_index + 1`
+
+        Parameters
+        ----------
+        request : Any
+            `request` который надо добавить к контексту
+        """
         last_index = get_last_index(self.requests)
         self.requests[last_index + 1] = request
 
     @validate_arguments
     def add_response(self, response: Any):
+        """
+        Добавляет в контекст следующий `response`, который соответствует следующему терну.
+        Добавление происходит в `responses`, при этом `new_index = last_index + 1`
+
+        Parameters
+        ----------
+        response : Any
+            `response` который надо добавить к контексту
+        """
         last_index = get_last_index(self.responses)
         self.responses[last_index + 1] = response
 
     @validate_arguments
     def add_label(self, label: NodeLabel2Type):
+        """
+        Добавляет в контекст следующий `label`, который соответствует следующему терну.
+        Добавление происходит в `labels`, при этом `new_index = last_index + 1`
+
+        Parameters
+        ----------
+        label : NodeLabel2Type
+            `label` который надо добавить к контексту
+        """
         last_index = get_last_index(self.labels)
         self.labels[last_index + 1] = label
 
     @validate_arguments
     def clear(self, hold_last_n_indexes: int, field_names: list[str] = ["requests", "responses", "labels"]):
+        """
+        Удаляет все записи из `requests`/`responses`/`labels` кроме последних N тернов в соответствии с `hold_last_n_indexes`. Если `field_names` содержит поле `misc`, тогда оно очищается полностью.
+
+        Parameters
+        ----------
+        hold_last_n_indexes : int
+            задает количество тернов с конца, которое останется после очистки
+        field_names : list[str]
+            свойства `Context`. которые надо будет очистить
+        """
         if "requests" in field_names:
             for index in list(self.requests)[:-hold_last_n_indexes]:
                 del self.requests[index]
@@ -133,21 +197,48 @@ class Context(BaseModel):
 
     @property
     def last_label(self) -> Optional[NodeLabel2Type]:
+        """
+        Возвращает последний `label` текущего `Context`
+
+        Returns
+        -------
+        Optional[NodeLabel2Type] 
+            если `labels` пустой возвращает `None`
+        """
         last_index = get_last_index(self.labels)
         return self.labels.get(last_index)
 
     @property
     def last_response(self) -> Optional[Any]:
+        """
+        Возвращает последний `response` текущего `Context`
+
+        Returns
+        -------
+        Optional[Any]
+            если `responses` пустой возвращает `None`
+        """
         last_index = get_last_index(self.responses)
         return self.responses.get(last_index)
 
     @property
     def last_request(self) -> Optional[Any]:
+        """
+        Возвращает последний `request` текущего `Context`
+
+        Returns
+        -------
+        Optional[Any] 
+            если `requests` пустой возвращает `None`
+        """
         last_index = get_last_index(self.requests)
         return self.requests.get(last_index)
 
     @property
     def a_s(self) -> dict[str, Any]:
+        """
+        Alias или сокращенная запись `actor_state`
+        """
         return self.actor_state
 
 
