@@ -1,7 +1,7 @@
 """
 Actor
 ---------------------------
-Базовый набор функций для нормализации данных в сценарии диалога.
+Отвечает за проверку `Plot` и обработку `Context` в соответствии с `Plot`.
 """
 import logging
 from typing import Union, Callable, Optional
@@ -18,22 +18,69 @@ from .keywords import GLOBAL, LOCAL
 
 
 logger = logging.getLogger(__name__)
-# TODO: add texts
+
 
 
 def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = None, logging_flag: bool = True):
+    """
+    Обработчик ошибок во время валидации `Plot`.
+
+    Parameters
+    ----------
+    error_msgs : list
+        Список содержащий все сообщения об ошибке, `error_handler` добавляет в него каждое следующее сообщение об ошибке.
+    msg: str
+        Сообщение об ошшибке, будет добавленно в `error_msgs`.
+    exception : Optional[Exception]
+        Вызванное исключение, если было используется для получения трейсбэка при логгировании.
+    logging_flag : bool
+        Флаг, определяющий необходимость логгирования
+    """
     error_msgs.append(msg)
     logging_flag and logger.error(msg, exc_info=exception)
 
 
 class Actor(BaseModel):
+    """
+    Класс, который используется для обработки `Context` в соответствии с `Plot`.
+    
+    Parameters
+    ----------
+    plot : Union[Plot, dict]
+        Сценарий диалога, при инициализации проходит валидацию и далее испрользуется для ведения диалога.
+        `Plot` представляет из себя граф, описанный по средствам ключевых слов.
+
+    start_label : NodeLabel3Type
+        Стартовая нода графа `Plot`, с которой начинается исполнение.
+
+    fallback_label: Optional[NodeLabel3Type] = None
+        Нода графа `Plot`, в которорую переходит диалог, в случае если все остальные переходы не отработали.
+        Или позникла ошибка приисполгнении сценария.
+
+    label_priority: float = 1.0
+        Значение приоритета поумолчанию для всех `label`, у которых не указан приоритет.
+
+    validation_stage: Optional[bool] = None
+        Флаг задает выполнение стадии валидации, по умолчанию валидация выполняется.
+
+    condition_handler: Optional[Callable] = None
+        Хэндлер обратывающий вызов фукций кондишенов.
+
+    verbose: bool = True
+        Задает подробность логгирования.
+
+    handlers: dict[ActorStage, list[Callable]] = {}
+        Отвечает за использование внешних хэндлеров на определенной стадиии работы `Actor`.
+        * ключ: ActorStage - стадия, на которой происходит выхов хэндлера
+        * значение:list[Callable] - список вызываемых хэндлеров для определенной стадии
+    """
     plot: Union[Plot, dict]
     start_label: NodeLabel3Type
     fallback_label: Optional[NodeLabel3Type] = None
-    transition_priority: float = 1.0
+    label_priority: float = 1.0
     validation_stage: Optional[bool] = None
     condition_handler: Optional[Callable] = None
-    validation: bool = True
+    verbose: bool = True
     handlers: dict[ActorStage, list[Callable]] = {}
 
     @validate_arguments
@@ -42,7 +89,7 @@ class Actor(BaseModel):
         plot: Union[Plot, dict],
         start_label: NodeLabel2Type,
         fallback_label: Optional[NodeLabel2Type] = None,
-        transition_priority: float = 1.0,
+        label_priority: float = 1.0,
         validation_stage: Optional[bool] = None,
         condition_handler: Optional[Callable] = None,
         verbose: bool = True,
@@ -70,7 +117,7 @@ class Actor(BaseModel):
             plot=plot,
             start_label=start_label,
             fallback_label=fallback_label,
-            transition_priority=transition_priority,
+            label_priority=label_priority,
             validation_stage=validation_stage,
             condition_handler=condition_handler,
             verbose=verbose,
@@ -214,7 +261,7 @@ class Actor(BaseModel):
         true_labels = [
             ((label[0] if label[0] else flow_label),)
             + label[1:2]
-            + ((self.transition_priority if label[2] == float("-inf") else label[2]),)
+            + ((self.label_priority if label[2] == float("-inf") else label[2]),)
             for label in true_labels
         ]
         true_labels.sort(key=lambda label: -label[2])

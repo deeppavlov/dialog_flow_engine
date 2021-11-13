@@ -11,7 +11,7 @@ from .core.types import NodeLabel3Type
 
 def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     def repeat_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
-        current_priority = actor.transition_priority if priority is None else priority
+        current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 1:
             flow_label, label = list(ctx.labels.values())[-1]
         else:
@@ -23,7 +23,7 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     def previous_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
-        current_priority = actor.transition_priority if priority is None else priority
+        current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 2:
             flow_label, label = list(ctx.labels.values())[-2]
         else:
@@ -35,7 +35,7 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     def to_start_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
-        current_priority = actor.transition_priority if priority is None else priority
+        current_priority = actor.label_priority if priority is None else priority
         return (*actor.start_label[:2], current_priority)
 
     return to_start_transition_handler
@@ -43,7 +43,7 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     def to_fallback_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
-        current_priority = actor.transition_priority if priority is None else priority
+        current_priority = actor.label_priority if priority is None else priority
         return (*actor.fallback_label[:2], current_priority)
 
     return to_fallback_transition_handler
