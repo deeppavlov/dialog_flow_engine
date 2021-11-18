@@ -20,7 +20,6 @@ from .keywords import GLOBAL, LOCAL
 logger = logging.getLogger(__name__)
 
 
-
 def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = None, logging_flag: bool = True):
     """
     Обработчик ошибок во время валидации `Plot`.
@@ -43,7 +42,7 @@ def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = N
 class Actor(BaseModel):
     """
     Класс, который используется для обработки `Context` в соответствии с `Plot`.
-    
+
     Parameters
     ----------
     plot : Union[Plot, dict]
@@ -74,6 +73,7 @@ class Actor(BaseModel):
         * ключ: ActorStage - стадия, на которой происходит выхов хэндлера
         * значение:list[Callable] - список вызываемых хэндлеров для определенной стадии
     """
+
     plot: Union[Plot, dict]
     start_label: NodeLabel3Type
     fallback_label: Optional[NodeLabel3Type] = None

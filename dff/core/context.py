@@ -41,11 +41,11 @@ def get_last_index(dictionary: dict) -> int:
 class Context(BaseModel):
     """
     Структура, которая используется для хранения данных о контексте диалога.
-    
+
     Parameters
     ----------
     id : Union[UUID, int, str]
-        `id` это уикальный идентификатор контекста, поумолчанию используется 
+        `id` это уикальный идентификатор контекста, поумолчанию используется
         случайно сгенеренный `id` с помощью `uuid4`.
         `id` может использоваться для отслеживания поведения отдельного пользоватателя
         например при сборе статистики.
@@ -66,7 +66,7 @@ class Context(BaseModel):
         * значение - `response` на этом терне
 
     misc : dict[str, Any]
-        `misc` хранит произвольные данные, этот дикт не используется самими фреймворком, 
+        `misc` хранит произвольные данные, этот дикт не используется самими фреймворком,
         поэтому хранение любых данных не будет отражаться на логике работы внутренних функций Dialog Flow Framework
         * ключ - название произвольных данных
         * значение - произвольные данные
@@ -83,6 +83,7 @@ class Context(BaseModel):
         * значение - данные временных переменных
 
     """
+
     id: Union[UUID, int, str] = Field(default_factory=uuid4)
     labels: dict[int, NodeLabel2Type] = {}
     requests: dict[int, Any] = {}
@@ -114,7 +115,7 @@ class Context(BaseModel):
 
         Returns
         -------
-        Context 
+        Context
             инициализированный входными данными объект типа `Context`
         """
         if not ctx:
@@ -202,7 +203,7 @@ class Context(BaseModel):
 
         Returns
         -------
-        Optional[NodeLabel2Type] 
+        Optional[NodeLabel2Type]
             если `labels` пустой возвращает `None`
         """
         last_index = get_last_index(self.labels)
@@ -228,7 +229,7 @@ class Context(BaseModel):
 
         Returns
         -------
-        Optional[Any] 
+        Optional[Any]
             если `requests` пустой возвращает `None`
         """
         last_index = get_last_index(self.requests)

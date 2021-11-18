@@ -24,20 +24,20 @@ Actor = BaseModel
 @validate_arguments
 def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") -> Union[Callable, NodeLabel3Type]:
     """
-    Используется для нормализации `label`. 
+    Используется для нормализации `label`.
 
     Parameters
     ----------
     label : NodeLabelType
         `label`, который необходимо нормализовать.
-        Если `label` is Callable  тогда функция оборачивается try/except 
+        Если `label` is Callable  тогда функция оборачивается try/except
         и нормализация используется на результате вызова функции `label`.
     default_flow_label : LabelType
         `flow_label`, используется, если `label` не содержит `flow_label`.
 
     Returns
     -------
-    Union[Callable, NodeLabel3Type] 
+    Union[Callable, NodeLabel3Type]
         результат нормализации `label`, если возвращается Callable тогда после вызова
         этой функции возвращается нормализованный результат.
     """
@@ -176,14 +176,12 @@ def normalize_processing(processing: dict[Any, Callable]) -> Callable:
 
         return processing_handler
 
+
 # TODO: doc string
 @validate_arguments
 def normalize_keywords(
     plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
 ) -> dict[LabelType, dict[LabelType, dict[str, Any]]]:
-    if isinstance(plot, dict):
-        if GLOBAL in plot and all([isinstance(item, Keywords) for item in plot[GLOBAL].keys()]):
-            plot[GLOBAL] = {GLOBAL: plot[GLOBAL]}
     plot = {
         flow_label: {
             node_label: {key.name.lower(): val for key, val in node.items()} for node_label, node in flow.items()
