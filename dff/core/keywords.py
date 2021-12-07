@@ -14,6 +14,7 @@ class Keywords(Enum):
     Different keys correspond to the different value types aimed at different purposes.
 
     Enums:
+
     GLOBAL : keyword is used to define a global node.
     The value that corresponds to this key has the `dict` type with keywords:
     `{TRANSITIONS:..., RESPONSE:..., PROCESSING:..., MISC:...}`
