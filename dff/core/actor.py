@@ -44,26 +44,27 @@ class Actor(BaseModel):
     The class which is used to process 'Context' according to the 'Plot'.
     Parameters
     ----------
-    plot : Union[Plot, dict]
-        The dialog scenario: a graph described by the key words.
-         While the graph is being initialized, it passes validation and after that it is used for the dialog.
+    plot: Union[Plot, dict]
+       The dialog scenario: a graph described by the key words.
+       While the graph is being initialized, it passes validation and after that it is used for the dialog.
 
-    start_label : NodeLabel3Type
-        The start node of `Plot` graph. The execution starts from it.
+    start_label: NodeLabel3Type
+       The start node of `Plot` graph. The execution starts from it.
 
     fallback_label: Optional[NodeLabel3Type] = None
-        The label of `Plot` graph. Dialog comes into that label if all other transitions failed, or there was an error while executing the scenario.
+       The label of `Plot` graph.
+       Dialog comes into that label if all other transitions failed, or there was an error while executing the scenario.
 
     label_priority: float = 1.0
-        Default priority value for all 'label' where we have no priority.
+       Default priority value for all 'label' where we have no priority.
 
 
     validation_stage: Optional[bool] = None
-        This flag sets whether the validation stage is executed. It is executed by default.
+       This flag sets whether the validation stage is executed. It is executed by default.
 
 
     condition_handler: Optional[Callable] = None
-        Handler that processes a call of condition functions.
+       Handler that processes a call of condition functions.
 
 
     verbose: bool = True

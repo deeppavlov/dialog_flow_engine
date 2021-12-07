@@ -26,8 +26,8 @@ class Keywords(Enum):
     The value that corresponds to this key has the `dict` type with keywords:
     `{TRANSITIONS:..., RESPONSE:..., PROCESSING:..., MISC:...}`
     The local node is defined in the same way as all other nodes in the flow of this node.
-     It also allows to redefine default values for all nodes in this node's flow.
-     
+    It also allows to redefine default values for all nodes in this node's flow.
+
     TRANSITIONS : the keyword that defines possible transitions from node.
     The value that corresponds to the `TRANSITIONS` key has the `dict` type.
     Every key-value pair describes the transition node and the condition:

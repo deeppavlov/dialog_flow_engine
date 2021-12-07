@@ -49,8 +49,10 @@ class Context(BaseModel):
     Parameters
     ----------
     id : Union[UUID, int, str]
-        `id` is the unique context identifier. By default, the `id` which is randomly generated using `uuid4` is used.
-        `id` can be used to trace the user behaviour, e.g while collecting the statistical data.
+        `id` is the unique context identifier.
+        By default, the `id` which is randomly generated using `uuid4` is used.
+        `id` can be used to trace the user behaviour,
+        e.g while collecting the statistical data.
 
     labels : dict[int, NodeLabel2Type]
         `labels` stores the history of all passed `labels`:
@@ -85,7 +87,6 @@ class Context(BaseModel):
         * value - temporary variable data
 
     """
-
     id: Union[UUID, int, str] = Field(default_factory=uuid4)
     labels: dict[int, NodeLabel2Type] = {}
     requests: dict[int, Any] = {}
