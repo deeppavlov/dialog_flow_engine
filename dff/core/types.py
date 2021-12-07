@@ -21,6 +21,9 @@ ConditionType = Callable
 
 # TODO: add description for ActorStage
 class ActorStage(Enum):
+    '''
+    The class which holds keys for the handlers. These keys are used later for the actions of Actor. 
+    '''
     CONTEXT_INIT = auto()
     GET_PREVIOUS_NODE = auto()
     GET_TRUE_LABELS = auto()

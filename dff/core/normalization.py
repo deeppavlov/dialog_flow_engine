@@ -24,22 +24,22 @@ Actor = BaseModel
 @validate_arguments
 def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") -> Union[Callable, NodeLabel3Type]:
     """
-    Используется для нормализации `label`.
+    The function which is used for the normalization of  `label`.
 
     Parameters
     ----------
     label : NodeLabelType
-        `label`, который необходимо нормализовать.
-        Если `label` is Callable  тогда функция оборачивается try/except
-        и нормализация используется на результате вызова функции `label`.
+        `label`, we need to normalize.
+        If `label` is Callable then function is wrapped into try/except
+        and normalization is used on the result of the call of function called `label`.
     default_flow_label : LabelType
-        `flow_label`, используется, если `label` не содержит `flow_label`.
+        `flow_label` is used if `label` does not contain `flow_label`.
 
     Returns
     -------
     Union[Callable, NodeLabel3Type]
-        результат нормализации `label`, если возвращается Callable тогда после вызова
-        этой функции возвращается нормализованный результат.
+        Result of the `label` normalization,
+        if Callable is returned then the normalized result is returned after the call of this function
     """
     if isinstance(label, Callable):
 
@@ -73,17 +73,17 @@ def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") ->
 @validate_arguments
 def normalize_condition(condition: ConditionType) -> Callable:
     """
-    Используется для нормализации `condition`, возвращается функция.
+    The functon that is used to normalize `condition`, the function is returned
 
     Parameters
     ----------
     condition : ConditionType
-        `condition`, который необходимо нормализовать
+        `condition` to normalize
 
     Returns
     -------
     Callable
-        `condition` обернутый в try/except.
+        `condition` wrapped into the try/except.
     """
     if isinstance(condition, Callable):
 
@@ -103,17 +103,17 @@ def normalize_transitions(
     transitions: dict[NodeLabelType, ConditionType]
 ) -> dict[Union[Callable, NodeLabel3Type], Callable]:
     """
-    Используется для нормализации `transitions`, возвращается нормализованный `dict`.
+    The function which is used to normalize `transitions` and returns normalized `dict`.
 
     Parameters
     ----------
     transitions : dict[NodeLabelType, ConditionType]
-        `transitions`, который необходимо нормализовать
+        `transitions` we need to normalize
 
     Returns
     -------
     dict[Union[Callable, NodeLabel3Type], Callable]
-        `transitions` с нормализованными `label` и `condition`
+        `transitions` with normalized `label` и `condition`
     """
     transitions = {normalize_label(label): normalize_condition(condition) for label, condition in transitions.items()}
     return transitions
@@ -122,18 +122,18 @@ def normalize_transitions(
 @validate_arguments
 def normalize_response(response: Any) -> Callable:
     """
-    Используется для нормализации `response`, если `response` Callable, тогда он же возвращается, если нет
+    The function which is used to normalize `response`, если `response` Callable, тогда он же возвращается, если нет
     тогда `response` оборачивается в функцию и возвращается эта функция.
 
     Parameters
     ----------
     response : Any
-        `response`, который необходимо нормализовать.
+        `response` we need to normalize
 
     Returns
     -------
     Callable
-        возвращается функция, которая возвращает uncallable response
+        Function that returns an uncallable response
     """
     if isinstance(response, Callable):
         return response
@@ -149,18 +149,18 @@ def normalize_response(response: Any) -> Callable:
 @validate_arguments
 def normalize_processing(processing: dict[Any, Callable]) -> Callable:
     """
-    Используется для нормализации `processing` возвращается функция,
-    которая последовательно применяет все стадии препроцессинга из `dict`.
+    The function is used to normalize `processing`.
+    It returns function that consecutively applies all preprocessing stages from `dict`.
 
     Parameters
     ----------
     processing : dict[Any, Callable]
-        `processing`, содержит все стадии препроцессинга в формате "PROC_i"->proc_func_i
+        `processing`, it contains all preprocessing stages in a format "PROC_i"->proc_func_i
 
     Returns
     -------
     Callable
-        возвращается функция, которая последовательно применяет все стадии препроцессинга из `dict`.
+        Function that consequentially applies all preprocessing stages from `dict`.
     """
     if isinstance(processing, dict):
 
@@ -182,6 +182,19 @@ def normalize_processing(processing: dict[Any, Callable]) -> Callable:
 def normalize_keywords(
     plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
 ) -> dict[LabelType, dict[LabelType, dict[str, Any]]]:
+    """
+    The function is used to normalize keywords in the plot.
+    Parameters
+    ----------
+    plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
+    plot, containing all transitions between states based in the keywords.
+    
+    Returns
+    -------
+    dict[LabelType, dict[LabelType, dict[str, Any]]]
+    Plot with the normalized keywords
+    """
+    
     plot = {
         flow_label: {
             node_label: {key.name.lower(): val for key, val in node.items()} for node_label, node in flow.items()
@@ -194,20 +207,20 @@ def normalize_keywords(
 @validate_arguments
 def normalize_plot(plot: dict[LabelType, Any]) -> dict[LabelType, dict[LabelType, dict[str, Any]]]:
     """
-    Используется для нормализации `Plot`, возвращается `dict`, в котором нода `GLOBAL` перемещается
-    в flow с названием `GLOBAL` в результате получается структура:
+    This function normalizes `Plot`: it returns `dict` where the `GLOBAL` node is moved
+    into the flow with the `GLOBAL` name. The function returns the structure
     `{GLOBAL:{...NODE...}, ...}` -> `{GLOBAL:{GLOBAL:{...NODE...}}, ...}`
 
 
     Parameters
     ----------
     plot : dict[LabelType, Union[dict[LabelType, dict[Keywords, Any]], dict[Keywords, Any]]]
-        `Plot`, описывает сценарий диалога
+        `Plot` that describes the dialog scenario.
 
     Returns
     -------
     dict[LabelType, Union[dict[LabelType, dict[Keywords, Any]], dict[Keywords, Any]]]
-        нормализованный `Plot`.
+        Normalized`Plot`.
     """
     if isinstance(plot, dict):
         if GLOBAL in plot and all([isinstance(item, Keywords) for item in plot[GLOBAL].keys()]):

@@ -24,8 +24,9 @@ Context = ForwardRef("Context")
 def sort_dict_keys(dictionary: dict) -> dict:
     """
     Sorting of keys in the dictionary. We need to do it after the deserialization: keys deserialize in a random order.
-    Сортировка ключей в словаре. Это необходимо делать после десериализвации.
-    Т.к. десерализироваться ключи могут в случайном порядке.
+    Parameters
+    ----------
+    dictionary: dict - dictionary
     """
     return {key: dictionary[key] for key in sorted(dictionary)}
 
@@ -33,7 +34,10 @@ def sort_dict_keys(dictionary: dict) -> dict:
 @validate_arguments
 def get_last_index(dictionary: dict) -> int:
     """
-    Получение последнего индекса из `dict`, если `dict` пустой возвращается `-1`.
+    Obtaining of the last index from `dict`, we return `-1` if the `dict` is empty.
+    Parameters
+    ----------
+    dictionary: dict - dictionary
     """
     indexes = list(dictionary)
     return indexes[-1] if indexes else -1
@@ -41,47 +45,44 @@ def get_last_index(dictionary: dict) -> int:
 
 class Context(BaseModel):
     """
-    Структура, которая используется для хранения данных о контексте диалога.
-
+    The structure which is used for the storage of data about the dialog context.
     Parameters
     ----------
     id : Union[UUID, int, str]
-        `id` это уикальный идентификатор контекста, поумолчанию используется
-        случайно сгенеренный `id` с помощью `uuid4`.
-        `id` может использоваться для отслеживания поведения отдельного пользоватателя
-        например при сборе статистики.
+        `id` is the unique context identifier. By default, the `id` which is randomly generated using `uuid4` is used.
+        `id` can be used to trace the user behaviour, e.g while collecting the statistical data.
 
     labels : dict[int, NodeLabel2Type]
-        `labels` хранит историю всех пройденных `labels`:
-        * ключ - `id` терна
-        * значение - `label` на этом терне
+        `labels` stores the history of all passed `labels`:
+        * key - `id` of the turn
+        * value - `label` on this turn
 
     requests : dict[int, Any]
-        `requests` хранит историю всех `requests` - полученных агентом запросов:
-        * ключ - `id` терна
-        * значение - `request` на этом терне
+        `requests` stores the history of all `requests` received by the agent
+        * key - `id` of the turn
+        * value - `request` on this turn
 
     responses : dict[int, Any]
-        `responses` хранит историю всех `responses` - ответо агента:
-        * ключ - `id` терна
-        * значение - `response` на этом терне
+        `responses` stores the history of all agent `responses`
+        * key - `id` of the turn
+        * value - `response` on this turn
 
     misc : dict[str, Any]
-        `misc` хранит произвольные данные, этот дикт не используется самими фреймворком,
-        поэтому хранение любых данных не будет отражаться на логике работы внутренних функций Dialog Flow Framework
-        * ключ - название произвольных данных
-        * значение - произвольные данные
+        `misc` stores the arbitrary data, the framework doesn't use this dictionary by default,
+        so storage of any data won't reflect on the work on the internal Dialog Flow Framework functions.
+        * key - arbitrary data name
+        * value - arbitrary data
 
     validation : bool
-        `validation` - это флаг, который сигнализирует о том, что `Actor` выполняет проверку `Plot`, проверка выполняется при инициализании `Actor`.
-        Tе функции, которые во время вализации могут давать не валидируемые значения, должны использовать этот флаг, чтобы учитывать режим валидации
-        иначе валидация не будет пройдена.
+        `validation` is a flag that signals that `Actor`, while being initialized, checks the `Plot`.
+        The functions that can give not validable data while being validated must use this flag to take the validation mode into account. 
+        Otherwise the validation will not be passed.
 
     actor_state : dict[str, Any]
-        `actor_state` или `a_s` используется каждый раз при обработке `Context`. В `actor_state` записывает все промежуточные состояния `Actor`.
-        После того, как обработка `Context` заканчивается, `Actor` очищает `actor_state`  и возвращает `Context`.
-        * ключ - название временных переменных
-        * значение - данные временных переменных
+        `actor_state` or `a_s` is used every time while processing the `Context`. `Actor` records all its intermediate conditions into the `actor_state`.
+        After `Context` processing is finished, `Actor` resets `actor_state`  and returns `Context`.
+        * key - temporary variable name
+        * value - temporary variable data
 
     """
 
@@ -106,18 +107,18 @@ class Context(BaseModel):
         **kwargs,
     ) -> Context:
         """
-        Преобразует разные типы данных в объект класса `Context`
+        Transforms different data types to the objects of `Context` class.
 
         Parameters
         ----------
         ctx : Union[Context, dict, str]
-            Разные типы данных, которые используются для инициалиации объекта типа `Context`
-            Если данных не подается создается пустой объект типа `Context`.
+            Different data types, that are used to initialize object of `Context` type.
+            The empty object of `Context` type is created if no data are given.
 
         Returns
         -------
         Context
-            инициализированный входными данными объект типа `Context`
+            Object of `Context` type that is initialized by the input data
         """
         if not ctx:
             ctx = Context(*args, **kwargs)
@@ -134,13 +135,13 @@ class Context(BaseModel):
     @validate_arguments
     def add_request(self, request: Any):
         """
-        Добавляет в контекст следующий `request`, который соответствует следующему терну.
-        Добавление происходит в `requests`, при этом `new_index = last_index + 1`
+        Adds to the context the next `request`, that is correspondent to the next turn.
+        The addition is happening in the `requests`, and `new_index = last_index + 1`
 
         Parameters
         ----------
         request : Any
-            `request` который надо добавить к контексту
+            `request` that we need to add to the context
         """
         last_index = get_last_index(self.requests)
         self.requests[last_index + 1] = request
@@ -148,13 +149,13 @@ class Context(BaseModel):
     @validate_arguments
     def add_response(self, response: Any):
         """
-        Добавляет в контекст следующий `response`, который соответствует следующему терну.
-        Добавление происходит в `responses`, при этом `new_index = last_index + 1`
+        Adds to the context the next `response`, that is correspondent to the next turn.
+        The addition is happening in the `responses`, and `new_index = last_index + 1`
 
         Parameters
         ----------
         response : Any
-            `response` который надо добавить к контексту
+            `response` that we need to add to the context
         """
         last_index = get_last_index(self.responses)
         self.responses[last_index + 1] = response
@@ -162,13 +163,13 @@ class Context(BaseModel):
     @validate_arguments
     def add_label(self, label: NodeLabel2Type):
         """
-        Добавляет в контекст следующий `label`, который соответствует следующему терну.
-        Добавление происходит в `labels`, при этом `new_index = last_index + 1`
+        Adds to the context the next `label`, that is correspondent to the next turn.
+        The addition is happening in the `labels`, and `new_index = last_index + 1`
 
         Parameters
         ----------
         label : NodeLabel2Type
-            `label` который надо добавить к контексту
+            `label` that we need to add to the context
         """
         last_index = get_last_index(self.labels)
         self.labels[last_index + 1] = label
@@ -176,7 +177,7 @@ class Context(BaseModel):
     @validate_arguments
     def clear(self, hold_last_n_indexes: int, field_names: list[str] = ["requests", "responses", "labels"]):
         """
-        Удаляет все записи из `requests`/`responses`/`labels` кроме последних N тернов в соответствии с `hold_last_n_indexes`. Если `field_names` содержит поле `misc`, тогда оно очищается полностью.
+        Deletes all recordings from the `requests`/`responses`/`labels` except for the last N turns according to the `hold_last_n_indexes`. Если `field_names` содержит поле `misc`, тогда оно очищается полностью.
 
         Parameters
         ----------
@@ -200,12 +201,12 @@ class Context(BaseModel):
     @property
     def last_label(self) -> Optional[NodeLabel2Type]:
         """
-        Возвращает последний `label` текущего `Context`
+        Returns the last `label` of the `Context`
 
         Returns
         -------
         Optional[NodeLabel2Type]
-            если `labels` пустой возвращает `None`
+            Returns `None` if `labels` is empty
         """
         last_index = get_last_index(self.labels)
         return self.labels.get(last_index)
@@ -213,12 +214,12 @@ class Context(BaseModel):
     @property
     def last_response(self) -> Optional[Any]:
         """
-        Возвращает последний `response` текущего `Context`
+        Returns the last `response` of the current `Context`
 
         Returns
         -------
         Optional[Any]
-            если `responses` пустой возвращает `None`
+            Returns `None if `responses` is empty`
         """
         last_index = get_last_index(self.responses)
         return self.responses.get(last_index)
@@ -226,12 +227,12 @@ class Context(BaseModel):
     @property
     def last_request(self) -> Optional[Any]:
         """
-        Возвращает последний `request` текущего `Context`
+        Returns the last `request` of the current `Context`
 
         Returns
         -------
         Optional[Any]
-            если `requests` пустой возвращает `None`
+            Returns `None if `requests` is empty`
         """
         last_index = get_last_index(self.requests)
         return self.requests.get(last_index)
@@ -239,7 +240,7 @@ class Context(BaseModel):
     @property
     def a_s(self) -> dict[str, Any]:
         """
-        Alias или сокращенная запись `actor_state`
+        Alias of the `actor_state`
         """
         return self.actor_state
 

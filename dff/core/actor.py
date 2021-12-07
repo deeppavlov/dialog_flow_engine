@@ -27,13 +27,13 @@ def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = N
     Parameters
     ----------
     error_msgs : list
-        Список содержащий все сообщения об ошибке, `error_handler` добавляет в него каждое следующее сообщение об ошибке.
+       List that contains error messages. `error_handler` adds every next error message to that list.
     msg: str
-        Сообщение об ошшибке, будет добавленно в `error_msgs`.
+        Error message which is to be added into `error_msgs`.
     exception : Optional[Exception]
-        Вызванное исключение, если было используется для получения трейсбэка при логгировании.
+        Invoked exception. If it was set, it is used to obtain logging traceback.
     logging_flag : bool
-        Флаг, определяющий необходимость логгирования
+        The flag which defines whether logging is nesessary.
     """
     error_msgs.append(msg)
     logging_flag and logger.error(msg, exc_info=exception)
@@ -41,37 +41,38 @@ def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = N
 
 class Actor(BaseModel):
     """
-    Класс, который используется для обработки `Context` в соответствии с `Plot`.
-
+    The class which is used to process 'Context' according to the 'Plot'.
     Parameters
     ----------
     plot : Union[Plot, dict]
-        Сценарий диалога, при инициализации проходит валидацию и далее испрользуется для ведения диалога.
-        `Plot` представляет из себя граф, описанный по средствам ключевых слов.
+        The dialog scenario: a graph described by the key words.
+         While the graph is being initialized, it passes validation and after that it is used for the dialog.
 
     start_label : NodeLabel3Type
-        Стартовая нода графа `Plot`, с которой начинается исполнение.
+        The start node of `Plot` graph. The execution starts from it.
 
     fallback_label: Optional[NodeLabel3Type] = None
-        Нода графа `Plot`, в которорую переходит диалог, в случае если все остальные переходы не отработали.
-        Или позникла ошибка приисполгнении сценария.
+        The label of `Plot` graph. Dialog comes into that label if all other transitions failed, or there was an error while executing the scenario.
 
     label_priority: float = 1.0
-        Значение приоритета поумолчанию для всех `label`, у которых не указан приоритет.
+        Default priority value for all 'label' where we have no priority.
+
 
     validation_stage: Optional[bool] = None
-        Флаг задает выполнение стадии валидации, по умолчанию валидация выполняется.
+        This flag sets whether the validation stage is executed. It is executed by default.
+
 
     condition_handler: Optional[Callable] = None
-        Хэндлер обратывающий вызов фукций кондишенов.
+        Handler that processes a call of condition functions.
+
 
     verbose: bool = True
-        Задает подробность логгирования.
+        If it is True, we use logging.
 
     handlers: dict[ActorStage, list[Callable]] = {}
-        Отвечает за использование внешних хэндлеров на определенной стадиии работы `Actor`.
-        * ключ: ActorStage - стадия, на которой происходит выхов хэндлера
-        * значение:list[Callable] - список вызываемых хэндлеров для определенной стадии
+        This variable is responsible for the usage of external handlers on the certain stages of work of `Actor`.
+        * key: ActorStage - stage when the handler is called
+        * value: list[Callable] - the list of called handlers for each stage
     """
 
     plot: Union[Plot, dict]
@@ -355,4 +356,13 @@ class Actor(BaseModel):
 
 @validate_arguments()
 def deep_copy_condition_handler(condition: Callable, ctx: Context, actor: Actor, *args, **kwargs):
+    """
+    This function returns deep copy of callableconditions:
+    
+    Parameters
+    ----------
+    condition: Callable - condition to copy
+    ctx: Context - context of this condition
+    actor: Actor - Actor we use in this condition
+    """
     return condition(ctx.copy(deep=True), actor.copy(deep=True), *args, **kwargs)

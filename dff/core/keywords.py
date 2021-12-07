@@ -9,46 +9,46 @@ from enum import Enum, auto
 class Keywords(Enum):
     """
     Keywords used to define the dialog script (plot).
-    При описании сценария используется тип данных `dict`.
-    `Enums` этого класса используются как ключи в этом `dict`.
-    По разным ключам лежат разные типы значений преднозначенные для разных целей.
+    The data type `dict` is used while describing the scenario.
+    `Enums` of this class are used as keys in this `dict`.
+    Different keys correspond to the different value types aimed at different purposes.
 
     Enums:
     GLOBAL : keyword is used to define a global node.
-    Значение, которое лежит по ключу `GLOBAL`  имеет тип `dict` с ключевыми словами:
+    The value that corresponds to this key has the `dict` type with keywords:
     `{TRANSITIONS:..., RESPONSE:..., PROCESSING:..., MISC:...}`
     There can only be one global node in a script (plot).
 
     The global node is defined at the flow level as opposed to regular nodes.
-    Глобальная нода позволяет определять глобальные значения по умолчнию для всех нод
+    This node allows to define default global values for all nodes.
 
-    LOCAL : ключевое слово, которое определяет локальную ноду.
-    Значение, которое лежит по ключу `LOCAL`  имеет тип `dict` с ключевыми словами:
+    LOCAL : the keyword that defines the local node.
+    The value that corresponds to this key has the `dict` type with keywords:
     `{TRANSITIONS:..., RESPONSE:..., PROCESSING:..., MISC:...}`
-    Локальная нода определяется так же как и остальные ноды в определенном flow.
-    Локальная нода позволяет переопределять значения по умолчанию для всех нод в определенном flow.
-
-    TRANSITIONS : ключевое слово, которое определяет возможные переходы из node.
-    Значение, которое лежит по ключу `TRANSITIONS`  имеет тип `dict`,
-    каждая пара ключ-значение описывает ноду перехода и условие:
+    The local node is defined in the same way as all other nodes in the flow of this node.
+     It also allows to redefine default values for all nodes in this node's flow.
+     
+    TRANSITIONS : the keyword that defines possible transitions from node.
+    The value that corresponds to the `TRANSITIONS` key has the `dict` type.
+    Every key-value pair describes the transition node and the condition:
     `{label_to_transition_0: condition_for_transition_0, ...,  label_to_transition_N: condition_for_transition_N}`
-    `label_to_transition_i` - определяет куда нахождение ноды, в которую будет выполнен переход, если условие
-    `condition_for_transition_i` будет равно `True`.
+    `label_to_transition_i` - depends node we transition to, in case of 
+    `condition_for_transition_i`==`True`.
 
-    RESPONSE : ключевое слово, которое определяет результат возращаемый пользователю при попадании в ноду.
-    Значение, лежащее по ключу `RESPONSE`  может иметь любой тип данных.
+    RESPONSE : the keyword that defines the result which is returned to the user after getting to the node.
+    Value that corresponds to the `RESPONSE` key can have any data type.
 
-    PROCESSING : ключевое слово, которое определяет препросессинг, который вызывается перед генерацией респонса.
-    Значение, лежащее по ключу `PROCESSING` должно иметь тип `dict`:
+    PROCESSING :the keyword that defines preprocessing, that is being called before the responce generation.
+    The value that corresponds to the `PROCESSING` key, must have the `dict` type:
     `{"PROC_0": proc_func_0, ..., "PROC_N": proc_func_N}`
-    `"PROC_i"` - это произвольное название этапа препроцессинга в пайплайне.
-    Очередность определения препроцессинга в `dict` и определяет порядок вызова функции `proc_func_i`
+    `"PROC_i"` is an arbitrary name of the preprocessing stage in the pipeline.
+    The order of `proc_func_i` calls is defined by the order of defining of `dict` preprocessing/
 
-    MISC : ключевое слово, которое определяет `dict` содержащий дополнительные данные,
-    использование которых не было предусмотренно при проектировании `DFF`.
-    Значение, лежащее по ключу `MISC` должно иметь тип `dict`:
+    MISC : the keyword that defines `dict` containing extra data, 
+    which were not aimed to be used in the standard functions of `DFF`.
+    Value corresponding to the `MISC` key must have `dict` type:
     `{"VAR_KEY_0": VAR_VALUE_0, ..., "VAR_KEY_N": VAR_VALUE_N}`
-    `"VAR_KEY_0"` - это произвольное название переменной, которая сохраняется в `MISC`.
+    `"VAR_KEY_0"` - is an arbitrary name of the value which is saved into the `MISC`.
 
     """
 
