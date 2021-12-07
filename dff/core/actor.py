@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = None, logging_flag: bool = True):
     """
-    Обработчик ошибок во время валидации `Plot`.
+    This function processes errors in the process of `Plot` graph validation.
 
     Parameters
     ----------

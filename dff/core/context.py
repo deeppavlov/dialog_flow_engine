@@ -23,6 +23,7 @@ Context = ForwardRef("Context")
 @validate_arguments
 def sort_dict_keys(dictionary: dict) -> dict:
     """
+    Sorting of keys in the dictionary. We need to do it after the deserialization: keys deserialize in a random order.
     Сортировка ключей в словаре. Это необходимо делать после десериализвации.
     Т.к. десерализироваться ключи могут в случайном порядке.
     """
