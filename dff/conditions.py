@@ -119,6 +119,15 @@ def any(cond_seq: list, *args, **kwargs) -> Callable:
 
 @validate_arguments
 def all(cond_seq: list, *args, **kwargs) -> Callable:
+    """
+    Function that return function handler. This handler returns True only if all functions from the list are True.
+    Parameters:
+    -----------
+    cond_seq: list of conditions to check
+    Returned values:
+    ----------------
+    all_condition_handler: function handler
+    """
     _agg = aggregate(cond_seq, _all)
 
     def all_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
