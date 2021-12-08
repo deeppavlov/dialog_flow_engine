@@ -15,7 +15,7 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     If the priority is not given, `actor.label_priority` is used. 
     Parameters:
     -----------
-    priority - priority of transition. Used `actor.label_priority` if not set. 
+    priority - float priority of transition. Used `actor.label_priority` if not set. 
     Returned values:
     ----------------
     repeat_transition_handler: function handler. 
@@ -37,7 +37,7 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     If the priority is not given, `actor.label_priority` is used. 
     Parameters:
     -----------
-    priority - priority of transition. Used `actor.label_priority` if not set. 
+    priority - float priority of transition. Used `actor.label_priority` if not set. 
     Returned values:
     ----------------
     previous_transition_handler: function handler. 
@@ -59,7 +59,7 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     If the priority is not given, `actor.label_priority` is used. 
     Parameters:
     -----------
-    priority - priority of transition. Used `actor.label_priority` if not set. 
+    priority - float priority of transition. Used `actor.label_priority` if not set. 
     Returned values:
     ----------------
     to_start_transition_handler: function handler. 
@@ -77,7 +77,7 @@ def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     If the priority is not given, `actor.label_priority` is used. 
     Parameters:
     -----------
-    priority - priority of transition. Used `actor.label_priority` if not set. 
+    priority - float priority of transition. Used `actor.label_priority` if not set. 
     Returned values:
     ----------------
     to_fallback_transition_handler: function handler. 
@@ -102,7 +102,14 @@ def _get_label_by_index_shifting(
     Parameters:
     -----------
     ctx: dialog context
-    actor: d
+    actor: dialog actor
+    priority: float priority of transition. Used actor.label_priority if not set. 
+    increment_flag:
+    cyclicality_flag:
+
+    Returned values: the tuple that consists of (label, label_index, priority). 
+    If fallback is executed, (fallback_label, fallback_label_index, priority) are returned.
+
     
     """
     flow_label, node_label, current_priority = repeat(priority, *args, **kwargs)(ctx, actor, *args, **kwargs)
@@ -126,7 +133,7 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
     If the priority is not given, `actor.label_priority` is used. 
     Parameters:
     -----------
-    priority - priority of transition. Used `actor.label_priority` if not set. 
+    priority - float priority of transition. Used `actor.label_priority` if not set. 
     Returned values:
     ----------------
     forward_transition_handler: function handler. 
@@ -149,7 +156,7 @@ def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *a
     If the priority is not given, `actor.label_priority` is used. 
     Parameters:
     -----------
-    priority - priority of transition. Used `actor.label_priority` if not set. 
+    priority - float priority of transition. Used `actor.label_priority` if not set. 
     Returned values:
     ----------------
     backward_transition_handler: function handler. 
