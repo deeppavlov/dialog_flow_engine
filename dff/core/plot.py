@@ -22,9 +22,9 @@ Context = ForwardRef("Context")
 
 
 class Node(BaseModel, extra=Extra.forbid):
-    '''
+    """
     The class for the Node object.
-    '''
+    """
     transitions: dict[NodeLabelType, ConditionType] = {}
     response: Optional[Any] = None
     processing: dict[Any, Callable] = {}
@@ -33,24 +33,24 @@ class Node(BaseModel, extra=Extra.forbid):
     _normalize_transitions = validator("transitions", allow_reuse=True)(normalize_transitions)
 
     def run_response(self, ctx: Context, actor: Actor, *args, **kwargs) -> Context:
-        '''
+        """
         Executes the normalized response. See details in the normalize_response function of normalization.py
-        '''
+        """
         response = normalize_response(self.response)
         return response(ctx, actor, *args, **kwargs)
 
     def run_processing(self, ctx: Context, actor: Actor, *args, **kwargs) -> Context:
-        '''
+        """
         Executes the normalized processing. See details in the normalize_processing function of normalization.py
-        '''
+        """
         processing = normalize_processing(self.processing)
         return processing(ctx, actor, *args, **kwargs)
 
 
 class Plot(BaseModel, extra=Extra.forbid):
-    '''
+    """
     The class for the Plot object
-    '''
+    """
     plot: dict[LabelType, dict[LabelType, Node]]
 
     _normalize_plot = validator("plot", allow_reuse=True, pre=True)(normalize_plot)

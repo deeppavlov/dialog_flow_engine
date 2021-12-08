@@ -18,7 +18,6 @@ from .plot import Plot, Node
 from .normalization import normalize_label, normalize_response
 from .keywords import GLOBAL, LOCAL
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -89,17 +88,17 @@ class Actor(BaseModel):
 
     @validate_arguments
     def __init__(
-        self,
-        plot: Union[Plot, dict],
-        start_label: NodeLabel2Type,
-        fallback_label: Optional[NodeLabel2Type] = None,
-        label_priority: float = 1.0,
-        validation_stage: Optional[bool] = None,
-        condition_handler: Optional[Callable] = None,
-        verbose: bool = True,
-        handlers: dict[ActorStage, list[Callable]] = {},
-        *args,
-        **kwargs,
+            self,
+            plot: Union[Plot, dict],
+            start_label: NodeLabel2Type,
+            fallback_label: Optional[NodeLabel2Type] = None,
+            label_priority: float = 1.0,
+            validation_stage: Optional[bool] = None,
+            condition_handler: Optional[Callable] = None,
+            verbose: bool = True,
+            handlers: dict[ActorStage, list[Callable]] = {},
+            *args,
+            **kwargs,
     ):
         # plot validation
         plot = plot if isinstance(plot, Plot) else Plot(plot=plot)
@@ -244,13 +243,13 @@ class Actor(BaseModel):
 
     @validate_arguments
     def _get_true_label(
-        self,
-        transitions: dict,
-        ctx: Context,
-        flow_label: LabelType,
-        transition_info: str = "",
-        *args,
-        **kwargs,
+            self,
+            transitions: dict,
+            ctx: Context,
+            flow_label: LabelType,
+            transition_info: str = "",
+            *args,
+            **kwargs,
     ) -> Optional[NodeLabel3Type]:
         true_labels = []
         for label, condition in transitions.items():
@@ -279,9 +278,9 @@ class Actor(BaseModel):
 
     @validate_arguments
     def _choose_label(
-        self,
-        specific_label: Optional[NodeLabel3Type],
-        general_label: Optional[NodeLabel3Type],
+            self,
+            specific_label: Optional[NodeLabel3Type],
+            general_label: Optional[NodeLabel3Type],
     ) -> NodeLabel3Type:
         if all([specific_label, general_label]):
             chosen_label = specific_label if specific_label[2] >= general_label[2] else general_label
@@ -293,8 +292,8 @@ class Actor(BaseModel):
 
     @validate_arguments
     def validate_plot(
-        self,
-        verbose: bool = True,
+            self,
+            verbose: bool = True,
     ):
         # TODO: plot has to not contain priority == -inf, because it uses for miss values
         flow_labels = []

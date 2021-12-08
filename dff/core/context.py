@@ -15,7 +15,6 @@ from typing import Any, Optional, Union
 from pydantic import BaseModel, validate_arguments, Field, validator
 from .types import NodeLabel2Type
 
-
 logger = logging.getLogger(__name__)
 
 Context = ForwardRef("Context")
@@ -108,10 +107,10 @@ class Context(BaseModel):
 
     @classmethod
     def cast(
-        cls,
-        ctx: Union[Context, dict, str] = {},
-        *args,
-        **kwargs,
+            cls,
+            ctx: Union[Context, dict, str] = {},
+            *args,
+            **kwargs,
     ) -> Context:
         """
         Transforms different data types to the objects of `Context` class.

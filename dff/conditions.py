@@ -11,10 +11,8 @@ from pydantic import validate_arguments
 
 from dff.core.types import NodeLabel2Type
 
-
 from .core.actor import Actor
 from .core.context import Context
-
 
 logger = logging.getLogger(__name__)
 
@@ -26,10 +24,8 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
     Parameters:
     -----------
     `match`: the variable of the same type as last_request field of `Context`
-    Returned variables:
-    -------------------
-    `exact_match_condition_handler`: function handler
     """
+
     def exact_match_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         request = ctx.last_request
         return match == request
@@ -45,11 +41,8 @@ def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *a
     -----------
     `pattern`: the RegExp pattern
     `flags`: flags for this pattern
-    Returned variables:
-    -------------------
-    `regexp_condition_handler`: function handler 
-    """ 
-   pattern = re.compile(pattern, flags)
+    """
+    pattern = re.compile(pattern, flags)
 
     def regexp_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         request = ctx.last_request
@@ -85,9 +78,6 @@ def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) 
     -----------
     `cond_seq`: list of conditions to check
     `aggregate_func`: function to aggregate conditions
-    Returned values:
-    ----------------
-    `aggregate_condition_handler`: returned function handler
     """
     check_cond_seq(cond_seq)
 
@@ -107,9 +97,6 @@ def any(cond_seq: list, *args, **kwargs) -> Callable:
     Parameters:
     -----------
     cond_seq: list of conditions to check
-    Returned values:
-    ----------------
-    any_condition_handler: function handler
     """
     _agg = aggregate(cond_seq, _any)
 
@@ -126,9 +113,6 @@ def all(cond_seq: list, *args, **kwargs) -> Callable:
     Parameters:
     -----------
     cond_seq: list of conditions to check
-    Returned values:
-    ----------------
-    all_condition_handler: function handler
     """
     _agg = aggregate(cond_seq, _all)
 
@@ -145,10 +129,8 @@ def negation(condition: Callable, *args, **kwargs) -> Callable:
     Parameters:
     -----------
     condition: Callable
-    Returned variables:
-    -------------------
-    `negation_handler`: function handler 
     """
+
     def negation_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         return not condition(ctx, actor, *args, **kwargs)
 
@@ -157,25 +139,22 @@ def negation(condition: Callable, *args, **kwargs) -> Callable:
 
 @validate_arguments
 def has_last_labels(
-    flow_labels: list[str] = [],
-    labels: list[NodeLabel2Type] = [],
-    last_n_indexes: int = 1,
-    *args,
-    **kwargs,
+        flow_labels: list[str] = [],
+        labels: list[NodeLabel2Type] = [],
+        last_n_indexes: int = 1,
+        *args,
+        **kwargs,
 ) -> Callable:
     """
     Function returns condition handler.
-    This handler returns True if any label from last `last_n_indexes` context labels is in the `flow_labels` list or in the `labels` list. 
-    """
+    This handler returns True if any label from last `last_n_indexes` context labels is in the `flow_labels` list or in the `labels` list.
     Parameters:
     -----------
     `flow_labels`: list of labels to check.Every label has type `str`. Is empty if not set. 
     `labels`: list of labels that correspond to the nodes. Is empty is not set. 
     `last_n_indexes`: number of last utterances to check.
-    Returned variables:
-    -----------------
-    `has_last_labels_condition_handler`: function handler.
     """
+
     def has_last_labels_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         label = list(ctx.labels.values())[-last_n_indexes:]
         for label in list(ctx.labels.values())[-last_n_indexes:]:
@@ -190,11 +169,9 @@ def has_last_labels(
 @validate_arguments
 def true(*args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler always returns True. 
-    Returned variables:
-    -------------------
-    `true_handler`: function handler 
+    Returns function handler. This handler always returns True.
     """
+
     def true_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         return True
 
@@ -204,11 +181,9 @@ def true(*args, **kwargs) -> Callable:
 @validate_arguments
 def false(*args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler always returns False. 
-    Returned variables:
-    -------------------
-    `false_handler`: function handler 
-    """ 
+    Returns function handler. This handler always returns False.
+    """
+
     def false_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         return False
 

@@ -7,16 +7,13 @@ import logging
 
 from typing import Union, Callable, Any
 
-
 from .keywords import GLOBAL, Keywords
 from .context import Context
 from .types import NodeLabel3Type, NodeLabelType, ConditionType, LabelType
 
 from pydantic import validate_arguments, BaseModel
 
-
 logger = logging.getLogger(__name__)
-
 
 Actor = BaseModel
 
@@ -100,7 +97,7 @@ def normalize_condition(condition: ConditionType) -> Callable:
 
 @validate_arguments
 def normalize_transitions(
-    transitions: dict[NodeLabelType, ConditionType]
+        transitions: dict[NodeLabelType, ConditionType]
 ) -> dict[Union[Callable, NodeLabel3Type], Callable]:
     """
     The function which is used to normalize `transitions` and returns normalized `dict`.
@@ -180,7 +177,7 @@ def normalize_processing(processing: dict[Any, Callable]) -> Callable:
 # TODO: doc string
 @validate_arguments
 def normalize_keywords(
-    plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
+        plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
 ) -> dict[LabelType, dict[LabelType, dict[str, Any]]]:
     """
     This function is used to normalize keywords in the plot.
@@ -194,7 +191,7 @@ def normalize_keywords(
     dict[LabelType, dict[LabelType, dict[str, Any]]]
     Plot with the normalized keywords
     """
-    
+
     plot = {
         flow_label: {
             node_label: {key.name.lower(): val for key, val in node.items()} for node_label, node in flow.items()
