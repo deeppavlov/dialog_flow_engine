@@ -73,7 +73,7 @@ def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") ->
 @validate_arguments
 def normalize_condition(condition: ConditionType) -> Callable:
     """
-    The functon that is used to normalize `condition`, the function is returned
+    The functon that is used to normalize `condition`
 
     Parameters
     ----------
@@ -83,7 +83,7 @@ def normalize_condition(condition: ConditionType) -> Callable:
     Returns
     -------
     Callable
-        `condition` wrapped into the try/except.
+        The function `condition` wrapped into the try/except.
     """
     if isinstance(condition, Callable):
 
@@ -108,7 +108,7 @@ def normalize_transitions(
     Parameters
     ----------
     transitions : dict[NodeLabelType, ConditionType]
-        `transitions` we need to normalize
+        `transitions` to normalize
 
     Returns
     -------
@@ -122,13 +122,13 @@ def normalize_transitions(
 @validate_arguments
 def normalize_response(response: Any) -> Callable:
     """
-    The function which is used to normalize `response`, если `response` Callable, тогда он же возвращается, если нет
-    тогда `response` оборачивается в функцию и возвращается эта функция.
+    This function is used to normalize `response`, if `response` Callable, it is returned, otherwise
+    `response` is wrapped to the function and this function is returned.
 
     Parameters
     ----------
     response : Any
-        `response` we need to normalize
+        `response` to normalize
 
     Returns
     -------
@@ -149,7 +149,7 @@ def normalize_response(response: Any) -> Callable:
 @validate_arguments
 def normalize_processing(processing: dict[Any, Callable]) -> Callable:
     """
-    The function is used to normalize `processing`.
+    This function is used to normalize `processing`.
     It returns function that consecutively applies all preprocessing stages from `dict`.
 
     Parameters
@@ -183,7 +183,7 @@ def normalize_keywords(
     plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
 ) -> dict[LabelType, dict[LabelType, dict[str, Any]]]:
     """
-    The function is used to normalize keywords in the plot.
+    This function is used to normalize keywords in the plot.
     Parameters
     ----------
     plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
