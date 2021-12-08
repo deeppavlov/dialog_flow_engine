@@ -10,6 +10,16 @@ from .core.types import NodeLabel3Type
 
 
 def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that transitions to the last node with a given `priority`.
+    If the priority is not given, `actor.label_priority` is used. 
+    Parameters:
+    -----------
+    priority - priority of transition. Used `actor.label_priority` if not set. 
+    Returned values:
+    ----------------
+    repeat_transition_handler: function handler. 
+    """
     def repeat_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 1:
@@ -22,6 +32,16 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 
 def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that transitions to the previous node with a given `priority`.
+    If the priority is not given, `actor.label_priority` is used. 
+    Parameters:
+    -----------
+    priority - priority of transition. Used `actor.label_priority` if not set. 
+    Returned values:
+    ----------------
+    previous_transition_handler: function handler. 
+    """
     def previous_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 2:
@@ -34,6 +54,16 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 
 def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that transitions to the start node with a given `priority`.
+    If the priority is not given, `actor.label_priority` is used. 
+    Parameters:
+    -----------
+    priority - priority of transition. Used `actor.label_priority` if not set. 
+    Returned values:
+    ----------------
+    to_start_transition_handler: function handler. 
+    """
     def to_start_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         return (*actor.start_label[:2], current_priority)
@@ -42,6 +72,16 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 
 def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that transitions to the fallback node with a given `priority`.
+    If the priority is not given, `actor.label_priority` is used. 
+    Parameters:
+    -----------
+    priority - priority of transition. Used `actor.label_priority` if not set. 
+    Returned values:
+    ----------------
+    to_fallback_transition_handler: function handler. 
+    """
     def to_fallback_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         return (*actor.fallback_label[:2], current_priority)
