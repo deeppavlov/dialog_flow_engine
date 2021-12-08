@@ -1,9 +1,10 @@
 """
 Context
 ---------------------------
-Структура данных, которая используется для хранения контекста.
-Предаставляет удомный интерфейс работы с данными: добавлени данных,
-сериализация, проверка типов и т.д.
+Data structure which is used for the context storage. 
+It provides a convenient interface for working with data:
+ adding data, data serialization, type checking etc.
+
 """
 import logging
 from uuid import UUID, uuid4
@@ -23,7 +24,7 @@ Context = ForwardRef("Context")
 @validate_arguments
 def sort_dict_keys(dictionary: dict) -> dict:
     """
-    Sorting of keys in the dictionary. We need to do it after the deserialization: keys deserialize in a random order.
+    Sorting of keys in the dictionary. It is nesessary to do it after the deserialization: keys deserialize in a random order.
     Parameters
     ----------
     dictionary: dict - dictionary
@@ -34,7 +35,7 @@ def sort_dict_keys(dictionary: dict) -> dict:
 @validate_arguments
 def get_last_index(dictionary: dict) -> int:
     """
-    Obtaining of the last index from `dict`, we return `-1` if the `dict` is empty.
+    Obtaining of the last index from `dict`, functions returns `-1` if the `dict` is empty.
     Parameters
     ----------
     dictionary: dict - dictionary
