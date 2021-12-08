@@ -146,8 +146,8 @@ def has_last_labels(
     This handler returns True if any label from last `last_n_indexes` context labels is in the `flow_labels` list or in the `labels` list.
     Parameters:
     -----------
-    `flow_labels`: list of labels to check.Every label has type `str`. Is empty if not set. 
-    `labels`: list of labels that correspond to the nodes. Is empty is not set. 
+    `flow_labels`: list of labels to check.Every label has type `str`. Is empty if not set.
+    `labels`: list of labels that correspond to the nodes. Is empty is not set.
     `last_n_indexes`: number of last utterances to check.
     """
 

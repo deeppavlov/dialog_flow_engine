@@ -14,7 +14,7 @@ forwardref_patterns = {
 
 def downgrade(root_dir="."):
     """
-    Function that replaces patterns in the code according to the Python version in the system. 
+    Function that replaces patterns in the code according to the Python version in the system.
     Parameters
     ----------
     root_dir: user root directory

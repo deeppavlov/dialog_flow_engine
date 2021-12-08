@@ -185,7 +185,7 @@ def normalize_keywords(
     ----------
     plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
     plot, containing all transitions between states based in the keywords.
-    
+
     Returns
     -------
     dict[LabelType, dict[LabelType, dict[str, Any]]]

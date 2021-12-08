@@ -33,7 +33,7 @@ class Keywords(Enum):
     The value that corresponds to the `TRANSITIONS` key has the `dict` type.
     Every key-value pair describes the transition node and the condition:
     `{label_to_transition_0: condition_for_transition_0, ...,  label_to_transition_N: condition_for_transition_N}`
-    `label_to_transition_i` - depends node the actor transitions to, in case of 
+    `label_to_transition_i` - depends node the actor transitions to, in case of
     `condition_for_transition_i`==`True`.
 
     RESPONSE : the keyword that defines the result which is returned to the user after getting to the node.
@@ -45,7 +45,7 @@ class Keywords(Enum):
     `"PROC_i"` is an arbitrary name of the preprocessing stage in the pipeline.
     The order of `proc_func_i` calls is defined by the order of defining of `dict` preprocessing/
 
-    MISC : the keyword that defines `dict` containing extra data, 
+    MISC : the keyword that defines `dict` containing extra data,
     which were not aimed to be used in the standard functions of `DFF`.
     Value corresponding to the `MISC` key must have `dict` type:
     `{"VAR_KEY_0": VAR_VALUE_0, ..., "VAR_KEY_N": VAR_VALUE_N}`

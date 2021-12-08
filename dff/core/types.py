@@ -34,23 +34,23 @@ ConditionType = Callable
 class ActorStage(Enum):
     """
     The class which holds keys for the handlers. These keys are used later for the actions of :py:class:`~dff.core.actor.Actor`.
-    
+
     Enums:
 
     CONTEXT_INIT
-    
+
     GET_PREVIOUS_NODE
 
     GET_TRUE_LABELS
-    
+
     GET_NEXT_NODE
-    
+
     REWRITE_NEXT_NODE
-    
+
     RUN_PROCESSING
-    
+
     CREATE_RESPONSE
-    
+
     FINISH_TURN
     """
 

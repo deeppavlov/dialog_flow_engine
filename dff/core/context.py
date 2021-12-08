@@ -81,7 +81,7 @@ class Context(BaseModel):
 
     validation : bool
         `validation` is a flag that signals that `Actor`, while being initialized, checks the `Plot`.
-        The functions that can give not validable data while being validated must use this flag to take the validation mode into account. 
+        The functions that can give not validable data while being validated must use this flag to take the validation mode into account.
         Otherwise the validation will not be passed.
 
     actor_state : dict[str, Any]
