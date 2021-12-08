@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 @validate_arguments
 def exact_match(match: Any, *args, **kwargs) -> Callable:
     """
-    Returns function handler. The handler returns True only if the last user phrase is exactly the same as the `match`.
+    Returns function handler. This handler returns True only if the last user phrase is exactly the same as the `match`.
     Parameters:
     -----------
     `match`: the variable of the same type as last_request field of `Context`
@@ -39,7 +39,7 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
 @validate_arguments
 def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *args, **kwargs) -> Callable:
     """
-    Returns function handler. The handler returns True only if the last user phrase contains `pattern` with `flags`.
+    Returns function handler. This handler returns True only if the last user phrase contains `pattern` with `flags`.
     Parameters:
     -----------
     `pattern`: the RegExp pattern
@@ -129,6 +129,11 @@ def has_last_labels(
 
 @validate_arguments
 def true(*args, **kwargs) -> Callable:
+    """
+    Returns function handler. This handler always returns True. 
+    Returned variables:
+    `false_handler`: function handler 
+    """
     def true_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         return True
 
@@ -137,6 +142,11 @@ def true(*args, **kwargs) -> Callable:
 
 @validate_arguments
 def false(*args, **kwargs) -> Callable:
+    """
+    Returns function handler. This handler always returns False. 
+    Returned variables:
+    `false_handler`: function handler 
+    """ 
     def false_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         return False
 
