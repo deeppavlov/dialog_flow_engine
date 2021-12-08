@@ -10,6 +10,9 @@ from dff.core.types import ActorStage
 
 
 class OneTurnCache:
+    """
+    Class that caches the information from the last turn.
+    """
     def __init__(self):
         self.wrappers = []
 
