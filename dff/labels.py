@@ -98,6 +98,13 @@ def _get_label_by_index_shifting(
     *args,
     **kwargs,
 ) -> NodeLabel3Type:
+    """
+    Parameters:
+    -----------
+    ctx: dialog context
+    actor: d
+    
+    """
     flow_label, node_label, current_priority = repeat(priority, *args, **kwargs)(ctx, actor, *args, **kwargs)
     labels = list(actor.plot.get(flow_label, {}))
 
@@ -114,6 +121,16 @@ def _get_label_by_index_shifting(
 
 
 def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that transitions to the forward node with a given `priority` and `cyclicality_flag`.
+    If the priority is not given, `actor.label_priority` is used. 
+    Parameters:
+    -----------
+    priority - priority of transition. Used `actor.label_priority` if not set. 
+    Returned values:
+    ----------------
+    forward_transition_handler: function handler. 
+    """
     def forward_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
             ctx,
@@ -127,6 +144,16 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
 
 
 def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
+"""
+    Returns transition handler that transitions to the backward node with a given `priority` and `cyclicality_flag`.
+    If the priority is not given, `actor.label_priority` is used. 
+    Parameters:
+    -----------
+    priority - priority of transition. Used `actor.label_priority` if not set. 
+    Returned values:
+    ----------------
+    backward_transition_handler: function handler. 
+    """
     def back_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
             ctx,
