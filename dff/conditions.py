@@ -144,6 +144,7 @@ def negation(condition: Callable, *args, **kwargs) -> Callable:
     -----------
     condition: Callable
     Returned variables:
+    -------------------
     `negation_handler`: function handler 
     """
     def negation_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
@@ -160,6 +161,19 @@ def has_last_labels(
     *args,
     **kwargs,
 ) -> Callable:
+    """
+    Function returns condition handler.
+    This handler returns True if any label from last `last_n_indexes` context labels is in the `flow_labels` list or in the `labels` list. 
+    """
+    Parameters:
+    -----------
+    `flow_labels`: list of labels to check.Every label has type `str`. Is empty if not set. 
+    `labels`: list of labels that correspond to the nodes. Is empty is not set. 
+    `last_n_indexes`: number of last utterances to check.
+    Returned variables:
+    -----------------
+    `has_last_labels_condition_handler`: function handler.
+    """
     def has_last_labels_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         label = list(ctx.labels.values())[-last_n_indexes:]
         for label in list(ctx.labels.values())[-last_n_indexes:]:
@@ -176,7 +190,8 @@ def true(*args, **kwargs) -> Callable:
     """
     Returns function handler. This handler always returns True. 
     Returned variables:
-    `false_handler`: function handler 
+    -------------------
+    `true_handler`: function handler 
     """
     def true_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         return True
@@ -189,6 +204,7 @@ def false(*args, **kwargs) -> Callable:
     """
     Returns function handler. This handler always returns False. 
     Returned variables:
+    -------------------
     `false_handler`: function handler 
     """ 
     def false_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
