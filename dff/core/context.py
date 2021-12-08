@@ -56,22 +56,26 @@ class Context(BaseModel):
 
     labels : dict[int, NodeLabel2Type]
         `labels` stores the history of all passed `labels`:
+
         * key - `id` of the turn
         * value - `label` on this turn
 
     requests : dict[int, Any]
         `requests` stores the history of all `requests` received by the agent
+
         * key - `id` of the turn
         * value - `request` on this turn
 
     responses : dict[int, Any]
         `responses` stores the history of all agent `responses`
+
         * key - `id` of the turn
         * value - `response` on this turn
 
     misc : dict[str, Any]
         `misc` stores the arbitrary data, the framework doesn't use this dictionary by default,
         so storage of any data won't reflect on the work on the internal Dialog Flow Framework functions.
+
         * key - arbitrary data name
         * value - arbitrary data
 
@@ -83,6 +87,7 @@ class Context(BaseModel):
     actor_state : dict[str, Any]
         `actor_state` or `a_s` is used every time while processing the `Context`. `Actor` records all its intermediate conditions into the `actor_state`.
         After `Context` processing is finished, `Actor` resets `actor_state`  and returns `Context`.
+
         * key - temporary variable name
         * value - temporary variable data
 
