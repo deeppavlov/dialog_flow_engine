@@ -1,7 +1,7 @@
 """
 Keywords
 ---------------------------
-Ключевые слова используются для описания сенария диалога.
+Key words used to describe the dialog scenario. 
 """
 from enum import Enum, auto
 
@@ -33,13 +33,13 @@ class Keywords(Enum):
     The value that corresponds to the `TRANSITIONS` key has the `dict` type.
     Every key-value pair describes the transition node and the condition:
     `{label_to_transition_0: condition_for_transition_0, ...,  label_to_transition_N: condition_for_transition_N}`
-    `label_to_transition_i` - depends node we transition to, in case of 
+    `label_to_transition_i` - depends node the actor transitions to, in case of 
     `condition_for_transition_i`==`True`.
 
     RESPONSE : the keyword that defines the result which is returned to the user after getting to the node.
     Value that corresponds to the `RESPONSE` key can have any data type.
 
-    PROCESSING :the keyword that defines preprocessing, that is being called before the responce generation.
+    PROCESSING :the keyword that defines preprocessing, that is being called before the response generation.
     The value that corresponds to the `PROCESSING` key, must have the `dict` type:
     `{"PROC_0": proc_func_0, ..., "PROC_N": proc_func_N}`
     `"PROC_i"` is an arbitrary name of the preprocessing stage in the pipeline.
