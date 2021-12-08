@@ -21,10 +21,11 @@ logger = logging.getLogger(__name__)
 def exact_match(match: Any, *args, **kwargs) -> Callable:
     """
     Returns function handler. This handler returns True only if the last user phrase is exactly the same as the `match`.
-    Parameters:
-    -----------
 
-    `match`: Any
+    Parameters
+    ----------
+
+    match: Any
         the variable of the same type as last_request field of `Context`
     """
 
@@ -39,13 +40,14 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
 def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *args, **kwargs) -> Callable:
     """
     Returns function handler. This handler returns True only if the last user phrase contains `pattern` with `flags`.
-    Parameters:
-    -----------
+
+    Parameters
+    ----------
 
     `pattern`: Union[str, Pattern]
         the RegExp pattern
 
-    `flags`: Union[int, re.RegexFlag] = 0
+    flags: Union[int, re.RegexFlag] = 0
          flags for this pattern
     """
     pattern = re.compile(pattern, flags)
@@ -61,11 +63,12 @@ def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *a
 def check_cond_seq(cond_seq: list):
     """
     Checks if the list consists only of Callables.
-    Parameters:
-    -----------
 
-    cond_seq: List
-        list to check
+    Parameters
+    ----------
+
+    cond_seq: []
+        list of conditions to check
     """
     for cond in cond_seq:
         if not isinstance(cond, Callable):
@@ -82,11 +85,14 @@ _all = all
 def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) -> Callable:
     """
     Aggregates multiple functions into one. Returns function handler.
-    Parameters:
-    -----------
 
-    `cond_seq`: list of conditions to check
-    `aggregate_func`: function to aggregate conditions
+    Parameters
+    ----------
+
+    cond_seq: []
+        list of conditions to check
+    aggregate_func: Callable = _any
+        function to aggregate conditions
     """
     check_cond_seq(cond_seq)
 
@@ -103,9 +109,11 @@ def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) 
 def any(cond_seq: list, *args, **kwargs) -> Callable:
     """
     Function that return function handler. This handler returns True if any function from the list is True.
-    Parameters:
-    -----------
-    cond_seq: list of conditions to check
+
+    Parameters
+    ----------
+    cond_seq: []
+        list of conditions to check
     """
     _agg = aggregate(cond_seq, _any)
 
@@ -119,9 +127,11 @@ def any(cond_seq: list, *args, **kwargs) -> Callable:
 def all(cond_seq: list, *args, **kwargs) -> Callable:
     """
     Function that return function handler. This handler returns True only if all functions from the list are True.
-    Parameters:
-    -----------
-    cond_seq: list of conditions to check
+
+    Parameters
+    ----------
+    cond_seq: []
+        list of conditions to check
     """
     _agg = aggregate(cond_seq, _all)
 
@@ -135,8 +145,9 @@ def all(cond_seq: list, *args, **kwargs) -> Callable:
 def negation(condition: Callable, *args, **kwargs) -> Callable:
     """
     Returns function handler. This handler returns negation of the condition: False if condition and True if not condition
-    Parameters:
-    -----------
+
+    Parameters
+    ----------
     condition: Callable
     """
 
@@ -153,11 +164,15 @@ def has_last_labels(
     """
     Function returns condition handler.
     This handler returns True if any label from last `last_n_indexes` context labels is in the `flow_labels` list or in the `labels` list.
-    Parameters:
-    -----------
-    `flow_labels`: list of labels to check.Every label has type `str`. Is empty if not set.
-    `labels`: list of labels that correspond to the nodes. Is empty is not set.
-    `last_n_indexes`: number of last utterances to check.
+
+    Parameters
+    ----------
+    flow_labels: []
+        list of labels to check.Every label has type `str`. Is empty if not set.
+    labels: []
+        list of labels that correspond to the nodes. Is empty is not set.
+    last_n_indexes: 1
+        number of last utterances to check.
     """
 
     def has_last_labels_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
