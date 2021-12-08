@@ -17,7 +17,7 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not set.
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
     """
 
     def repeat_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -39,7 +39,7 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not set.
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
     """
 
     def previous_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -61,7 +61,7 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not set.
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
     """
 
     def to_start_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -79,7 +79,7 @@ def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not set.
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
     """
 
     def to_fallback_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -139,7 +139,7 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
     Parameters
     ----------
 
-    priority - float priority of transition. Used `actor.label_priority` if not set.
+    priority - float priority of transition. Used `actor.label_priority` if not defined.
     """
 
     def forward_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -158,7 +158,7 @@ def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *a
     Parameters
     ----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not set.
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
     """
 
     def back_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
