@@ -1,7 +1,7 @@
 """
 Normalization
 ---------------------------
-Базовый набор функций для нормализации данных в сценарии диалога.
+The basic set of functions to normalize data in the dialog scenario.
 """
 import logging
 
