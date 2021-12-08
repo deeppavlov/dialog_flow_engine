@@ -23,10 +23,7 @@ Context = ForwardRef("Context")
 @validate_arguments
 def sort_dict_keys(dictionary: dict) -> dict:
     """
-    Sorting of keys in the dictionary. It is nesessary to do it after the deserialization: keys deserialize in a random order.
-    Parameters
-    ----------
-    dictionary: dict - dictionary
+    Sorting of keys in the `dictionary`. It is nesessary to do it after the deserialization: keys deserialize in a random order.
     """
     return {key: dictionary[key] for key in sorted(dictionary)}
 
@@ -34,10 +31,7 @@ def sort_dict_keys(dictionary: dict) -> dict:
 @validate_arguments
 def get_last_index(dictionary: dict) -> int:
     """
-    Obtaining of the last index from `dict`, functions returns `-1` if the `dict` is empty.
-    Parameters
-    ----------
-    dictionary: dict - dictionary
+    Obtaining of the last index from the `dictionary`, functions returns `-1` if the `dict` is empty.
     """
     indexes = list(dictionary)
     return indexes[-1] if indexes else -1
