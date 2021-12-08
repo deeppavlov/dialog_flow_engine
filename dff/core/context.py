@@ -179,14 +179,15 @@ class Context(BaseModel):
     @validate_arguments
     def clear(self, hold_last_n_indexes: int, field_names: list[str] = ["requests", "responses", "labels"]):
         """
-        Deletes all recordings from the `requests`/`responses`/`labels` except for the last N turns according to the `hold_last_n_indexes`. Если `field_names` содержит поле `misc`, тогда оно очищается полностью.
+        Deletes all recordings from the `requests`/`responses`/`labels` except for the last N turns according to the `hold_last_n_indexes`.
+        If`field_names` contains `misc` field, `misc` field is fully cleared,
 
         Parameters
         ----------
         hold_last_n_indexes : int
-            задает количество тернов с конца, которое останется после очистки
+            number of last turns that remein under clearing
         field_names : list[str]
-            свойства `Context`. которые надо будет очистить
+             properties of `Context` we need to clear
         """
         if "requests" in field_names:
             for index in list(self.requests)[:-hold_last_n_indexes]:
@@ -203,12 +204,7 @@ class Context(BaseModel):
     @property
     def last_label(self) -> Optional[NodeLabel2Type]:
         """
-        Returns the last `label` of the `Context`
-
-        Returns
-        -------
-        Optional[NodeLabel2Type]
-            Returns `None` if `labels` is empty
+        Returns the last `label` of the `Context`. Returns `None` if `labels` is empty
         """
         last_index = get_last_index(self.labels)
         return self.labels.get(last_index)
@@ -216,12 +212,7 @@ class Context(BaseModel):
     @property
     def last_response(self) -> Optional[Any]:
         """
-        Returns the last `response` of the current `Context`
-
-        Returns
-        -------
-        Optional[Any]
-            Returns `None if `responses` is empty`
+        Returns the last `response` of the current `Context`. Returns `None if `responses` is empty`
         """
         last_index = get_last_index(self.responses)
         return self.responses.get(last_index)
@@ -229,12 +220,7 @@ class Context(BaseModel):
     @property
     def last_request(self) -> Optional[Any]:
         """
-        Returns the last `request` of the current `Context`
-
-        Returns
-        -------
-        Optional[Any]
-            Returns `None if `requests` is empty`
+        Returns the last `request` of the current `Context`. Returns `None if `requests` is empty`
         """
         last_index = get_last_index(self.requests)
         return self.requests.get(last_index)

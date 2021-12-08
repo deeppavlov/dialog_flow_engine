@@ -130,7 +130,7 @@ def normalize_response(response: Any) -> Callable:
     Returns
     -------
     Callable
-        Function that returns an uncallable response
+        Function that returns callable response
     """
     if isinstance(response, Callable):
         return response
