@@ -93,14 +93,10 @@ plot = {
                 # if complex_user_answer_condition return false
             },
         },
-    },
+    }
 }
 
-actor = Actor(
-    plot,
-    start_label=("greeting_flow", "start_node"),
-    fallback_label=("greeting_flow", "fallback_node"),
-)
+actor = Actor(plot, start_label=("greeting_flow", "start_node"), fallback_label=("greeting_flow", "fallback_node"))
 
 
 # testing
@@ -129,8 +125,7 @@ def run_test():
 
 if __name__ == "__main__":
     logging.basicConfig(
-        format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s",
-        level=logging.INFO,
+        format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s", level=logging.INFO
     )
     # run_test()
     example_1_basics.run_interactive_mode(actor)

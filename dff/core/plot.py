@@ -25,6 +25,7 @@ class Node(BaseModel, extra=Extra.forbid):
     """
     The class for the Node object.
     """
+
     transitions: dict[NodeLabelType, ConditionType] = {}
     response: Optional[Any] = None
     processing: dict[Any, Callable] = {}
@@ -51,6 +52,7 @@ class Plot(BaseModel, extra=Extra.forbid):
     """
     The class for the Plot object
     """
+
     plot: dict[LabelType, dict[LabelType, Node]]
 
     _normalize_plot = validator("plot", allow_reuse=True, pre=True)(normalize_plot)

@@ -53,6 +53,7 @@ class ActorStage(Enum):
     
     FINISH_TURN
     """
+
     CONTEXT_INIT = auto()
     GET_PREVIOUS_NODE = auto()
     GET_TRUE_LABELS = auto()

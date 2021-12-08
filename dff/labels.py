@@ -82,13 +82,13 @@ def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 
 def _get_label_by_index_shifting(
-        ctx: Context,
-        actor: Actor,
-        priority: Optional[float] = None,
-        increment_flag: bool = True,
-        cyclicality_flag: bool = True,
-        *args,
-        **kwargs,
+    ctx: Context,
+    actor: Actor,
+    priority: Optional[float] = None,
+    increment_flag: bool = True,
+    cyclicality_flag: bool = True,
+    *args,
+    **kwargs,
 ) -> NodeLabel3Type:
     """
     Function that returns node label from the context and actor after shifting the index.
@@ -135,11 +135,7 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
 
     def forward_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
-            ctx,
-            actor,
-            priority,
-            increment_flag=True,
-            cyclicality_flag=cyclicality_flag,
+            ctx, actor, priority, increment_flag=True, cyclicality_flag=cyclicality_flag
         )
 
     return forward_transition_handler
@@ -156,11 +152,7 @@ def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *a
 
     def back_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
-            ctx,
-            actor,
-            priority,
-            increment_flag=False,
-            cyclicality_flag=cyclicality_flag,
+            ctx, actor, priority, increment_flag=False, cyclicality_flag=cyclicality_flag
         )
 
     return back_transition_handler

@@ -92,6 +92,7 @@ class Context(BaseModel):
         * value - temporary variable data
 
     """
+
     id: Union[UUID, int, str] = Field(default_factory=uuid4)
     labels: dict[int, NodeLabel2Type] = {}
     requests: dict[int, Any] = {}
@@ -106,12 +107,7 @@ class Context(BaseModel):
     _sort_responses = validator("responses", allow_reuse=True)(sort_dict_keys)
 
     @classmethod
-    def cast(
-            cls,
-            ctx: Union[Context, dict, str] = {},
-            *args,
-            **kwargs,
-    ) -> Context:
+    def cast(cls, ctx: Union[Context, dict, str] = {}, *args, **kwargs) -> Context:
         """
         Transforms different data types to the objects of `Context` class.
 

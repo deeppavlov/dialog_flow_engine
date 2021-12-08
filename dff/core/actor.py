@@ -88,17 +88,17 @@ class Actor(BaseModel):
 
     @validate_arguments
     def __init__(
-            self,
-            plot: Union[Plot, dict],
-            start_label: NodeLabel2Type,
-            fallback_label: Optional[NodeLabel2Type] = None,
-            label_priority: float = 1.0,
-            validation_stage: Optional[bool] = None,
-            condition_handler: Optional[Callable] = None,
-            verbose: bool = True,
-            handlers: dict[ActorStage, list[Callable]] = {},
-            *args,
-            **kwargs,
+        self,
+        plot: Union[Plot, dict],
+        start_label: NodeLabel2Type,
+        fallback_label: Optional[NodeLabel2Type] = None,
+        label_priority: float = 1.0,
+        validation_stage: Optional[bool] = None,
+        condition_handler: Optional[Callable] = None,
+        verbose: bool = True,
+        handlers: dict[ActorStage, list[Callable]] = {},
+        *args,
+        **kwargs,
     ):
         # plot validation
         plot = plot if isinstance(plot, Plot) else Plot(plot=plot)
@@ -193,10 +193,7 @@ class Actor(BaseModel):
         # LOCAL
         ctx.a_s["local_transitions"] = self.plot.get(ctx.a_s["previous_label"][0], {}).get(LOCAL, Node()).transitions
         ctx.a_s["local_true_label"] = self._get_true_label(
-            ctx.a_s["local_transitions"],
-            ctx,
-            ctx.a_s["previous_label"][0],
-            "local",
+            ctx.a_s["local_transitions"], ctx, ctx.a_s["previous_label"][0], "local"
         )
 
         # NODE
@@ -204,10 +201,7 @@ class Actor(BaseModel):
             self.plot.get(ctx.a_s["previous_label"][0], {}).get(ctx.a_s["previous_label"][1], Node()).transitions
         )
         ctx.a_s["node_true_label"] = self._get_true_label(
-            ctx.a_s["node_transitions"],
-            ctx,
-            ctx.a_s["previous_label"][0],
-            "node",
+            ctx.a_s["node_transitions"], ctx, ctx.a_s["previous_label"][0], "node"
         )
         return ctx
 
@@ -243,13 +237,7 @@ class Actor(BaseModel):
 
     @validate_arguments
     def _get_true_label(
-            self,
-            transitions: dict,
-            ctx: Context,
-            flow_label: LabelType,
-            transition_info: str = "",
-            *args,
-            **kwargs,
+        self, transitions: dict, ctx: Context, flow_label: LabelType, transition_info: str = "", *args, **kwargs
     ) -> Optional[NodeLabel3Type]:
         true_labels = []
         for label, condition in transitions.items():
@@ -278,9 +266,7 @@ class Actor(BaseModel):
 
     @validate_arguments
     def _choose_label(
-            self,
-            specific_label: Optional[NodeLabel3Type],
-            general_label: Optional[NodeLabel3Type],
+        self, specific_label: Optional[NodeLabel3Type], general_label: Optional[NodeLabel3Type]
     ) -> NodeLabel3Type:
         if all([specific_label, general_label]):
             chosen_label = specific_label if specific_label[2] >= general_label[2] else general_label
@@ -291,10 +277,7 @@ class Actor(BaseModel):
         return chosen_label
 
     @validate_arguments
-    def validate_plot(
-            self,
-            verbose: bool = True,
-    ):
+    def validate_plot(self, verbose: bool = True):
         # TODO: plot has to not contain priority == -inf, because it uses for miss values
         flow_labels = []
         node_labels = []

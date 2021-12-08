@@ -139,11 +139,7 @@ def negation(condition: Callable, *args, **kwargs) -> Callable:
 
 @validate_arguments
 def has_last_labels(
-        flow_labels: list[str] = [],
-        labels: list[NodeLabel2Type] = [],
-        last_n_indexes: int = 1,
-        *args,
-        **kwargs,
+    flow_labels: list[str] = [], labels: list[NodeLabel2Type] = [], last_n_indexes: int = 1, *args, **kwargs
 ) -> Callable:
     """
     Function returns condition handler.
