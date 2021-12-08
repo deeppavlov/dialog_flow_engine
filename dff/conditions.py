@@ -100,6 +100,15 @@ def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) 
 
 @validate_arguments
 def any(cond_seq: list, *args, **kwargs) -> Callable:
+    """
+    Function that return function handler. This handler returns True if any function from the list is True.
+    Parameters:
+    -----------
+    cond_seq: list of conditions to check
+    Returned values:
+    ----------------
+    any_condition_handler: function handler
+    """
     _agg = aggregate(cond_seq, _any)
 
     def any_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
