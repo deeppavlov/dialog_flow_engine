@@ -1,7 +1,7 @@
 """
 Conditions
 ---------------------------
-
+This file contains functions that set the basic conditions for use in scenarios.
 """
 from typing import Callable, Pattern, Union, Any
 import logging
@@ -21,6 +21,14 @@ logger = logging.getLogger(__name__)
 
 @validate_arguments
 def exact_match(match: Any, *args, **kwargs) -> Callable:
+    """
+    Returns function handler. The handler returns True only if the last user phrase is exactly the same as the `match`.
+    Parameters:
+    -----------
+    `match`: the variable of the same type as last_request field of `Context`
+    Returned variables:
+    `exact_match_condition_handler`: function handler
+    """
     def exact_match_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         request = ctx.last_request
         return match == request
@@ -30,7 +38,16 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
 
 @validate_arguments
 def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *args, **kwargs) -> Callable:
-    pattern = re.compile(pattern, flags)
+    """
+    Returns function handler. The handler returns True only if the last user phrase contains `pattern` with `flags`.
+    Parameters:
+    -----------
+    `pattern`: the RegExp pattern
+    `flags`: flags for this pattern
+    Returned variables:
+    `regexp_condition_handler`: function handler 
+    """ 
+   pattern = re.compile(pattern, flags)
 
     def regexp_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         request = ctx.last_request
