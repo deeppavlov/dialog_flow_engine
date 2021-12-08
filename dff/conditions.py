@@ -60,6 +60,12 @@ def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *a
 
 @validate_arguments
 def check_cond_seq(cond_seq: list):
+    """
+    Checks if the list consists only of Callables.
+    Parameters:
+    -----------
+    cond_seq: list to check
+    """
     for cond in cond_seq:
         if not isinstance(cond, Callable):
             raise TypeError(f"{cond_seq=} has to consist of callable objects")
@@ -71,6 +77,16 @@ _all = all
 
 @validate_arguments
 def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) -> Callable:
+    """
+    Aggregates multiple functions into one. Returns function handler.
+    Parameters:
+    -----------
+    `cond_seq`: list of conditions to check
+    `aggregate_func`: function to aggregate conditions
+    Returned values:
+    ----------------
+    `aggregate_condition_handler`: returned function handler
+    """
     check_cond_seq(cond_seq)
 
     def aggregate_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
