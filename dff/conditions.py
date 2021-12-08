@@ -72,7 +72,9 @@ def check_cond_seq(cond_seq: list):
 
 
 _any = any
+""" _any is an alias for any. """
 _all = all
+""" _all is an alias for all. """
 
 
 @validate_arguments
@@ -215,4 +217,6 @@ def false(*args, **kwargs) -> Callable:
 
 # aliases
 agg = aggregate
+""" agg is an alias for aggregate. """
 neg = negation
+""" neg is an alias for negation. """
