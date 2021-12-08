@@ -99,16 +99,18 @@ def _get_label_by_index_shifting(
     **kwargs,
 ) -> NodeLabel3Type:
     """
+    Function that returns node label from the context and actor after shifting the index.
     Parameters:
     -----------
     ctx: dialog context
     actor: dialog actor
     priority: float priority of transition. Used actor.label_priority if not set. 
-    increment_flag:
-    cyclicality_flag:
+    increment_flag: if it is True, label index is incremented by 1,otherwise it is decreased by 1
+    cyclicality_flag: if it is True, the iteration over the label list is going cyclically
+    (e.g the element with index=len(labels) has index=0)
 
-    Returned values: the tuple that consists of (label, label_index, priority). 
-    If fallback is executed, (fallback_label, fallback_label_index, priority) are returned.
+    Returned values: the tuple that consists of (flow_label, label, priority). 
+    If fallback is executed, (flow_fallback_label, fallback_label, priority) are returned.
 
     
     """
