@@ -27,6 +27,7 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
     -----------
     `match`: the variable of the same type as last_request field of `Context`
     Returned variables:
+    -------------------
     `exact_match_condition_handler`: function handler
     """
     def exact_match_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
@@ -45,6 +46,7 @@ def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *a
     `pattern`: the RegExp pattern
     `flags`: flags for this pattern
     Returned variables:
+    -------------------
     `regexp_condition_handler`: function handler 
     """ 
    pattern = re.compile(pattern, flags)
@@ -102,6 +104,14 @@ def all(cond_seq: list, *args, **kwargs) -> Callable:
 
 @validate_arguments
 def negation(condition: Callable, *args, **kwargs) -> Callable:
+    """
+    Returns function handler. This handler returns negation of the condition: False if condition and True if not condition
+    Parameters:
+    -----------
+    condition: Callable
+    Returned variables:
+    `negation_handler`: function handler 
+    """
     def negation_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
         return not condition(ctx, actor, *args, **kwargs)
 
