@@ -23,7 +23,9 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
     Returns function handler. This handler returns True only if the last user phrase is exactly the same as the `match`.
     Parameters:
     -----------
-    `match`: the variable of the same type as last_request field of `Context`
+
+    `match`: Any
+        the variable of the same type as last_request field of `Context`
     """
 
     def exact_match_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
@@ -39,8 +41,12 @@ def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *a
     Returns function handler. This handler returns True only if the last user phrase contains `pattern` with `flags`.
     Parameters:
     -----------
-    `pattern`: the RegExp pattern
-    `flags`: flags for this pattern
+
+    `pattern`: Union[str, Pattern]
+        the RegExp pattern
+
+    `flags`: Union[int, re.RegexFlag] = 0
+         flags for this pattern
     """
     pattern = re.compile(pattern, flags)
 
@@ -57,7 +63,9 @@ def check_cond_seq(cond_seq: list):
     Checks if the list consists only of Callables.
     Parameters:
     -----------
-    cond_seq: list to check
+
+    cond_seq: List
+        list to check
     """
     for cond in cond_seq:
         if not isinstance(cond, Callable):
@@ -76,6 +84,7 @@ def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) 
     Aggregates multiple functions into one. Returns function handler.
     Parameters:
     -----------
+
     `cond_seq`: list of conditions to check
     `aggregate_func`: function to aggregate conditions
     """
