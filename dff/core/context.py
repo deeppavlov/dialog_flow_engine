@@ -159,7 +159,7 @@ class Context(BaseModel):
     @validate_arguments
     def add_label(self, label: NodeLabel2Type):
         """
-        Adds to the context the next `label`, that is correspondent to the next turn.
+        Adds to the context the next :py:const:`label <dff.core.types.NodeLabel2Type>`, that is correspondent to the next turn.
         The addition is happening in the `labels`, and `new_index = last_index + 1`
 
         Parameters

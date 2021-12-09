@@ -21,7 +21,7 @@ Actor = BaseModel
 @validate_arguments
 def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") -> Union[Callable, NodeLabel3Type]:
     """
-    The function which is used for the normalization of  `label`.
+    The function which is used for the normalization of  :py:const:`default_flow_label <dff.core.types.NodeLabelType>`.
 
     Parameters
     ----------
@@ -69,7 +69,7 @@ def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") ->
 @validate_arguments
 def normalize_condition(condition: ConditionType) -> Callable:
     """
-    The functon that is used to normalize `condition`
+    The functon that is used to normalize :py:func:`condition <dff.core.types.ConditionType>`
 
     Parameters
     ----------
