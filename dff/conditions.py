@@ -20,13 +20,13 @@ logger = logging.getLogger(__name__)
 @validate_arguments
 def exact_match(match: Any, *args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler returns True only if the last user phrase is exactly the same as the `match`.
+    Returns function handler. This handler returns True only if the last user phrase is exactly the same as the :py:const:`match <any>.`
 
     Parameters
     ----------
 
     match: Any
-        the variable of the same type as last_request field of `Context`
+        the variable of the same type as  :py:class:`~dff.core.context.last_request`
     """
 
     def exact_match_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
@@ -39,7 +39,7 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
 @validate_arguments
 def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler returns True only if the last user phrase contains `pattern` with `flags`.
+    Returns function handler. This handler returns True only if the last user phrase contains :py:const:`pattern <Union[str, Pattern]>` with :py:const:`flags <Union[int, re.RegexFlag]>`.
 
     Parameters
     ----------
@@ -144,7 +144,7 @@ def all(cond_seq: list, *args, **kwargs) -> Callable:
 @validate_arguments
 def negation(condition: Callable, *args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler returns negation of the condition: False if condition and True if not condition
+    Returns function handler. This handler returns negation of the :py:func:`~condition`: False if :py:func:`~condition` holds True and True otherwise
 
     Parameters
     ----------
@@ -163,7 +163,7 @@ def has_last_labels(
 ) -> Callable:
     """
     Function returns condition handler.
-    This handler returns True if any label from last `last_n_indexes` context labels is in the `flow_labels` list or in the `labels` list.
+    This handler returns True if any label from last :py:const:`last_n_indexes <int>`context labels is in the :py:const:`flow_labels <list[str]>` list or in the :py:const:`labels <list[NodeLabel2Type]>` list.
 
     Parameters
     ----------
@@ -212,6 +212,6 @@ def false(*args, **kwargs) -> Callable:
 
 # aliases
 agg = aggregate
-""" agg is an alias for aggregate. """
+""" :py:func:`~agg` is an alias for :py:func:`~aggregate`. """
 neg = negation
-""" neg is an alias for negation. """
+""" :py:func:`~neg` is an alias for :py:func:`~negation`. """

@@ -25,11 +25,10 @@ def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") ->
 
     Parameters
     ----------
-    label : NodeLabelType
-        `label`, we need to normalize.
+    label : :py:const:`label <dff.core.types.NodeLabelType>`, we need to normalize.
         If `label` is Callable then function is wrapped into try/except
         and normalization is used on the result of the call of function called `label`.
-    default_flow_label : LabelType
+    default_flow_label : :py:const:`default_flow_label <dff.core.types.LabelType>`
         `flow_label` is used if `label` does not contain `flow_label`.
 
     Returns
@@ -74,8 +73,7 @@ def normalize_condition(condition: ConditionType) -> Callable:
 
     Parameters
     ----------
-    condition : ConditionType
-        `condition` to normalize
+    condition : :py:func:`condition <dff.core.types.ConditionType>` to normalize
 
     Returns
     -------
