@@ -69,11 +69,13 @@ def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") ->
 @validate_arguments
 def normalize_condition(condition: ConditionType) -> Callable:
     """
-    The functon that is used to normalize :py:func:`condition <dff.core.types.ConditionType>`
+    The functon that is used to normalize `condition`
 
     Parameters
     ----------
-    condition : :py:func:`condition <dff.core.types.ConditionType>` to normalize
+    condition : ConditionType
+        `condition` to normalize
+
 
     Returns
     -------
