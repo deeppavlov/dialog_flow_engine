@@ -33,7 +33,8 @@ ConditionType = Callable
 # TODO: add description for each stage of ActorStage
 class ActorStage(Enum):
     """
-    The class which holds keys for the handlers. These keys are used later for the actions of :py:class:`~df_engine.core.actor.Actor`.
+    The class which holds keys for the handlers. These keys are used later
+    for the actions of :py:class:`~df_engine.core.actor.Actor`.
 
     Enums:
 

@@ -61,7 +61,8 @@ class Actor(BaseModel):
        Dialog comes into that label if all other transitions failed, or there was an error while executing the scenario.
 
     label_priority: float = 1.0
-       Default priority value for all :py:const:`labels <df_engine.core.types.NodeLabel3Type>` where there is no priority.
+       Default priority value for all :py:const:`labels <df_engine.core.types.NodeLabel3Type>`
+       where there is no priority.
 
     validation_stage: Optional[bool] = None
        This flag sets whether the validation stage is executed. It is executed by default.
