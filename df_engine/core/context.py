@@ -1,9 +1,9 @@
 """
 Context
 ---------------------------
-Data structure which is used for the context storage. 
+Data structure which is used for the context storage.
 It provides a convenient interface for working with data:
- adding data, data serialization, type checking etc.
+adding data, data serialization, type checking etc.
 
 """
 import logging
@@ -51,7 +51,7 @@ class Context(BaseModel):
         `id` can be used to trace the user behaviour,
         e.g while collecting the statistical data.
 
-    labels : dict[int, NodeLabel2Type]
+    labels : dict[int, :py:const:`~df_engine.core.types.NodeLabel2Type`]
         `labels` stores the history of all passed `labels`:
 
         * key - `id` of the turn
@@ -77,15 +77,18 @@ class Context(BaseModel):
         * value - arbitrary data
 
     validation : bool
-        `validation` is a flag that signals that `Actor`, while being initialized, checks the `Plot`.
+        `validation` is a flag that signals that :py:class:`~df_engine.core.actor.Actor`,
+        while being initialized, checks the :py:class:`~df_engine.core.plot.Plot`.
         The functions that can give not validable data
         while being validated must use this flag to take the validation mode into account.
         Otherwise the validation will not be passed.
 
     actor_state : dict[str, Any]
-        `actor_state` or `a_s` is used every time while processing the `Context`.
-        `Actor` records all its intermediate conditions into the `actor_state`.
-        After `Context` processing is finished, `Actor` resets `actor_state`  and returns `Context`.
+        `actor_state` or `a_s` is used every time while processing the :py:class:`~df_engine.core.context.Context`.
+        :py:class:`~df_engine.core.actor.Actor` records all its intermediate conditions into the `actor_state`.
+        After :py:class:`~df_engine.core.context.Context` processing is finished,
+        :py:class:`~df_engine.core.actor.Actor` resets `actor_state`  and
+        returns :py:class:`~df_engine.core.context.Context`.
 
         * key - temporary variable name
         * value - temporary variable data
@@ -108,18 +111,18 @@ class Context(BaseModel):
     @classmethod
     def cast(cls, ctx: Union[Context, dict, str] = {}, *args, **kwargs) -> Context:
         """
-        Transforms different data types to the objects of `Context` class.
+        Transforms different data types to the objects of :py:class:`~df_engine.core.context.Context` class.
 
         Parameters
         ----------
         ctx : Union[Context, dict, str]
-            Different data types, that are used to initialize object of `Context` type.
-            The empty object of `Context` type is created if no data are given.
+            Different data types, that are used to initialize object of :py:class:`~df_engine.core.context.Context`
+            type. The empty object of :py:class:`~df_engine.core.context.Context` type is created if no data are given.
 
         Returns
         -------
         Context
-            Object of `Context` type that is initialized by the input data
+            Object of :py:class:`~df_engine.core.context.Context` type that is initialized by the input data
         """
         if not ctx:
             ctx = Context(*args, **kwargs)
@@ -164,12 +167,13 @@ class Context(BaseModel):
     @validate_arguments
     def add_label(self, label: NodeLabel2Type):
         """
-        Adds to the context the next :py:const:`label <df_engine.core.types.NodeLabel2Type>`, that is correspondent to the next turn.
+        Adds to the context the next :py:const:`label <df_engine.core.types.NodeLabel2Type>`,
+        that is correspondent to the next turn.
         The addition is happening in the `labels`, and `new_index = last_index + 1`
 
         Parameters
         ----------
-        label : NodeLabel2Type
+        label : :py:const:`~df_engine.core.types.NodeLabel2Type`
             `label` that we need to add to the context
         """
         last_index = get_last_index(self.labels)
@@ -178,7 +182,8 @@ class Context(BaseModel):
     @validate_arguments
     def clear(self, hold_last_n_indexes: int, field_names: list[str] = ["requests", "responses", "labels"]):
         """
-        Deletes all recordings from the `requests`/`responses`/`labels` except for the last N turns according to the `hold_last_n_indexes`.
+        Deletes all recordings from the `requests`/`responses`/`labels` except for
+        the last N turns according to the `hold_last_n_indexes`.
         If`field_names` contains `misc` field, `misc` field is fully cleared,
 
         Parameters
@@ -186,7 +191,7 @@ class Context(BaseModel):
         hold_last_n_indexes : int
             number of last turns that remein under clearing
         field_names : list[str]
-             properties of `Context` we need to clear
+             properties of :py:class:`~df_engine.core.context.Context` we need to clear
         """
         if "requests" in field_names:
             for index in list(self.requests)[:-hold_last_n_indexes]:
@@ -203,7 +208,9 @@ class Context(BaseModel):
     @property
     def last_label(self) -> Optional[NodeLabel2Type]:
         """
-        Returns the last `label` of the `Context`. Returns `None` if `labels` is empty
+        Returns the last :py:const:`~df_engine.core.types.NodeLabel2Type` of
+        the :py:class:`~df_engine.core.context.Context`.
+        Returns `None` if `labels` is empty
         """
         last_index = get_last_index(self.labels)
         return self.labels.get(last_index)
@@ -211,7 +218,8 @@ class Context(BaseModel):
     @property
     def last_response(self) -> Optional[Any]:
         """
-        Returns the last `response` of the current `Context`. Returns `None if `responses` is empty`
+        Returns the last `response` of the current :py:class:`~df_engine.core.context.Context`.
+        Returns `None if `responses` is empty
         """
         last_index = get_last_index(self.responses)
         return self.responses.get(last_index)
@@ -219,7 +227,8 @@ class Context(BaseModel):
     @property
     def last_request(self) -> Optional[Any]:
         """
-        Returns the last `request` of the current `Context`. Returns `None if `requests` is empty`
+        Returns the last `request` of the current :py:class:`~df_engine.core.context.Context`.
+        Returns `None if `requests` is empty
         """
         last_index = get_last_index(self.requests)
         return self.requests.get(last_index)

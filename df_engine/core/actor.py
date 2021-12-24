@@ -1,9 +1,9 @@
 """
 Actor
 ---------------------------
-Responsible for checking :py:class:`~df_engine.core.plot.Plot` and
-processing :py:class:`~df_engine.core.context.Context`
-according to :py:class:`~df_engine.core.plot.Plot`.
+The Actor is described here.
+Actor is one of the main abstractions that processes incoming requests (:py:class:`~df_engine.core.context.Context`)
+from the user in accordance with the dialog graph (:py:class:`~df_engine.core.plot.Plot`).
 """
 import logging
 from typing import Union, Callable, Optional

@@ -1,7 +1,7 @@
 """
 Types
 ---------------------------
-
+Basic types are defined here.
 """
 from typing import Union, Callable
 from enum import Enum, auto

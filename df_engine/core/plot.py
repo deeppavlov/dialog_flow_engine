@@ -1,7 +1,7 @@
 """
 Plot
 ---------------------------
-
+Here is a set of pydantic Models for the dialog graph.
 """
 # %%
 

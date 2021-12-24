@@ -1,7 +1,7 @@
 """
 Normalization
 ---------------------------
-The basic set of functions to normalize data in the dialog scenario.
+This is placed basic set of functions to normalize data in the dialog scenario.
 """
 import logging
 
@@ -21,10 +21,12 @@ Actor = BaseModel
 @validate_arguments
 def normalize_label(label: NodeLabelType, default_flow_label: LabelType = "") -> Union[Callable, NodeLabel3Type]:
     """
-    The function which is used for the normalization of  :py:const:`default_flow_label <df_engine.core.types.NodeLabelType>`.
+    The function which is used for the normalization of 
+    :py:const:`default_flow_label <df_engine.core.types.NodeLabelType>`.
 
     Parameters
     ----------
+
     label : :py:const:`label <df_engine.core.types.NodeLabelType>`, we need to normalize.
         If `label` is Callable then function is wrapped into try/except
         and normalization is used on the result of the call of function called `label`.
@@ -73,6 +75,7 @@ def normalize_condition(condition: ConditionType) -> Callable:
 
     Parameters
     ----------
+
     condition : ConditionType
         `condition` to normalize
 
@@ -104,6 +107,7 @@ def normalize_transitions(
 
     Parameters
     ----------
+
     transitions : dict[NodeLabelType, ConditionType]
         `transitions` to normalize
 
@@ -124,6 +128,7 @@ def normalize_response(response: Any) -> Callable:
 
     Parameters
     ----------
+
     response : Any
         `response` to normalize
 
@@ -151,6 +156,7 @@ def normalize_processing(processing: dict[Any, Callable]) -> Callable:
 
     Parameters
     ----------
+
     processing : dict[Any, Callable]
         `processing`, it contains all preprocessing stages in a format "PROC_i"->proc_func_i
 
@@ -181,8 +187,10 @@ def normalize_keywords(
 ) -> dict[LabelType, dict[LabelType, dict[str, Any]]]:
     """
     This function is used to normalize keywords in the plot.
+
     Parameters
     ----------
+
     plot: dict[LabelType, dict[LabelType, dict[Keywords, Any]]]
     plot, containing all transitions between states based in the keywords.
 
