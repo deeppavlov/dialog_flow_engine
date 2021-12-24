@@ -1,7 +1,9 @@
 """
 Conditions
 ---------------------------
-This file contains functions that set the basic conditions for use in scenarios.
+Conditions are one of the most important components of the dialog graph,
+which determine the possibility of transition from one node of the graph to another node.
+This is a standard set of engine conditions.
 """
 from typing import Callable, Pattern, Union, Any
 import logging
@@ -20,7 +22,9 @@ logger = logging.getLogger(__name__)
 @validate_arguments
 def exact_match(match: Any, *args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler returns True only if the last user phrase is exactly the same as the :py:const:`match <any>.`
+    Returns function handler.
+    This handler returns True only if the last user phrase is exactly
+    the same as the :py:const:`match <any>.`
 
     Parameters
     ----------
@@ -39,7 +43,10 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
 @validate_arguments
 def regexp(pattern: Union[str, Pattern], flags: Union[int, re.RegexFlag] = 0, *args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler returns True only if the last user phrase contains :py:const:`pattern <Union[str, Pattern]>` with :py:const:`flags <Union[int, re.RegexFlag]>`.
+    Returns function handler.
+    This handler returns True only if the last user phrase contains
+    :py:const:`pattern <Union[str, Pattern]>` with
+    :py:const:`flags <Union[int, re.RegexFlag]>`.
 
     Parameters
     ----------
@@ -67,7 +74,7 @@ def check_cond_seq(cond_seq: list):
     Parameters
     ----------
 
-    cond_seq: []
+    cond_seq: list
         list of conditions to check
     """
     for cond in cond_seq:
@@ -84,12 +91,13 @@ _all = all
 @validate_arguments
 def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) -> Callable:
     """
-    Aggregates multiple functions into one. Returns function handler.
+    Aggregates multiple functions into one by using agregating function.
+    Returns function handler.
 
     Parameters
     ----------
 
-    cond_seq: []
+    cond_seq: list
         list of conditions to check
     aggregate_func: Callable = _any
         function to aggregate conditions
@@ -108,11 +116,12 @@ def aggregate(cond_seq: list, aggregate_func: Callable = _any, *args, **kwargs) 
 @validate_arguments
 def any(cond_seq: list, *args, **kwargs) -> Callable:
     """
-    Function that return function handler. This handler returns True if any function from the list is True.
+    Function that returns function handler. This handler returns True
+    if any function from the list is True.
 
     Parameters
     ----------
-    cond_seq: []
+    cond_seq: list
         list of conditions to check
     """
     _agg = aggregate(cond_seq, _any)
@@ -126,11 +135,12 @@ def any(cond_seq: list, *args, **kwargs) -> Callable:
 @validate_arguments
 def all(cond_seq: list, *args, **kwargs) -> Callable:
     """
-    Function that return function handler. This handler returns True only if all functions from the list are True.
+    Function that returns function handler. This handler returns True only
+    if all functions from the list are True.
 
     Parameters
     ----------
-    cond_seq: []
+    cond_seq: list
         list of conditions to check
     """
     _agg = aggregate(cond_seq, _all)
@@ -144,11 +154,14 @@ def all(cond_seq: list, *args, **kwargs) -> Callable:
 @validate_arguments
 def negation(condition: Callable, *args, **kwargs) -> Callable:
     """
-    Returns function handler. This handler returns negation of the :py:func:`~condition`: False if :py:func:`~condition` holds True and True otherwise
+    Returns function handler.
+    This handler returns negation of the :py:func:`~condition`: False
+    if :py:func:`~condition` holds True and True otherwise
 
     Parameters
     ----------
     condition: Callable
+        any :py:func:`~condition`
     """
 
     def negation_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
@@ -163,15 +176,18 @@ def has_last_labels(
 ) -> Callable:
     """
     Function returns condition handler.
-    This handler returns True if any label from last :py:const:`last_n_indexes <int>`context labels is in the :py:const:`flow_labels <list[str]>` list or in the :py:const:`labels <list[NodeLabel2Type]>` list.
+    This handler returns True if any label from
+    last :py:const:`last_n_indexes <int>`context labels is in
+    the :py:const:`flow_labels <list[str]>` list or in
+    the :py:const:`labels ~df_engine.core.types.NodeLabel2Type` list.
 
     Parameters
     ----------
-    flow_labels: []
+    flow_labels: list
         list of labels to check.Every label has type `str`. Is empty if not set.
-    labels: []
+    labels: list[:py:const:`~df_engine.core.types.NodeLabel2Type`]
         list of labels that correspond to the nodes. Is empty is not set.
-    last_n_indexes: 1
+    last_n_indexes: int
         number of last utterances to check.
     """
 

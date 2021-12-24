@@ -1,6 +1,11 @@
 """
 Labels
 ---------------------------
+:py:const:`Labels <df_engine.core.types.NodeLabel3Type>` are one of
+the most important components of the dialog graph,
+which determine targeted node name of transition.
+This is a standard set of engine
+:py:const:`labels <df_engine.core.types.NodeLabelType>`.
 
 """
 from typing import Optional, Callable
@@ -11,14 +16,17 @@ from .core.types import NodeLabel3Type
 
 def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     """
-    Returns transition handler that takes `Context`, `Actor` and `priority`.
-    This handler transitions to the last node with a given  :py:const:`priority <float>`.
-    If the priority is not given, `actor.label_priority` is used.
+    Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
+    :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
+    This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
+    to the last node with a given  :py:const:`priority <float>`.
+    If the priority is not given, `Actor.label_priority` is used as default.
 
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
+    priority: Optional[float] = None
+        float priority of transition. Uses `Actor.label_priority` if priority not defined.
     """
 
     def repeat_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -34,14 +42,17 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     """
-    Returns transition handler that takes `Context`, `Actor` and `priority`.
-    This handler transitions to the previous node with a given :py:const:`priority <float>`.
-    If the priority is not given, `actor.label_priority` is used.
+    Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
+    :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
+    This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
+    to the previous node with a given :py:const:`priority <float>`.
+    If the priority is not given, `Actor.label_priority` is used as default.
 
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
+    priority: Optional[float] = None
+        float priority of transition. Uses `Actor.label_priority` if priority not defined.
     """
 
     def previous_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -57,14 +68,17 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     """
-    Returns transition handler that takes `Context`, `Actor` and `priority`.
-    This handler transitions to the start node with a given :py:const:`priority <float>`.
-    If the priority is not given, `actor.label_priority` is used.
+    Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
+    :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
+    This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
+    to the start node with a given :py:const:`priority <float>`.
+    If the priority is not given, `Actor.label_priority` is used as default.
 
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if  :py:const:`priority <float>` not defined.
+    priority: Optional[float] = None
+        float priority of transition. Uses `Actor.label_priority` if :py:const:`priority <float>` not defined.
     """
 
     def to_start_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -76,14 +90,17 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     """
-    Returns transition handler that takes `Context`, `Actor` and `priority`.
-    This handler transitions to the fallback node with a given :py:const:`priority <float>`.
-    If the priority is not given, `actor.label_priority` is used.
+    Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
+    :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
+    This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
+    to the fallback node with a given :py:const:`priority <float>`.
+    If the priority is not given, `Actor.label_priority` is used as default.
 
     Parameters
     -----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if  :py:const:`priority <float>` not defined.
+    priority: Optional[float] = None
+        float priority of transition. Uses `Actor.label_priority` if :py:const:`priority <float>` not defined.
     """
 
     def to_fallback_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -140,14 +157,18 @@ def _get_label_by_index_shifting(
 
 def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
     """
-    Returns transition handler that takes `Context`, `Actor` and `priority`.
-    This handler transitions to the forward node with a given :py:const:`priority <float>` and :py:const:`cyclicality_flag <bool>`.
-    If the priority is not given, `actor.label_priority` is used.
+    Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
+    :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
+    This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
+    to the forward node with a given :py:const:`priority <float>`
+    and :py:const:`cyclicality_flag <bool>`.
+    If the priority is not given, `Actor.label_priority` is used as default.
 
     Parameters
     ----------
 
-    priority - float priority of transition. Used `actor.label_priority` if not defined.
+    priority: Optional[float] = None
+        float priority of transition. Used `Actor.label_priority` if not defined.
     """
 
     def forward_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -160,14 +181,18 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
 
 def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
     """
-    Returns transition handler that takes `Context`, `Actor` and `priority`.
-    This handler transitions to the backward node with a given :py:const:`priority <float>` and :py:const:`cyclicality_flag <bool>`.
-    If the priority is not given, `actor.label_priority` is used.
+    Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
+    :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
+    This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
+    to the backward node with a given :py:const:`priority <float>`
+    and :py:const:`cyclicality_flag <bool>`.
+    If the priority is not given, `Actor.label_priority` is used as default.
 
     Parameters
     ----------
 
-    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
+    priority: Optional[float] = None
+        float priority of transition. Uses `Actor.label_priority` if priority not defined.
     """
 
     def back_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
