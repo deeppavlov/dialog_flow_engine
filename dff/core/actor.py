@@ -2,8 +2,8 @@
 Actor
 ---------------------------
 Responsible for checking :py:class:`~dff.core.plot.Plot` and
-processing :py:class:`~dff.core.context.Context` 
-according to :py:class:`~dff.core.plot.Plot`. 
+processing :py:class:`~dff.core.context.Context`
+according to :py:class:`~dff.core.plot.Plot`.
 """
 import logging
 from typing import Union, Callable, Optional
@@ -28,7 +28,8 @@ def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = N
     Parameters
     ----------
     error_msgs : list
-       List that contains error messages. :py:func:`~dff.core.actor.error_handler` adds every next error message to that list.
+       List that contains error messages. :py:func:`~dff.core.actor.error_handler`
+       adds every next error message to that list.
     msg: str
         Error message which is to be added into `error_msgs`.
     exception : Optional[Exception]
@@ -42,7 +43,8 @@ def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = N
 
 class Actor(BaseModel):
     """
-    The class which is used to process :py:class:`~dff.core.context.Context` according to the :py:class:`~dff.core.plot.Plot`.
+    The class which is used to process :py:class:`~dff.core.context.Context`
+    according to the :py:class:`~dff.core.plot.Plot`.
 
     Parameters
     ----------
@@ -71,7 +73,8 @@ class Actor(BaseModel):
         If it is True, we use logging.
 
     handlers: dict[ActorStage, list[Callable]] = {}
-        This variable is responsible for the usage of external handlers on the certain stages of work of :py:class:`~dff.core.actor.Actor`.
+        This variable is responsible for the usage of external handlers on
+        the certain stages of work of :py:class:`~dff.core.actor.Actor`.
 
         * key: :py:class:`~dff.core.types.ActorStage` - stage when the handler is called
         * value: list[Callable] - the list of called handlers for each stage
