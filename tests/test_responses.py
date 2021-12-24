@@ -1,6 +1,6 @@
 # %%
-from dfe.core import Context, Actor
-import dfe.responses as rsp
+from df_engine.core import Context, Actor
+import df_engine.responses as rsp
 
 
 def test_response():

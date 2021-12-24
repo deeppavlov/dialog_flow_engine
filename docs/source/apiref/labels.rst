@@ -1,2 +1,2 @@
-.. automodule:: dfe.labels
+.. automodule:: df_engine.labels
    :members:

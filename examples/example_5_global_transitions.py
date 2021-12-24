@@ -1,10 +1,10 @@
 import logging
 import re
 
-from dfe.core.keywords import GLOBAL, TRANSITIONS, RESPONSE
-from dfe.core import Context, Actor
-import dfe.conditions as cnd
-import dfe.labels as lbl
+from df_engine.core.keywords import GLOBAL, TRANSITIONS, RESPONSE
+from df_engine.core import Context, Actor
+import df_engine.conditions as cnd
+import df_engine.labels as lbl
 
 from examples import example_1_basics
 

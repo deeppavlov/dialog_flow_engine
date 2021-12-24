@@ -1,2 +1,2 @@
-.. automodule:: dfe.core.context
+.. automodule:: df_engine.core.context
    :members:

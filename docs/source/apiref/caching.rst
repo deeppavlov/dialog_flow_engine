@@ -1,2 +1,2 @@
-.. automodule:: dfe.caching
+.. automodule:: df_engine.caching
    :members:

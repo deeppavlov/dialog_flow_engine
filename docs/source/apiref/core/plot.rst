@@ -1,2 +1,2 @@
-.. automodule:: dfe.core.plot
+.. automodule:: df_engine.core.plot
    :members:

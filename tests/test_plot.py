@@ -3,8 +3,8 @@ import itertools
 from typing import Callable
 
 
-from dfe.core import Plot, Node
-from dfe.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
+from df_engine.core import Plot, Node
+from df_engine.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
 
 
 def positive_test(samples, custom_class):

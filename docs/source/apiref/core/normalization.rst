@@ -1,2 +1,2 @@
-.. automodule:: dfe.core.normalization
+.. automodule:: df_engine.core.normalization
    :members:

@@ -1,2 +1,2 @@
-.. automodule:: dfe.core.keywords
+.. automodule:: df_engine.core.keywords
    :members:

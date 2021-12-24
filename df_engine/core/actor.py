@@ -1,9 +1,9 @@
 """
 Actor
 ---------------------------
-Responsible for checking :py:class:`~dfe.core.plot.Plot` and
-processing :py:class:`~dfe.core.context.Context`
-according to :py:class:`~dfe.core.plot.Plot`.
+Responsible for checking :py:class:`~df_engine.core.plot.Plot` and
+processing :py:class:`~df_engine.core.context.Context`
+according to :py:class:`~df_engine.core.plot.Plot`.
 """
 import logging
 from typing import Union, Callable, Optional
@@ -23,12 +23,12 @@ logger = logging.getLogger(__name__)
 
 def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = None, logging_flag: bool = True):
     """
-    This function processes errors in the process of :py:class:`~dfe.core.plot.Plot` validation.
+    This function processes errors in the process of :py:class:`~df_engine.core.plot.Plot` validation.
 
     Parameters
     ----------
     error_msgs : list
-       List that contains error messages. :py:func:`~dfe.core.actor.error_handler`
+       List that contains error messages. :py:func:`~df_engine.core.actor.error_handler`
        adds every next error message to that list.
     msg: str
         Error message which is to be added into `error_msgs`.
@@ -43,25 +43,25 @@ def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = N
 
 class Actor(BaseModel):
     """
-    The class which is used to process :py:class:`~dfe.core.context.Context`
-    according to the :py:class:`~dfe.core.plot.Plot`.
+    The class which is used to process :py:class:`~df_engine.core.context.Context`
+    according to the :py:class:`~df_engine.core.plot.Plot`.
 
     Parameters
     ----------
 
     plot: Union[Plot, dict]
-       The dialog scenario: a graph described by the :py:class:`~dfe.core.keywords.Keywords`.
+       The dialog scenario: a graph described by the :py:class:`~df_engine.core.keywords.Keywords`.
        While the graph is being initialized, it passes validation and after that it is used for the dialog.
 
-    start_label: :py:const:`~dfe.core.types.NodeLabel3Type`
-       The start node of :py:class:`~dfe.core.plot.Plot`. The execution starts from it.
+    start_label: :py:const:`~df_engine.core.types.NodeLabel3Type`
+       The start node of :py:class:`~df_engine.core.plot.Plot`. The execution starts from it.
 
-    fallback_label: Optional[:py:const:`~dfe.core.types.NodeLabel3Type`] = None
-       The label of :py:class:`~dfe.core.plot.Plot`.
+    fallback_label: Optional[:py:const:`~df_engine.core.types.NodeLabel3Type`] = None
+       The label of :py:class:`~df_engine.core.plot.Plot`.
        Dialog comes into that label if all other transitions failed, or there was an error while executing the scenario.
 
     label_priority: float = 1.0
-       Default priority value for all :py:const:`labels <dfe.core.types.NodeLabel3Type>` where there is no priority.
+       Default priority value for all :py:const:`labels <df_engine.core.types.NodeLabel3Type>` where there is no priority.
 
     validation_stage: Optional[bool] = None
        This flag sets whether the validation stage is executed. It is executed by default.
@@ -74,9 +74,9 @@ class Actor(BaseModel):
 
     handlers: dict[ActorStage, list[Callable]] = {}
         This variable is responsible for the usage of external handlers on
-        the certain stages of work of :py:class:`~dfe.core.actor.Actor`.
+        the certain stages of work of :py:class:`~df_engine.core.actor.Actor`.
 
-        * key: :py:class:`~dfe.core.types.ActorStage` - stage when the handler is called
+        * key: :py:class:`~df_engine.core.types.ActorStage` - stage when the handler is called
         * value: list[Callable] - the list of called handlers for each stage
     """
 
@@ -355,6 +355,6 @@ def deep_copy_condition_handler(condition: Callable, ctx: Context, actor: Actor,
     ctx: Context
         context of current condition
     actor: Actor
-        :py:class:`~dfe.core.actor.Actor` we use in this condition
+        :py:class:`~df_engine.core.actor.Actor` we use in this condition
     """
     return condition(ctx.copy(deep=True), actor.copy(deep=True), *args, **kwargs)

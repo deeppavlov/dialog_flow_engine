@@ -1,11 +1,11 @@
 import logging
 import re
 
-from dfe.core.keywords import TRANSITIONS, RESPONSE
-from dfe.core import Context, Actor
-import dfe.conditions as cnd
-import dfe.labels as lbl
-from dfe.core.types import NodeLabel3Type
+from df_engine.core.keywords import TRANSITIONS, RESPONSE
+from df_engine.core import Context, Actor
+import df_engine.conditions as cnd
+import df_engine.labels as lbl
+from df_engine.core.types import NodeLabel3Type
 
 from examples import example_1_basics
 

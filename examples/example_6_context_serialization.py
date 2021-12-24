@@ -1,10 +1,10 @@
 import logging
 
-from dfe.core.keywords import TRANSITIONS, RESPONSE
-from dfe.core import Context, Actor
+from df_engine.core.keywords import TRANSITIONS, RESPONSE
+from df_engine.core import Context, Actor
 
 from examples import example_1_basics
-import dfe.conditions as cnd
+import df_engine.conditions as cnd
 
 logging.basicConfig(
     format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s", level=logging.INFO

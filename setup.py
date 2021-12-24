@@ -38,7 +38,7 @@ def read_requirements():
 
 
 setup(
-    name="dfe",
+    name="df_engine",
     version="0.2.b3",
     description=description,
     long_description=long_description,

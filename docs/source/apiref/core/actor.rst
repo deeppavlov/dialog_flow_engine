@@ -1,2 +1,2 @@
-.. automodule:: dfe.core.actor
+.. automodule:: df_engine.core.actor
    :members:

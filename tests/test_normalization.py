@@ -1,14 +1,14 @@
 # %%
 from typing import Callable
 
-from dfe.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
-from dfe.core import Actor, Context
-from dfe.core.types import NodeLabel3Type
-from dfe.labels import repeat
-from dfe.conditions import true
+from df_engine.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
+from df_engine.core import Actor, Context
+from df_engine.core.types import NodeLabel3Type
+from df_engine.labels import repeat
+from df_engine.conditions import true
 
-# from dfe.labels
-from dfe.core.normalization import (
+# from df_engine.labels
+from df_engine.core.normalization import (
     normalize_condition,
     normalize_keywords,
     normalize_label,

@@ -1,2 +1,2 @@
-.. automodule:: dfe.core.types
+.. automodule:: df_engine.core.types
    :members:

@@ -1,9 +1,9 @@
 import logging
 import re
 
-from dfe.core.keywords import TRANSITIONS, RESPONSE
-from dfe.core import Actor, Context
-import dfe.conditions as cnd
+from df_engine.core.keywords import TRANSITIONS, RESPONSE
+from df_engine.core import Actor, Context
+import df_engine.conditions as cnd
 
 from examples import example_1_basics
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 # If the function returns the value `true`, then the actor performs the corresponding transition.
 # Condition functions have signature ```def func(ctx: Context, actor: Actor, *args, **kwargs) -> bool```
 
-# Out of the box, dfe offers 8 options for setting conditions:
+# Out of the box, df_engine offers 8 options for setting conditions:
 # - `exact_match` - will return `true` if the user's request completely matches the value passed to the function.
 # - `regexp` - will return `true` if the pattern matches the user's request, while the user's request must be a string.
 # -            `regexp` has same signature as `re.compile` function.

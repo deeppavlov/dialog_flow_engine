@@ -108,9 +108,9 @@ def _get_label_by_index_shifting(
     Parameters
     ----------
 
-    ctx: :py:class:`~dfe.core.context.Context`
+    ctx: :py:class:`~df_engine.core.context.Context`
         dialog context
-    actor: :py:class:`~dfe.core.actor.Actor`
+    actor: :py:class:`~df_engine.core.actor.Actor`
         dialog actor
     priority: Optional[float] = None
         priority of transition. Used actor.label_priority if not set.
