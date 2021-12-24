@@ -1,6 +1,9 @@
 
 # Dialog Flow Engine
-<!-- [![Documentation Status](https://df_engine.readthedocs.io/en/stable/?badge=stable)](https://readthedocs.org/projects/df_engine/badge/?version=stable) -->
+
+The Dialog Flow Engine (DFE) is a dialogue systems development environment that supports both rapid prototyping and long-term team development workflow for dialogue systems. A simple structure allows easily building and visualizing a dialogue graph.
+
+[![Documentation Status](https://df_engine.readthedocs.io/en/stable/?badge=stable)](https://readthedocs.org/projects/df_engine/badge/?version=stable)
 <!-- [![Coverage Status](https://coveralls.io/repos/github/deepmipt/dialog_flow_engine/badge.svg?branch=main)](https://coveralls.io/github/deepmipt/dialog_flow_engine?branch=main) -->
 [![Codestyle](https://github.com/deepmipt/dialog_flow_engine/workflows/codestyle/badge.svg)](https://github.com/deepmipt/dialog_flow_engine/actions)
 [![Tests](https://github.com/deepmipt/dialog_flow_engine/workflows/test_coverage/badge.svg)](https://github.com/deepmipt/dialog_flow_engine/actions)
@@ -8,8 +11,6 @@
 ![Python 3.6, 3.7, 3.8, 3.9](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-green.svg)
 [![PyPI](https://img.shields.io/pypi/v/df_engine)](https://pypi.org/project/df_engine/)
 [![Downloads](https://pepy.tech/badge/df_engine)](https://pepy.tech/project/df_engine)
-
-The Dialog Flow Engine (DFE) is a dialogue systems development environment that supports both rapid prototyping and long-term team development workflow for dialogue systems. A simple structure allows easily building and visualizing a dialogue graph.
 
 # Links
 [Github](https://github.com/deepmipt/dialog_flow_engine)
