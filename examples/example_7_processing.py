@@ -47,7 +47,10 @@ def add_prefix(prefix):
 
 # a dialog script
 plot = {
-    "root": {"start": {RESPONSE: "", TRANSITIONS: {("flow", "step_0"): cnd.true()}}, "fallback": {RESPONSE: "the end"}},
+    "root": {
+        "start": {RESPONSE: "", TRANSITIONS: {("flow", "step_0"): cnd.true()}},
+        "fallback": {RESPONSE: "the end"},
+    },
     GLOBAL: {PROCESSING: {1: add_prefix("l1_global"), 2: add_prefix("l2_global")}},
     "flow": {
         LOCAL: {PROCESSING: {2: add_prefix("l2_local"), 3: add_prefix("l3_local")}},
