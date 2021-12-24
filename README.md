@@ -1,7 +1,7 @@
 
 # Dialog Flow Engine
 
-The Dialog Flow Engine (DFE) is a dialogue systems development environment that supports both rapid prototyping and long-term team development workflow for dialogue systems. A simple structure allows easily building and visualizing a dialogue graph.
+The Dialog Flow Engine (DFE) allows you to write conversational services. The service is written by defining a special dialog graph that describes the behavior of the dialog service. The dialog graph contains the dialog script. DFE offers a specialized language (DSL) for quickly writing dialog graphs. You can use it in such services for writing skills for Amazon Alexa and etc, chat-bots for social networks, websites call-centers and etc. 
 
 [![Documentation Status](https://df_engine.readthedocs.io/en/stable/?badge=stable)](https://readthedocs.org/projects/df_engine/badge/?version=stable)
 <!-- [![Coverage Status](https://coveralls.io/repos/github/deepmipt/dialog_flow_engine/badge.svg?branch=main)](https://coveralls.io/github/deepmipt/dialog_flow_engine?branch=main) -->
@@ -12,11 +12,7 @@ The Dialog Flow Engine (DFE) is a dialogue systems development environment that 
 [![PyPI](https://img.shields.io/pypi/v/df_engine)](https://pypi.org/project/df_engine/)
 [![Downloads](https://pepy.tech/badge/df_engine)](https://pepy.tech/project/df_engine)
 
-# Links
-[Github](https://github.com/deepmipt/dialog_flow_engine)
-
 # Quick Start
-
 ## Installation
 ```bash
 pip install df_engine
@@ -77,10 +73,6 @@ Okey
 ```
 
 To get more advanced examples, take a look at [examples](https://github.com/deepmipt/dialog_flow_engine/tree/dev/examples) on GitHub.
-
-## Extentions 
-<!-- ### List of extentions -->
-<!-- ### Your own extention -->
 
 # Contributing to the Dialog Flow Engine
 
