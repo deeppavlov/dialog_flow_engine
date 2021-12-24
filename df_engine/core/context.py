@@ -23,7 +23,8 @@ Context = ForwardRef("Context")
 @validate_arguments
 def sort_dict_keys(dictionary: dict) -> dict:
     """
-    Sorting of keys in the `dictionary`. It is nesessary to do it after the deserialization: keys deserialize in a random order.
+    Sorting of keys in the `dictionary`.
+    It is nesessary to do it after the deserialization: keys deserialize in a random order.
     """
     return {key: dictionary[key] for key in sorted(dictionary)}
 
@@ -40,8 +41,10 @@ def get_last_index(dictionary: dict) -> int:
 class Context(BaseModel):
     """
     The structure which is used for the storage of data about the dialog context.
+
     Parameters
     ----------
+
     id : Union[UUID, int, str]
         `id` is the unique context identifier.
         By default, the `id` which is randomly generated using `uuid4` is used.
@@ -75,11 +78,13 @@ class Context(BaseModel):
 
     validation : bool
         `validation` is a flag that signals that `Actor`, while being initialized, checks the `Plot`.
-        The functions that can give not validable data while being validated must use this flag to take the validation mode into account.
+        The functions that can give not validable data
+        while being validated must use this flag to take the validation mode into account.
         Otherwise the validation will not be passed.
 
     actor_state : dict[str, Any]
-        `actor_state` or `a_s` is used every time while processing the `Context`. `Actor` records all its intermediate conditions into the `actor_state`.
+        `actor_state` or `a_s` is used every time while processing the `Context`.
+        `Actor` records all its intermediate conditions into the `actor_state`.
         After `Context` processing is finished, `Actor` resets `actor_state`  and returns `Context`.
 
         * key - temporary variable name
