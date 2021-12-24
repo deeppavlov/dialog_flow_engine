@@ -50,10 +50,7 @@ def upper_case_response(response: str):
 
 def fallback_trace_response(ctx: Context, actor: Actor, *args, **kwargs) -> Any:
     logger.warning(f"ctx={ctx}")
-    return {
-        "previous_node": list(ctx.labels.values())[-2],
-        "last_request": ctx.last_request,
-    }
+    return {"previous_node": list(ctx.labels.values())[-2], "last_request": ctx.last_request}
 
 
 plot = {
@@ -70,27 +67,17 @@ plot = {
             RESPONSE: "Good. What do you want to talk about?",
             TRANSITIONS: {"node3": cnd.exact_match("Let's talk about music.")},
         },
-        "node3": {
-            RESPONSE: cannot_talk_about_topic_response,
-            TRANSITIONS: {"node4": cnd.exact_match("Ok, goodbye.")},
-        },
-        "node4": {
-            RESPONSE: upper_case_response("bye"),
-            TRANSITIONS: {"node1": cnd.exact_match("Hi")},
-        },
+        "node3": {RESPONSE: cannot_talk_about_topic_response, TRANSITIONS: {"node4": cnd.exact_match("Ok, goodbye.")}},
+        "node4": {RESPONSE: upper_case_response("bye"), TRANSITIONS: {"node1": cnd.exact_match("Hi")}},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
             RESPONSE: fallback_trace_response,
             TRANSITIONS: {"node1": cnd.exact_match("Hi")},
         },
-    },
+    }
 }
 
 
-actor = Actor(
-    plot,
-    start_label=("greeting_flow", "start_node"),
-    fallback_label=("greeting_flow", "fallback_node"),
-)
+actor = Actor(plot, start_label=("greeting_flow", "start_node"), fallback_label=("greeting_flow", "fallback_node"))
 
 
 # testing
@@ -122,8 +109,7 @@ def run_test():
 
 if __name__ == "__main__":
     logging.basicConfig(
-        format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s",
-        level=logging.INFO,
+        format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s", level=logging.INFO
     )
     # run_test()
     example_1_basics.run_interactive_mode(actor)

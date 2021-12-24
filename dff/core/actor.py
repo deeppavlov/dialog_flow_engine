@@ -1,7 +1,9 @@
 """
 Actor
 ---------------------------
-Отвечает за проверку `Plot` и обработку `Context` в соответствии с `Plot`.
+Responsible for checking :py:class:`~dff.core.plot.Plot` and
+processing :py:class:`~dff.core.context.Context`
+according to :py:class:`~dff.core.plot.Plot`.
 """
 import logging
 from typing import Union, Callable, Optional
@@ -16,24 +18,24 @@ from .plot import Plot, Node
 from .normalization import normalize_label, normalize_response
 from .keywords import GLOBAL, LOCAL
 
-
 logger = logging.getLogger(__name__)
 
 
 def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = None, logging_flag: bool = True):
     """
-    Обработчик ошибок во время валидации `Plot`.
+    This function processes errors in the process of :py:class:`~dff.core.plot.Plot` validation.
 
     Parameters
     ----------
     error_msgs : list
-        Список содержащий все сообщения об ошибке, `error_handler` добавляет в него каждое следующее сообщение об ошибке.
+       List that contains error messages. :py:func:`~dff.core.actor.error_handler`
+       adds every next error message to that list.
     msg: str
-        Сообщение об ошшибке, будет добавленно в `error_msgs`.
+        Error message which is to be added into `error_msgs`.
     exception : Optional[Exception]
-        Вызванное исключение, если было используется для получения трейсбэка при логгировании.
+        Invoked exception. If it was set, it is used to obtain logging traceback.
     logging_flag : bool
-        Флаг, определяющий необходимость логгирования
+        The flag which defines whether logging is nesessary.
     """
     error_msgs.append(msg)
     logging_flag and logger.error(msg, exc_info=exception)
@@ -41,37 +43,41 @@ def error_handler(error_msgs: list, msg: str, exception: Optional[Exception] = N
 
 class Actor(BaseModel):
     """
-    Класс, который используется для обработки `Context` в соответствии с `Plot`.
+    The class which is used to process :py:class:`~dff.core.context.Context`
+    according to the :py:class:`~dff.core.plot.Plot`.
 
     Parameters
     ----------
-    plot : Union[Plot, dict]
-        Сценарий диалога, при инициализации проходит валидацию и далее испрользуется для ведения диалога.
-        `Plot` представляет из себя граф, описанный по средствам ключевых слов.
 
-    start_label : NodeLabel3Type
-        Стартовая нода графа `Plot`, с которой начинается исполнение.
+    plot: Union[Plot, dict]
+       The dialog scenario: a graph described by the :py:class:`~dff.core.keywords.Keywords`.
+       While the graph is being initialized, it passes validation and after that it is used for the dialog.
 
-    fallback_label: Optional[NodeLabel3Type] = None
-        Нода графа `Plot`, в которорую переходит диалог, в случае если все остальные переходы не отработали.
-        Или позникла ошибка приисполгнении сценария.
+    start_label: :py:const:`~dff.core.types.NodeLabel3Type`
+       The start node of :py:class:`~dff.core.plot.Plot`. The execution starts from it.
+
+    fallback_label: Optional[:py:const:`~dff.core.types.NodeLabel3Type`] = None
+       The label of :py:class:`~dff.core.plot.Plot`.
+       Dialog comes into that label if all other transitions failed, or there was an error while executing the scenario.
 
     label_priority: float = 1.0
-        Значение приоритета поумолчанию для всех `label`, у которых не указан приоритет.
+       Default priority value for all :py:const:`labels <dff.core.types.NodeLabel3Type>` where there is no priority.
 
     validation_stage: Optional[bool] = None
-        Флаг задает выполнение стадии валидации, по умолчанию валидация выполняется.
+       This flag sets whether the validation stage is executed. It is executed by default.
 
     condition_handler: Optional[Callable] = None
-        Хэндлер обратывающий вызов фукций кондишенов.
+       Handler that processes a call of condition functions.
 
     verbose: bool = True
-        Задает подробность логгирования.
+        If it is True, we use logging.
 
     handlers: dict[ActorStage, list[Callable]] = {}
-        Отвечает за использование внешних хэндлеров на определенной стадиии работы `Actor`.
-        * ключ: ActorStage - стадия, на которой происходит выхов хэндлера
-        * значение:list[Callable] - список вызываемых хэндлеров для определенной стадии
+        This variable is responsible for the usage of external handlers on
+        the certain stages of work of :py:class:`~dff.core.actor.Actor`.
+
+        * key: :py:class:`~dff.core.types.ActorStage` - stage when the handler is called
+        * value: list[Callable] - the list of called handlers for each stage
     """
 
     plot: Union[Plot, dict]
@@ -190,10 +196,7 @@ class Actor(BaseModel):
         # LOCAL
         ctx.a_s["local_transitions"] = self.plot.get(ctx.a_s["previous_label"][0], {}).get(LOCAL, Node()).transitions
         ctx.a_s["local_true_label"] = self._get_true_label(
-            ctx.a_s["local_transitions"],
-            ctx,
-            ctx.a_s["previous_label"][0],
-            "local",
+            ctx.a_s["local_transitions"], ctx, ctx.a_s["previous_label"][0], "local"
         )
 
         # NODE
@@ -201,10 +204,7 @@ class Actor(BaseModel):
             self.plot.get(ctx.a_s["previous_label"][0], {}).get(ctx.a_s["previous_label"][1], Node()).transitions
         )
         ctx.a_s["node_true_label"] = self._get_true_label(
-            ctx.a_s["node_transitions"],
-            ctx,
-            ctx.a_s["previous_label"][0],
-            "node",
+            ctx.a_s["node_transitions"], ctx, ctx.a_s["previous_label"][0], "node"
         )
         return ctx
 
@@ -240,13 +240,7 @@ class Actor(BaseModel):
 
     @validate_arguments
     def _get_true_label(
-        self,
-        transitions: dict,
-        ctx: Context,
-        flow_label: LabelType,
-        transition_info: str = "",
-        *args,
-        **kwargs,
+        self, transitions: dict, ctx: Context, flow_label: LabelType, transition_info: str = "", *args, **kwargs
     ) -> Optional[NodeLabel3Type]:
         true_labels = []
         for label, condition in transitions.items():
@@ -275,9 +269,7 @@ class Actor(BaseModel):
 
     @validate_arguments
     def _choose_label(
-        self,
-        specific_label: Optional[NodeLabel3Type],
-        general_label: Optional[NodeLabel3Type],
+        self, specific_label: Optional[NodeLabel3Type], general_label: Optional[NodeLabel3Type]
     ) -> NodeLabel3Type:
         if all([specific_label, general_label]):
             chosen_label = specific_label if specific_label[2] >= general_label[2] else general_label
@@ -288,10 +280,7 @@ class Actor(BaseModel):
         return chosen_label
 
     @validate_arguments
-    def validate_plot(
-        self,
-        verbose: bool = True,
-    ):
+    def validate_plot(self, verbose: bool = True):
         # TODO: plot has to not contain priority == -inf, because it uses for miss values
         flow_labels = []
         node_labels = []
@@ -355,4 +344,17 @@ class Actor(BaseModel):
 
 @validate_arguments()
 def deep_copy_condition_handler(condition: Callable, ctx: Context, actor: Actor, *args, **kwargs):
+    """
+    This function returns deep copy of callable conditions:
+
+    Parameters
+    ----------
+
+    condition: Callable
+        condition to copy
+    ctx: Context
+        context of current condition
+    actor: Actor
+        :py:class:`~dff.core.actor.Actor` we use in this condition
+    """
     return condition(ctx.copy(deep=True), actor.copy(deep=True), *args, **kwargs)

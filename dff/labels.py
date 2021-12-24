@@ -10,6 +10,17 @@ from .core.types import NodeLabel3Type
 
 
 def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that takes `Context`, `Actor` and `priority`.
+    This handler transitions to the last node with a given  :py:const:`priority <float>`.
+    If the priority is not given, `actor.label_priority` is used.
+
+    Parameters
+    -----------
+
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
+    """
+
     def repeat_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 1:
@@ -22,6 +33,17 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 
 def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that takes `Context`, `Actor` and `priority`.
+    This handler transitions to the previous node with a given :py:const:`priority <float>`.
+    If the priority is not given, `actor.label_priority` is used.
+
+    Parameters
+    -----------
+
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
+    """
+
     def previous_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 2:
@@ -34,6 +56,17 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 
 def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that takes `Context`, `Actor` and `priority`.
+    This handler transitions to the start node with a given :py:const:`priority <float>`.
+    If the priority is not given, `actor.label_priority` is used.
+
+    Parameters
+    -----------
+
+    priority - float priority of transition. Uses `actor.label_priority` if  :py:const:`priority <float>` not defined.
+    """
+
     def to_start_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         return (*actor.start_label[:2], current_priority)
@@ -42,6 +75,17 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
 
 
 def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that takes `Context`, `Actor` and `priority`.
+    This handler transitions to the fallback node with a given :py:const:`priority <float>`.
+    If the priority is not given, `actor.label_priority` is used.
+
+    Parameters
+    -----------
+
+    priority - float priority of transition. Uses `actor.label_priority` if  :py:const:`priority <float>` not defined.
+    """
+
     def to_fallback_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         return (*actor.fallback_label[:2], current_priority)
@@ -58,6 +102,27 @@ def _get_label_by_index_shifting(
     *args,
     **kwargs,
 ) -> NodeLabel3Type:
+    """
+    Function that returns node label from the context and actor after shifting the index.
+
+    Parameters
+    ----------
+
+    ctx: :py:class:`~dff.core.context.Context`
+        dialog context
+    actor: :py:class:`~dff.core.actor.Actor` 
+        dialog actor
+    priority: Optional[float] = None
+        priority of transition. Used actor.label_priority if not set.
+    increment_flag: if it is True, label index is incremented by 1,otherwise it is decreased by 1
+    cyclicality_flag: if it is True, the iteration over the label list is going cyclically
+    (e.g the element with index=len(labels) has index=0)
+
+    Returned values: the tuple that consists of (flow_label, label, priority).
+    If fallback is executed, (flow_fallback_label, fallback_label, priority) are returned.
+
+
+    """
     flow_label, node_label, current_priority = repeat(priority, *args, **kwargs)(ctx, actor, *args, **kwargs)
     labels = list(actor.plot.get(flow_label, {}))
 
@@ -74,26 +139,40 @@ def _get_label_by_index_shifting(
 
 
 def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that takes `Context`, `Actor` and `priority`.
+    This handler transitions to the forward node with a given :py:const:`priority <float>` and :py:const:`cyclicality_flag <bool>`.
+    If the priority is not given, `actor.label_priority` is used.
+
+    Parameters
+    ----------
+
+    priority - float priority of transition. Used `actor.label_priority` if not defined.
+    """
+
     def forward_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
-            ctx,
-            actor,
-            priority,
-            increment_flag=True,
-            cyclicality_flag=cyclicality_flag,
+            ctx, actor, priority, increment_flag=True, cyclicality_flag=cyclicality_flag
         )
 
     return forward_transition_handler
 
 
 def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
+    """
+    Returns transition handler that takes `Context`, `Actor` and `priority`.
+    This handler transitions to the backward node with a given :py:const:`priority <float>` and :py:const:`cyclicality_flag <bool>`.
+    If the priority is not given, `actor.label_priority` is used.
+
+    Parameters
+    ----------
+
+    priority - float priority of transition. Uses `actor.label_priority` if priority not defined.
+    """
+
     def back_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
-            ctx,
-            actor,
-            priority,
-            increment_flag=False,
-            cyclicality_flag=cyclicality_flag,
+            ctx, actor, priority, increment_flag=False, cyclicality_flag=cyclicality_flag
         )
 
     return back_transition_handler

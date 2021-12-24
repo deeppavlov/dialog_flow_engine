@@ -109,21 +109,14 @@ def test_normalize_processing():
 
 def test_normalize_keywords():
     # TODO: Add full check for functions
-    node_template = {
-        TRANSITIONS: {"node": std_func},
-        RESPONSE: "text",
-        PROCESSING: {1: std_func},
-        MISC: {"key": "val"},
-    }
+    node_template = {TRANSITIONS: {"node": std_func}, RESPONSE: "text", PROCESSING: {1: std_func}, MISC: {"key": "val"}}
     node_template_gold = {
         TRANSITIONS.name.lower(): {"node": std_func},
         RESPONSE.name.lower(): "text",
         PROCESSING.name.lower(): {1: std_func},
         MISC.name.lower(): {"key": "val"},
     }
-    plot = {
-        "flow": {"node": node_template.copy()},
-    }
+    plot = {"flow": {"node": node_template.copy()}}
     plot = normalize_keywords(plot)
     assert isinstance(plot, dict)
     assert plot["flow"]["node"] == node_template_gold
@@ -131,22 +124,14 @@ def test_normalize_keywords():
 
 def test_normalize_plot():
     # TODO: Add full check for functions
-    node_template = {
-        TRANSITIONS: {"node": std_func},
-        RESPONSE: "text",
-        PROCESSING: {1: std_func},
-        MISC: {"key": "val"},
-    }
+    node_template = {TRANSITIONS: {"node": std_func}, RESPONSE: "text", PROCESSING: {1: std_func}, MISC: {"key": "val"}}
     node_template_gold = {
         TRANSITIONS.name.lower(): {"node": std_func},
         RESPONSE.name.lower(): "text",
         PROCESSING.name.lower(): {1: std_func},
         MISC.name.lower(): {"key": "val"},
     }
-    plot = {
-        GLOBAL: node_template.copy(),
-        "flow": {"node": node_template.copy()},
-    }
+    plot = {GLOBAL: node_template.copy(), "flow": {"node": node_template.copy()}}
     plot = normalize_plot(plot)
     assert isinstance(plot, dict)
     assert plot[GLOBAL][GLOBAL] == node_template_gold

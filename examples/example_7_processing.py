@@ -47,20 +47,11 @@ def add_prefix(prefix):
 
 # a dialog script
 plot = {
-    "root": {
-        "start": {
-            RESPONSE: "",
-            TRANSITIONS: {("flow", "step_0"): cnd.true()},
-        },
-        "fallback": {RESPONSE: "the end"},
-    },
+    "root": {"start": {RESPONSE: "", TRANSITIONS: {("flow", "step_0"): cnd.true()}}, "fallback": {RESPONSE: "the end"}},
     GLOBAL: {PROCESSING: {1: add_prefix("l1_global"), 2: add_prefix("l2_global")}},
     "flow": {
         LOCAL: {PROCESSING: {2: add_prefix("l2_local"), 3: add_prefix("l3_local")}},
-        "step_0": {
-            RESPONSE: "first",
-            TRANSITIONS: {lbl.forward(): cnd.true()},
-        },
+        "step_0": {RESPONSE: "first", TRANSITIONS: {lbl.forward(): cnd.true()}},
         "step_1": {
             PROCESSING: {1: add_prefix("l1_step_1")},
             RESPONSE: "second",
@@ -76,11 +67,7 @@ plot = {
             RESPONSE: "fourth",
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
-        "step_4": {
-            PROCESSING: {4: add_prefix("l4_step_4")},
-            RESPONSE: "fifth",
-            TRANSITIONS: {"step_0": cnd.true()},
-        },
+        "step_4": {PROCESSING: {4: add_prefix("l4_step_4")}, RESPONSE: "fifth", TRANSITIONS: {"step_0": cnd.true()}},
     },
 }
 
@@ -107,8 +94,7 @@ def run_test():
 
 if __name__ == "__main__":
     logging.basicConfig(
-        format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s",
-        level=logging.INFO,
+        format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s", level=logging.INFO
     )
     # run_test()
     example_1_basics.run_interactive_mode(actor)
