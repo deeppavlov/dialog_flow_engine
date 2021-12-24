@@ -1,2 +1,2 @@
-.. automodule:: dff.responses
+.. automodule:: dfe.responses
    :members:

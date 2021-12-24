@@ -46,7 +46,7 @@ class Keywords(Enum):
     The order of `proc_func_i` calls is defined by the order of defining of `dict` preprocessing/
 
     MISC : the keyword that defines `dict` containing extra data,
-    which were not aimed to be used in the standard functions of `DFF`.
+    which were not aimed to be used in the standard functions of `DFE`.
     Value corresponding to the `MISC` key must have `dict` type:
     `{"VAR_KEY_0": VAR_VALUE_0, ..., "VAR_KEY_N": VAR_VALUE_N}`
     `"VAR_KEY_0"` - is an arbitrary name of the value which is saved into the `MISC`.

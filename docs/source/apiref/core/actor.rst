@@ -1,2 +1,2 @@
-.. automodule:: dff.core.actor
+.. automodule:: dfe.core.actor
    :members:

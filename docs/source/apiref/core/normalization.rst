@@ -1,2 +1,2 @@
-.. automodule:: dff.core.normalization
+.. automodule:: dfe.core.normalization
    :members:

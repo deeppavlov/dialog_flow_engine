@@ -67,8 +67,8 @@ class Context(BaseModel):
         * value - `response` on this turn
 
     misc : dict[str, Any]
-        `misc` stores the arbitrary data, the framework doesn't use this dictionary by default,
-        so storage of any data won't reflect on the work on the internal Dialog Flow Framework functions.
+        `misc` stores the arbitrary data, the engine doesn't use this dictionary by default,
+        so storage of any data won't reflect on the work on the internal Dialog Flow Engine functions.
 
         * key - arbitrary data name
         * value - arbitrary data
@@ -159,7 +159,7 @@ class Context(BaseModel):
     @validate_arguments
     def add_label(self, label: NodeLabel2Type):
         """
-        Adds to the context the next :py:const:`label <dff.core.types.NodeLabel2Type>`, that is correspondent to the next turn.
+        Adds to the context the next :py:const:`label <dfe.core.types.NodeLabel2Type>`, that is correspondent to the next turn.
         The addition is happening in the `labels`, and `new_index = last_index + 1`
 
         Parameters

@@ -1,10 +1,10 @@
 import logging
 
 
-from dff.core.keywords import GLOBAL, LOCAL, RESPONSE, TRANSITIONS, PROCESSING
-from dff.core import Context, Actor
-import dff.labels as lbl
-import dff.conditions as cnd
+from dfe.core.keywords import GLOBAL, LOCAL, RESPONSE, TRANSITIONS, PROCESSING
+from dfe.core import Context, Actor
+import dfe.labels as lbl
+import dfe.conditions as cnd
 
 from examples import example_1_basics
 

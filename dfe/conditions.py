@@ -9,7 +9,7 @@ import re
 
 from pydantic import validate_arguments
 
-from dff.core.types import NodeLabel2Type
+from dfe.core.types import NodeLabel2Type
 
 from .core.actor import Actor
 from .core.context import Context
@@ -26,7 +26,7 @@ def exact_match(match: Any, *args, **kwargs) -> Callable:
     ----------
 
     match: Any
-        the variable of the same type as  :py:class:`~dff.core.context.last_request`
+        the variable of the same type as  :py:class:`~dfe.core.context.last_request`
     """
 
     def exact_match_condition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> bool:

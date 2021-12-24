@@ -1,2 +1,2 @@
-.. automodule:: dff.labels
+.. automodule:: dfe.labels
    :members:

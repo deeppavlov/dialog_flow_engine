@@ -1,2 +1,2 @@
-.. automodule:: dff.caching
+.. automodule:: dfe.caching
    :members:

@@ -1,6 +1,6 @@
 Core
 ====
-Dialog Flow Framework Core
+Dialog Flow Engine Core
 
 
 .. toctree::

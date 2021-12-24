@@ -1,2 +1,2 @@
-.. automodule:: dff.conditions
+.. automodule:: dfe.conditions
    :members:

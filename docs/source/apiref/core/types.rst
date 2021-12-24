@@ -1,2 +1,2 @@
-.. automodule:: dff.core.types
+.. automodule:: dfe.core.types
    :members:

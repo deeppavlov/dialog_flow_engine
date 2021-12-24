@@ -1,2 +1,2 @@
-.. automodule:: dff.core.plot
+.. automodule:: dfe.core.plot
    :members:

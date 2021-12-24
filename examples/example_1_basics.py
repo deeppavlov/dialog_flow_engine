@@ -1,9 +1,9 @@
 import logging
 from typing import Optional, Union
 
-from dff.core.keywords import TRANSITIONS, RESPONSE
-from dff.core import Context, Actor
-import dff.conditions as cnd
+from dfe.core.keywords import TRANSITIONS, RESPONSE
+from dfe.core import Context, Actor
+import dfe.conditions as cnd
 
 logger = logging.getLogger(__name__)
 

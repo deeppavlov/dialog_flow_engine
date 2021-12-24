@@ -1,10 +1,10 @@
 # %%
 
-from dff.core import Actor
-from dff.core.context import Context
-from dff.core.keywords import TRANSITIONS, RESPONSE
-from dff.conditions import true
-from dff.labels import repeat
+from dfe.core import Actor
+from dfe.core.context import Context
+from dfe.core.keywords import TRANSITIONS, RESPONSE
+from dfe.conditions import true
+from dfe.labels import repeat
 
 
 def positive_test(samples, custom_class):

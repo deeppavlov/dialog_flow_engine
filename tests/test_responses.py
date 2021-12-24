@@ -1,6 +1,6 @@
 # %%
-from dff.core import Context, Actor
-import dff.responses as rsp
+from dfe.core import Context, Actor
+import dfe.responses as rsp
 
 
 def test_response():

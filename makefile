@@ -3,7 +3,7 @@ SHELL = /bin/bash
 VENV_PATH = venv
 
 help:
-	@echo "Thanks for your interest in the Dialog Flow Framework!"
+	@echo "Thanks for your interest in the Dialog Flow Engine!"
 	@echo
 	@echo "make lint: Run linters"
 	@echo "make test: Run basic tests (not testing most integrations)"
@@ -36,7 +36,7 @@ lint: venv
 .PHONY: lint
 
 test: venv
-	@$(VENV_PATH)/bin/python -m pytest --cov-report html --cov-report term --cov=dff tests/
+	@$(VENV_PATH)/bin/python -m pytest --cov-report html --cov-report term --cov=dfe tests/
 .PHONY: test
 
 test_all: venv test lint

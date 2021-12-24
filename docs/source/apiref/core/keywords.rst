@@ -1,2 +1,2 @@
-.. automodule:: dff.core.keywords
+.. automodule:: dfe.core.keywords
    :members:

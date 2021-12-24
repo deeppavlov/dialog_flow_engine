@@ -1,14 +1,14 @@
 # %%
 from typing import Callable
 
-from dff.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
-from dff.core import Actor, Context
-from dff.core.types import NodeLabel3Type
-from dff.labels import repeat
-from dff.conditions import true
+from dfe.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
+from dfe.core import Actor, Context
+from dfe.core.types import NodeLabel3Type
+from dfe.labels import repeat
+from dfe.conditions import true
 
-# from dff.labels
-from dff.core.normalization import (
+# from dfe.labels
+from dfe.core.normalization import (
     normalize_condition,
     normalize_keywords,
     normalize_label,

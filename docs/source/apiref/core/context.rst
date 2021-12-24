@@ -1,2 +1,2 @@
-.. automodule:: dff.core.context
+.. automodule:: dfe.core.context
    :members:

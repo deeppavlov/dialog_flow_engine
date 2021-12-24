@@ -3,10 +3,10 @@ import re
 import random
 from typing import Any
 
-from dff.core.keywords import TRANSITIONS, RESPONSE
-from dff.core import Actor, Context
-import dff.responses as rsp
-import dff.conditions as cnd
+from dfe.core.keywords import TRANSITIONS, RESPONSE
+from dfe.core import Actor, Context
+import dfe.responses as rsp
+import dfe.conditions as cnd
 
 from examples import example_1_basics
 
@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 #                          then the object will be returned by the agent as a response.
 
 
-# Out of the box, dff offers 1 additional response function:
+# Out of the box, dfe offers 1 additional response function:
 # - `choice` - will return `true` if the user's request completely matches the value passed to the function.
 
 

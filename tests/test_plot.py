@@ -3,8 +3,8 @@ import itertools
 from typing import Callable
 
 
-from dff.core import Plot, Node
-from dff.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
+from dfe.core import Plot, Node
+from dfe.core.keywords import GLOBAL, TRANSITIONS, RESPONSE, PROCESSING, MISC
 
 
 def positive_test(samples, custom_class):

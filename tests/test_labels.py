@@ -1,5 +1,5 @@
-from dff.core import Context, Actor
-from dff.labels import forward, repeat, previous, to_fallback, to_start, backward
+from dfe.core import Context, Actor
+from dfe.labels import forward, repeat, previous, to_fallback, to_start, backward
 
 
 def test_labels():

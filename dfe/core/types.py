@@ -9,7 +9,7 @@ from enum import Enum, auto
 from .keywords import Keywords
 
 LabelType = Union[str, Keywords]
-"""label can be a casual string or :py:class:`~dff.core.keywords.Keywords`"""
+"""label can be a casual string or :py:class:`~dfe.core.keywords.Keywords`"""
 
 NodeLabel1Type = tuple[str, float]
 """label type for transitions can be [node_name, transition_priority]"""
@@ -33,7 +33,7 @@ ConditionType = Callable
 # TODO: add description for each stage of ActorStage
 class ActorStage(Enum):
     """
-    The class which holds keys for the handlers. These keys are used later for the actions of :py:class:`~dff.core.actor.Actor`.
+    The class which holds keys for the handlers. These keys are used later for the actions of :py:class:`~dfe.core.actor.Actor`.
 
     Enums:
 

@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "Dialog Flow Framework"
+project = "Dialog Flow Engine"
 copyright = "2021, Denis Kuznetsov"
 author = "Denis Kuznetsov"
 

@@ -5,8 +5,8 @@ Caching
 """
 import functools
 
-from dff.core import Actor, Context
-from dff.core.types import ActorStage
+from dfe.core import Actor, Context
+from dfe.core.types import ActorStage
 
 
 class OneTurnCache:
