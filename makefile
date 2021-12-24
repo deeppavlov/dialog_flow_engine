@@ -9,7 +9,6 @@ help:
 	@echo "make test: Run basic tests (not testing most integrations)"
 	@echo "make test-all: Run ALL tests (slow, closest to CI)"
 	@echo "make format: Run code formatters (destructive)"
-	@echo "make aws-lambda-layer-build: Build serverless ZIP dist package"
 	@echo
 
 venv:
@@ -46,20 +45,3 @@ build_doc:
 	sphinx-build -M clean docs/source docs/build
 	sphinx-build -M html docs/source docs/build
 `.PHONY: build_doc
-
-# dist: venv
-# 	rm -rf dist build
-# 	$(VENV_PATH)/bin/python setup.py sdist bdist_wheel
-
-# .PHONY: dist
-
-# docs: venv
-# 	@$(VENV_PATH)/bin/pip install --editable .
-# 	@$(VENV_PATH)/bin/pip install -U -r ./docs-requirements.txt
-# 	@$(VENV_PATH)/bin/sphinx-build -W -b html docs/ docs/_build
-# .PHONY: docs
-
-# docs-hotfix: docs
-# 	@$(VENV_PATH)/bin/pip install ghp-import
-# 	@$(VENV_PATH)/bin/ghp-import -pf docs/_build
-# .PHONY: docs-hotfix
