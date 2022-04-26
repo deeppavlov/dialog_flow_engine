@@ -78,7 +78,7 @@ class Context(BaseModel):
 
     validation : bool
         `validation` is a flag that signals that :py:class:`~df_engine.core.actor.Actor`,
-        while being initialized, checks the :py:class:`~df_engine.core.plot.Plot`.
+        while being initialized, checks the :py:class:`~df_engine.core.script.Script`.
         The functions that can give not validable data
         while being validated must use this flag to take the validation mode into account.
         Otherwise the validation will not be passed.
