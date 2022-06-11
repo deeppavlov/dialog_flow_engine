@@ -90,7 +90,7 @@ script = {
 }
 
 # init actor
-actor = Actor(script, start_label=("flow", "node_hi"))
+actor = Actor(script, start_label=("global_flow","start_node"),fallback_label=("global_flow","fallback_node"),label_priority=1.0)
 
 
 # handler requests
