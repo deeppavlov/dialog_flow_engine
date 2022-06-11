@@ -42,9 +42,9 @@ def talk_about_topic_response(ctx: Context, actor: Actor, *args, **kwargs) -> An
     topic = topic_pattern.findall(request)
     topic = topic and topic[0] and topic[0][-1]
     if topic:
-        return f"Sorry, I can not talk about {topic} now."
+        return f"Sorry, I can not talk about {topic} now. Dialog len {len(ctx.requests)}"
     else:
-        return "Sorry, I can not talk about that now."
+        return f"Sorry, I can not talk about that now. {len(ctx.requests)}"
 
 def talk_about_topic_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
     request = ctx.last_request
