@@ -75,12 +75,12 @@ script = {
                    TRANSITIONS:{lbl.to_fallback(0.1):cnd.true()},#flow,fallback node conf o.1
         "node_complex":{RESPONSE:"Complex condition triggered"},
         "node_topic":{RESPONSE:talk_about_topic_response,
-                     TRANSITIONS:{lbl.forward(0.5):cnd.regexp(r"node ok"),
+                     TRANSITIONS:{lbl.forward(0.5):cnd.any([cnd.regexp(r"node ok"),cnd.regexp(r"node is ok")]),
                                   lbl.backward(0.5):cnd.regexp(r"node complex")}},
         "node_ok": {RESPONSE: rsp.choice(["OKAY", "OK"])},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
             RESPONSE: fallback_trace_response,
-            TRANSITIONS: {"node_hi": cnd.exact_match("Hi"),
+            TRANSITIONS: {"node_hi": cnd.all([cnd.exact_match("Hi"),cnd.exact_match("Hello")]),
                           "node_ok": cnd.exact_match("Okey")},
         },
     },
