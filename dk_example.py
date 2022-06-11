@@ -9,6 +9,18 @@ def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -
     return {"some_key": "some_value"} == request
 
 
+def upper_case_response(response: str):
+    # wrapper for internal response function
+    def cannot_talk_about_topic_response(ctx: Context, actor: Actor, *args, **kwargs) -> Any:
+        return response.upper()
+
+    return cannot_talk_about_topic_response
+
+
+def fallback_trace_response(ctx: Context, actor: Actor, *args, **kwargs) -> Any:
+    logger.warning(f"ctx={ctx}")
+    return {"previous_node": list(ctx.labels.values())[-2], "last_request": ctx.last_request}
+
 
 def talk_about_topic_response(ctx: Context, actor: Actor, *args, **kwargs) -> Any:
     request = ctx.last_request
@@ -38,12 +50,12 @@ script = {
                            ("flow", "node_ok"): cnd.true()}},
     "flow": {
         "node_hi": {RESPONSE: "Hi!!!"},
-        "node_no": {RESPONSE: "NO"},
+        "node_no": {RESPONSE: upper_case_response("NO")},
         "node_complex":{RESPONSE:complex_response},
         "node_topic":{RESPONSE:talk_about_topic_response},
         "node_ok": {RESPONSE: "Okey"},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
-            RESPONSE: "Ooops",
+            RESPONSE: fallback_trace_response,
             TRANSITIONS: {"node_hi": cnd.exact_match("Hi"),
                           "node_ok": cnd.exact_match("Okey")},
         },
