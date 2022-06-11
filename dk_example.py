@@ -1,13 +1,25 @@
 from df_engine.core.keywords import GLOBAL, TRANSITIONS, RESPONSE
 from df_engine.core import Context, Actor
 import df_engine.conditions as cnd
+import df_engine.labels as lbl
 from typing import Union, Optional
+
+#example 4 - transition - what priority
 
 def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
     request = ctx.last_request
     # the user request can be anything
     return {"some_key": "some_value"} == request
 
+def flow_node_ok_transition(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
+    return ("flow", "node_ok", 1.0)
+
+
+def high_priority_node_transition(flow_label, label):
+    def transition(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
+        return (flow_label, label, 2.0)
+
+    return transition
 
 def upper_case_response(response: str):
     # wrapper for internal response function
@@ -43,16 +55,26 @@ def no_lower_case_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool
 
 # create script of dialog
 script = {
-    GLOBAL: {TRANSITIONS: {("flow", "node_hi"): cnd.exact_match("Hi"),
-                           ("flow","node_no"): no_lower_case_condition,
+    "global_flow": {
+        {"start_node": {RESPONSE: "INITIAL NODE", TRANSITIONS: {
+                                                ("flow", "node_hi"): cnd.exact_match("base"),
+                                                 "fallback_node": cnd.true()},
+         "fallback_node":{RESPONSE:"oops",TRANSITIONS:{lbl.previous():cnd.exact_match("initial"),#to global flow start node
+                                                       lbl.repeat():cnd.true()#global flow, fallback node
+                                                       }}
+                       },
+    "flow": {
+        "node_hi": {RESPONSE: "Hi!!!",
+                   {TRANSITIONS: {("flow", "node_hi"): cnd.exact_match("Hi"),
+                           high_priority_node_transition("flow","node_no"): no_lower_case_condition,
                            ("flow","node_topic"):talk_about_topic_condition,
                            ("flow","node_complex"):complex_user_answer_condition,
-                           ("flow", "node_ok"): cnd.true()}},
-    "flow": {
-        "node_hi": {RESPONSE: "Hi!!!"},
-        "node_no": {RESPONSE: upper_case_response("NO")},
+                           flow_node_ok_transition: cnd.true()}}},
+        "node_no": {RESPONSE: upper_case_response("NO"),
+                   TRANSITIONS:{lbl.to_fallback(0.1):cnd.true()},#flow,fallback node conf o.1
         "node_complex":{RESPONSE:"Complex condition triggered"},
-        "node_topic":{RESPONSE:talk_about_topic_response},
+        "node_topic":{RESPONSE:talk_about_topic_response,
+                     TRANSITIONS:{lbl.forward(0.5):cnd.regexp(r"node ok")}},
         "node_ok": {RESPONSE: "Okey"},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
             RESPONSE: fallback_trace_response,
