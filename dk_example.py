@@ -7,7 +7,6 @@ from typing import Union, Optional
 
 #example 4 - transition - what priority
 #GLOBAL and global_flow whai is difference
-#Example 6 - hiddian code in tests, what we want to teach user, simple len(ctx.requests) is not worth so
 
 def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
     request = ctx.last_request
@@ -138,10 +137,23 @@ testing_dialog = [
 ]
 
 
-def run_test():
+def run_test(mode=None):
     ctx = {}
+                                
     for in_request, true_out_response in testing_dialog:
         _, ctx = turn_handler(in_request, ctx, actor, true_out_response=true_out_response)
+        if mode=='json':
+            ctx = ctx.json()
+            if isinstance(ctx, str):
+                logging.info("context serialized to json str")
+            else:
+                raise Exception(f"ctx={ctx} has to be serialized to json string")
+        elif mode=='dict':                     
+            ctx = ctx.dict()
+            if isinstance(ctx, dict):
+                logging.info("context serialized to dict")
+            else:
+                raise Exception(f"ctx={ctx} has to be serialized to dict)
 
 
 # interactive mode
@@ -152,5 +164,8 @@ def run_interactive_mode(actor):
         _, ctx = turn_handler(in_request, ctx, actor)
 
 #run_test()
+#run_test('json')
+#run_test('dict')
+                               
 print('TESTED WELL')
 run_interactive_mode(actor)
