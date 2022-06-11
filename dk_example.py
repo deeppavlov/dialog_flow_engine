@@ -75,7 +75,11 @@ def no_lower_case_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool
 # create script of dialog
 script = {
     GLOBAL:{TRANSITIONS:{("global_flow","start_node",1.5):cnd.exact_match("global start"),
-                         ("flow","node_hi",1.5):cnd.exact_match("global hi")}
+                         ("flow","node_hi",1.5):cnd.exact_match("global hi")},
+            PRE_RESPONSE_PROCESSING: {
+            "proc_name_1": add_prefix("l1_global"),
+            "proc_name_2": add_prefix("l2_global"),
+        }
     "global_flow": {
         {"start_node": {RESPONSE: "INITIAL NODE", TRANSITIONS: {
                                                 ("flow", "node_hi"): cnd.exact_match("base"),
@@ -85,13 +89,16 @@ script = {
                                                        }}
                        },
     "flow": {
-        "node_hi": {RESPONSE: "Hi!!!",
+                    PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow"), "proc_name_2": add_prefix("l2_flow")},
+        "node_hi": {PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_hi"), "proc_name_2": add_prefix("l2_flow_hi")},
+            RESPONSE: "Hi!!!",
                    {TRANSITIONS: {("flow", "node_hi"): cnd.exact_match("Hi"),
                            high_priority_node_transition("flow","node_no"): no_lower_case_condition,
                            ("flow","node_topic"):cnd.all(talk_about_topic_condition,
                            ("flow","node_complex"):complex_user_answer_condition,
                            flow_node_ok_transition: cnd.all([cnd.true(),cnd.has_last_labels(flow_labels=['global_flow'])])}}},
-        "node_no": {RESPONSE: upper_case_response("NO"),
+        "node_no": {PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_no"), "proc_name_2": add_prefix("l2_flow_no")},
+                   RESPONSE: upper_case_response("NO"),
                    TRANSITIONS:{("flow","node_hi"):cnd.regexp(r"hi"),
                                (lbl.to_fallback(0.1):cnd.negation(cnd.regexp(r"hi"))},
         "node_complex":{RESPONSE:"Complex condition triggered"},
