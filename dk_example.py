@@ -34,6 +34,14 @@ def add_prefix(prefix):
 
     return add_prefix_processing
 
+def add_misc():
+    def add_misc_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
+        processed_node = ctx.current_node
+        processed_node.response = f"misc: {processed_node.misc}"
+        ctx.overwrite_current_node_in_processing(processed_node)
+        return ctx
+
+    return add_prefix_processing
 
 def high_priority_node_transition(flow_label, label):
     def transition(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -77,9 +85,15 @@ def no_lower_case_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool
 script = {
     GLOBAL:{TRANSITIONS:{("global_flow","start_node",1.5):cnd.exact_match("global start"),
                          ("flow","node_hi",1.5):cnd.exact_match("global hi")},
+                    MISC: {
+            "var1": "global_data",
+            "var2": "global_data",
+            "var3": "global_data",
+        },
             PRE_RESPONSE_PROCESSING: {
             "proc_name_1": add_prefix("l1_global"),
             "proc_name_2": add_prefix("l2_global"),
+            "proc_name_3": add_misc()
         }
     "global_flow": {
         {"start_node": {RESPONSE: "INITIAL NODE", TRANSITIONS: {
@@ -89,24 +103,36 @@ script = {
                                                        lbl.repeat():cnd.true()#global flow, fallback node
                                                        }}
                        },
-    "flow": {
-                    PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow"), "proc_name_2": add_prefix("l2_flow")},
-        "node_hi": {PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_hi"), "proc_name_2": add_prefix("l2_flow_hi")},
+    "flow": {   MISC: {
+                "var2": "rewrite_by_flow",
+                "var3": "rewrite_by_flow",
+            },
+                    PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow"), "proc_name_2": add_prefix("l2_flow"),"proc_name_3": add_misc()
+},
+        "node_hi": {MISC:{"var3":"rewrite_by_hi"},
+            PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_hi"), "proc_name_2": add_prefix("l2_flow_hi"),"proc_name_3": add_misc()},
             RESPONSE: "Hi!!!",
                    {TRANSITIONS: {("flow", "node_hi"): cnd.exact_match("Hi"),
                            high_priority_node_transition("flow","node_no"): no_lower_case_condition,
                            ("flow","node_topic"):cnd.all(talk_about_topic_condition,
                            ("flow","node_complex"):complex_user_answer_condition,
                            flow_node_ok_transition: cnd.all([cnd.true(),cnd.has_last_labels(flow_labels=['global_flow'])])}}},
-        "node_no": {PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_no"), "proc_name_2": add_prefix("l2_flow_no")},
+        "node_no": {MISC:{"var3":"rewrite_by_NO"},
+            PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_no"), "proc_name_2": add_prefix("l2_flow_no"),"proc_name_3": add_misc()},
                    RESPONSE: upper_case_response("NO"),
                    TRANSITIONS:{("flow","node_hi"):cnd.regexp(r"hi"),
                                (lbl.to_fallback(0.1):cnd.negation(cnd.regexp(r"hi"))},
-        "node_complex":{RESPONSE:"Complex condition triggered"},
-        "node_topic":{RESPONSE:talk_about_topic_response,
+        "node_complex":{
+            MISC:{"var3":"rewrite_by_COMPLEX"},
+            PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_complex"), "proc_name_2": add_prefix("l2_flow_complex"),"proc_name_3": add_misc()},
+            RESPONSE:"Complex condition triggered"},
+        "node_topic":{MISC:{"var3":"rewrite_by_TOPIC"},
+                      PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_topic"), "proc_name_2": add_prefix("l2_flow_topic"),"proc_name_3": add_misc()},
+            RESPONSE:talk_about_topic_response,
                      TRANSITIONS:{lbl.forward(0.5):cnd.any([cnd.regexp(r"node ok"),cnd.regexp(r"node is ok")]),
                                   lbl.backward(0.5):cnd.regexp(r"node complex")}},
-        "node_ok": {
+        "node_ok": {MISC:{"var3":"rewrite_by_OK"},
+                    PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_ok), "proc_name_2": add_prefix("l2_flow_ok),"proc_name_3": add_misc()},
             RESPONSE: rsp.choice(["OKAY", "OK"]),
                    TRANSITIONS:{lbl.previous():cnd.regexp(r"node previous")},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
