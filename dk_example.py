@@ -19,9 +19,11 @@ def flow_node_ok_transition(ctx: Context, actor: Actor, *args, **kwargs) -> Node
     return ("flow", "node_ok", 1.0)
 
 
-def save_previous_node_response_to_ctx_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
+def save_previous_node_response_to_ctx_processing(ctx: Context, actor: Actor,prefix=None, *args, **kwargs) -> Context:
     processed_node = ctx.current_node
     ctx.misc["previous_node_response"] = processed_node.response
+    if prefix is not None:
+        ctx.misc["previous_node_response"] = f'{prefix} ctx.misc["previous_node_response"]'
     return ctx
 
 
@@ -95,6 +97,7 @@ script = {
             "proc_name_2": add_prefix("l2_global"),
             "proc_name_3": add_misc()
         }
+          PRE_TRANSITIONS_PROCESSING: {"proc_tr__name_1": save_previous_node_response_to_ctx_processing},
     "global_flow": {
         {"start_node": {RESPONSE: "INITIAL NODE", TRANSITIONS: {
                                                 ("flow", "node_hi"): cnd.exact_match("base"),
@@ -107,8 +110,8 @@ script = {
                 "var2": "rewrite_by_flow",
                 "var3": "rewrite_by_flow",
             },
-                    PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow"), "proc_name_2": add_prefix("l2_flow"),"proc_name_3": add_misc()
-},
+                    PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow"), "proc_name_2": add_prefix("l2_flow"),"proc_name_3": add_misc()},
+                       PRE_TRANSITIONS_PROCESSING: {"proc_tr__name_2": save_previous_node_response_to_ctx_processing(prefix='flow')},
         "node_hi": {MISC:{"var3":"rewrite_by_hi"},
             PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_hi"), "proc_name_2": add_prefix("l2_flow_hi"),"proc_name_3": add_misc()},
             RESPONSE: "Hi!!!",
