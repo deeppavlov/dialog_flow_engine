@@ -1,6 +1,7 @@
 from df_engine.core.keywords import GLOBAL, TRANSITIONS, RESPONSE
 from df_engine.core import Context, Actor
 import df_engine.conditions as cnd
+import df_engine.responses as rsp
 import df_engine.labels as lbl
 from typing import Union, Optional
 
@@ -76,7 +77,7 @@ script = {
         "node_topic":{RESPONSE:talk_about_topic_response,
                      TRANSITIONS:{lbl.forward(0.5):cnd.regexp(r"node ok"),
                                   lbl.backward(0.5):cnd.regexp(r"node complex")}},
-        "node_ok": {RESPONSE: "Okey"},
+        "node_ok": {RESPONSE: rsp.choice(["OKAY", "OK"])},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
             RESPONSE: fallback_trace_response,
             TRANSITIONS: {"node_hi": cnd.exact_match("Hi"),
