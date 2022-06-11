@@ -7,7 +7,8 @@ from typing import Union, Optional
 
 #example 4 - transition - what priority
 #GLOBAL and global_flow whai is difference
-#preprocessing - may we set it as list? inconvenient as dict!
+#preprocessing in ex 7 - may we set it as list? inconvenient as dict!
+#ex 7 - function add_label_processing is not used
 
 def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
     request = ctx.last_request
