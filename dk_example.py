@@ -6,6 +6,7 @@ import df_engine.labels as lbl
 from typing import Union, Optional
 
 #example 4 - transition - what priority
+#GLOBAL and global_flow whai is difference
 
 def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
     request = ctx.last_request
@@ -56,6 +57,8 @@ def no_lower_case_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool
 
 # create script of dialog
 script = {
+    GLOBAL:{TRANSITIONS:{("global_flow","start_node",1.5):cnd.exact_match("global start"),
+                         ("flow","node_hi",1.5):cnd.exact_match("global hi")}
     "global_flow": {
         {"start_node": {RESPONSE: "INITIAL NODE", TRANSITIONS: {
                                                 ("flow", "node_hi"): cnd.exact_match("base"),
@@ -146,6 +149,6 @@ def run_interactive_mode(actor):
         in_request = input("type your answer: ")
         _, ctx = turn_handler(in_request, ctx, actor)
 
-run_test()
+#run_test()
 print('TESTED WELL')
 run_interactive_mode(actor)
