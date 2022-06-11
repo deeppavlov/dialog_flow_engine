@@ -10,7 +10,7 @@ def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -
 
 
 
-def complex_response(ctx: Context, actor: Actor, *args, **kwargs) -> Any:
+def talk_about_topic_response(ctx: Context, actor: Actor, *args, **kwargs) -> Any:
     request = ctx.last_request
     topic_pattern = re.compile(r"(.*talk about )(.*)\.")
     topic = topic_pattern.findall(request)
@@ -20,17 +20,11 @@ def complex_response(ctx: Context, actor: Actor, *args, **kwargs) -> Any:
     else:
         return "Sorry, I can not talk about that now."
 
-
-def predetermined_condition(condition: bool):
-    # wrapper for internal condition function
-    def internal_condition_function(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
-        # It always returns `condition`.
-        return condition
-
-    return internal_condition_function
-
-
-
+def talk_about_topic_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
+    request = ctx.last_request
+    return "talk about" in request.lower()
+    
+    
 def no_lower_case_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
     request = ctx.last_request
     return "no" in request.lower()
@@ -39,12 +33,14 @@ def no_lower_case_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool
 script = {
     GLOBAL: {TRANSITIONS: {("flow", "node_hi"): cnd.exact_match("Hi"),
                            ("flow","node_no"): no_lower_case_condition,
+                           ("flow","node_topic"):talk_about_topic_condition,
                            ("flow","node_complex"):complex_user_answer_condition,
                            ("flow", "node_ok"): cnd.true()}},
     "flow": {
         "node_hi": {RESPONSE: "Hi!!!"},
         "node_no": {RESPONSE: "NO"},
         "node_complex":{RESPONSE:complex_response},
+        "node_topic":{RESPONSE:talk_about_topic_response},
         "node_ok": {RESPONSE: "Okey"},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
             RESPONSE: "Ooops",
