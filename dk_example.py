@@ -51,7 +51,7 @@ script = {
     "flow": {
         "node_hi": {RESPONSE: "Hi!!!"},
         "node_no": {RESPONSE: upper_case_response("NO")},
-        "node_complex":{RESPONSE:complex_response},
+        "node_complex":{RESPONSE:"Complex condition triggered"},
         "node_topic":{RESPONSE:talk_about_topic_response},
         "node_ok": {RESPONSE: "Okey"},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
