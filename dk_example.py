@@ -17,6 +17,12 @@ def flow_node_ok_transition(ctx: Context, actor: Actor, *args, **kwargs) -> Node
     return ("flow", "node_ok", 1.0)
 
 
+def save_previous_node_response_to_ctx_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
+    processed_node = ctx.current_node
+    ctx.misc["previous_node_response"] = processed_node.response
+    return ctx
+
+
 def add_prefix(prefix):
     def add_prefix_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
         processed_node = ctx.current_node
