@@ -17,6 +17,16 @@ def flow_node_ok_transition(ctx: Context, actor: Actor, *args, **kwargs) -> Node
     return ("flow", "node_ok", 1.0)
 
 
+def add_prefix(prefix):
+    def add_prefix_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
+        processed_node = ctx.current_node
+        processed_node.response = f"{prefix}: {processed_node.response}"
+        ctx.overwrite_current_node_in_processing(processed_node)
+        return ctx
+
+    return add_prefix_processing
+
+
 def high_priority_node_transition(flow_label, label):
     def transition(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return (flow_label, label, 2.0)
@@ -81,7 +91,8 @@ script = {
         "node_topic":{RESPONSE:talk_about_topic_response,
                      TRANSITIONS:{lbl.forward(0.5):cnd.any([cnd.regexp(r"node ok"),cnd.regexp(r"node is ok")]),
                                   lbl.backward(0.5):cnd.regexp(r"node complex")}},
-        "node_ok": {RESPONSE: rsp.choice(["OKAY", "OK"]),
+        "node_ok": {
+            RESPONSE: rsp.choice(["OKAY", "OK"]),
                    TRANSITIONS:{lbl.previous():cnd.regexp(r"node previous")},
         "fallback_node": {  # We get to this node if an error occurred while the agent was running
             RESPONSE: fallback_trace_response,
