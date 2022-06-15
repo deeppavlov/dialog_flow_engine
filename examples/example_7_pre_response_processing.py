@@ -10,7 +10,7 @@ from examples import example_1_basics
 
 logger = logging.getLogger(__name__)
 
-def print_(argument="first"):
+def print_(ctx: Context, actor: Actor, argument='first', *args, **kwargs):
     return argument
 
 def create_transitions():
@@ -56,7 +56,7 @@ script = {
         LOCAL: {
             PRE_RESPONSE_PROCESSING: {"proc_name_2": add_prefix("l2_local"), "proc_name_3": add_prefix("l3_local")}
         },
-        "step_0": {RESPONSE: "first", TRANSITIONS: {lbl.forward(): cnd.true()}},
+        "step_0": {RESPONSE: print_(argument='first'), TRANSITIONS: {lbl.forward(): cnd.true()}},
         "step_1": {
             PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_step_1")},
             RESPONSE: "second",
