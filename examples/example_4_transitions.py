@@ -47,7 +47,8 @@ script = {
             TRANSITIONS: {
                 ("music_flow", "node1"): cnd.regexp(r"talk about music"),  # first check
                 ("greeting_flow", "node1"): cnd.regexp(r"hi|hello", re.IGNORECASE),  # second check
-                lbl.previous(): cnd.regexp(r"previous", re.IGNORECASE),  # third check
+                lbl.previous(): cnd.regexp(r"previous", re.IGNORECASE),  # going to the previous visited node
+                lbl.forward(): cnd.regexp(r"forward", re.IGNORECASE),  # going to the next node in list
                 # lbl.previous() is equivalent to ("PREVIOUS_flow", "PREVIOUS_node")
                 lbl.repeat(): cnd.true(),  # fourth check
                 # lbl.repeat() is equivalent to ("global_flow", "fallback_node")
@@ -69,7 +70,7 @@ script = {
                 lbl.to_fallback(0.1): cnd.true(),  # third check
                 # lbl.to_fallback(0.1) is equivalent to ("global_flow", "fallback_node", 0.1)
                 lbl.forward(0.5): cnd.regexp(r"talk about"),  # second check
-                # lbl.forward(0.5) is equivalent to ("greeting_flow", "node3", 0.5)
+                # lbl.forward(0.5) is equivalent to ("greeting_flow", "node3", 0.5) - going to next node with 0.5 conf
                 ("music_flow", "node1"): cnd.regexp(r"talk about music"),  # first check
                 lbl.previous(): cnd.regexp(r"previous", re.IGNORECASE),  # third check
                 # ("music_flow", "node1") is equivalent to ("music_flow", "node1", 1.0)
@@ -100,8 +101,8 @@ script = {
         "node3": {
             RESPONSE: "The band achieved commercial success with the release of five studio albums.",
             TRANSITIONS: {
-                lbl.forward(): cnd.regexp(r"next", re.IGNORECASE),
-                lbl.backward(): cnd.regexp(r"back", re.IGNORECASE),
+                lbl.forward(): cnd.regexp(r"next", re.IGNORECASE), # going to next node in list
+                lbl.backward(): cnd.regexp(r"back", re.IGNORECASE), # going to the previous node in list
                 lbl.repeat(): cnd.regexp(r"repeat", re.IGNORECASE),
                 lbl.to_fallback(): cnd.true(),
             },
