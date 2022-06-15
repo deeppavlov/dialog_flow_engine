@@ -21,6 +21,8 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
     to the last node with a given  :py:const:`priority <float>`.
     If the priority is not given, `Actor.label_priority` is used as default.
+    
+    Tl;dr - this function returns handler which stands for transition to the same node
 
     Parameters
     -----------
@@ -48,6 +50,8 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     to the previous node with a given :py:const:`priority <float>`.
     If the priority is not given, `Actor.label_priority` is used as default.
 
+    Tl;dr - this function returns handler which stands for the transition to the previous node
+
     Parameters
     -----------
 
@@ -74,6 +78,8 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     to the start node with a given :py:const:`priority <float>`.
     If the priority is not given, `Actor.label_priority` is used as default.
 
+    Tl;dr - this function returns handler which stands for the transition to the start node
+
     Parameters
     -----------
 
@@ -95,6 +101,8 @@ def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
     to the fallback node with a given :py:const:`priority <float>`.
     If the priority is not given, `Actor.label_priority` is used as default.
+
+    Tl;dr - this function returns handler which stands for the transition to the fallback node
 
     Parameters
     -----------
@@ -164,12 +172,17 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
     and :py:const:`cyclicality_flag <bool>`.
     If the priority is not given, `Actor.label_priority` is used as default.
 
+    Tl;dr - this function returns handler which stands for the transition to the next node
+
     Parameters
     ----------
 
     priority: Optional[float] = None
         float priority of transition. Used `Actor.label_priority` if not defined.
-    """
+    cyclicality_flag: if it is True, the iteration over the label list is going cyclically
+    (e.g the element with index=len(labels) has index=0)
+
+"""
 
     def forward_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
@@ -181,6 +194,7 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
 
 def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
     """
+    
     Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
     :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
     This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
@@ -188,11 +202,17 @@ def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *a
     and :py:const:`cyclicality_flag <bool>`.
     If the priority is not given, `Actor.label_priority` is used as default.
 
+    Tl;dr - this function returns handler which stands for the transition to the previous node
+
     Parameters
     ----------
 
     priority: Optional[float] = None
         float priority of transition. Uses `Actor.label_priority` if priority not defined.
+    cyclicality_flag: if it is True, the iteration over the label list is going cyclically
+    (e.g the element with index=len(labels) has index=0)
+
+
     """
 
     def back_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
