@@ -12,7 +12,7 @@ from examples import example_1_basics
 logger = logging.getLogger(__name__)
 
 
-def print_(ctx: Context, actor: Actor, argument='first', *args, **kwargs):
+def print_(ctx: Context, actor: Actor, argument="first", *args, **kwargs):
     return argument
 
 
@@ -25,7 +25,7 @@ def create_transitions():
         lbl.backward(): "back",  # to previous node in dict
         lbl.previous(): "previous",  # to previously visited node
         lbl.repeat(): "repeat",  # to the same node
-        lbl.to_fallback(): cnd.true()  # to fallback node
+        lbl.to_fallback(): cnd.true(),  # to fallback node
     }
 
 
@@ -35,7 +35,9 @@ def add_prefix(prefix):
         if not callable(processed_node.response):
             processed_node.response = f"{prefix}: {processed_node.response}"
         elif callable(processed_node.response):
-            processed_node.response = f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
+            processed_node.response = (
+                f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
+            )
         if ctx.last_label != ("root", "fallback"):
             ctx.overwrite_current_node_in_processing(processed_node)
         return ctx
@@ -52,14 +54,20 @@ script = {
     GLOBAL: {
         PRE_RESPONSE_PROCESSING: {
             "proc_name_1": add_prefix("l1_global"),
-            "proc_name_2": add_prefix("l2_global")
+            "proc_name_2": add_prefix("l2_global"),
         }
     },
     "flow": {
         LOCAL: {
-            PRE_RESPONSE_PROCESSING: {"proc_name_2": add_prefix("l2_local"), "proc_name_3": add_prefix("l3_local")}
+            PRE_RESPONSE_PROCESSING: {
+                "proc_name_2": add_prefix("l2_local"),
+                "proc_name_3": add_prefix("l3_local"),
+            }
         },
-        "step_0": {RESPONSE: print_(argument='first'), TRANSITIONS: {lbl.forward(): cnd.true()}},
+        "step_0": {
+            RESPONSE: print_(argument="first"),
+            TRANSITIONS: {lbl.forward(): cnd.true()},
+        },
         "step_1": {
             PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_step_1")},
             RESPONSE: "second",
@@ -84,7 +92,9 @@ script = {
 }
 
 
-actor = Actor(script, start_label=("root", "start"), fallback_label=("root", "fallback"))
+actor = Actor(
+    script, start_label=("root", "start"), fallback_label=("root", "fallback")
+)
 
 
 # testing
@@ -101,7 +111,9 @@ testing_dialog = [
 def run_test():
     ctx = {}
     for in_request, true_out_response in testing_dialog:
-        _, ctx = example_1_basics.turn_handler(in_request, ctx, actor, true_out_response=true_out_response)
+        _, ctx = example_1_basics.turn_handler(
+            in_request, ctx, actor, true_out_response=true_out_response
+        )
 
 
 if __name__ == "__main__":
