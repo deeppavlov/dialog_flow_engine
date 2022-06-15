@@ -15,13 +15,12 @@ def create_transitions():
     return {
         ("left", "step_2"): "left",
         ("right", "step_2"): "right",
-        lbl.previous(): "previous",
-        lbl.to_start(): "start",
-        lbl.forward(): "forward",
-        lbl.backward(): "back",
-        lbl.previous(): "previous",
-        lbl.repeat(): "repeat",
-        lbl.to_fallback(): cnd.true(),
+        lbl.to_start(): "start",  # to start node
+        lbl.forward(): "forward",  # to next node in dict
+        lbl.backward(): "back",  # to previous node in dict
+        lbl.previous(): "previous", # to previously visited node
+        lbl.repeat(): "repeat", # to the same node
+        lbl.to_fallback(): cnd.true(), # to fallback node 
     }
 
 
