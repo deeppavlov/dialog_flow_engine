@@ -56,12 +56,16 @@ class Keywords(Enum):
         Value corresponding to the `MISC` key must have `dict` type:
         `{"VAR_KEY_0": VAR_VALUE_0, ..., "VAR_KEY_N": VAR_VALUE_N}`
         `"VAR_KEY_0"` - is an arbitrary name of the value which is saved into the `MISC`.
-        
-    NOTE that MISC, PRE_RESPONSE_PROCESSING, PRE_TRANSITIONS_PROCESSING,RESPONSE and TRANSITIONS can be the attributes of every NODE. 
-    They CANNOT be the attributes of flow. 
-    HOWEVER, flow as a dict can have attribute LOCAL, which can have all these keywords as attributes. 
+    ---
+    IMPORTANT.
+    MISC, PRE_RESPONSE_PROCESSING, PRE_TRANSITIONS_PROCESSING,RESPONSE and TRANSITIONS
+    can be the attributes of every NODE.
+    They CANNOT be the attributes of flow.
+    HOWEVER, flow as a dict can have attribute LOCAL, which can have all these keywords as attributes.
     Also, these attributes can be defined above all flows, in the script attribute GLOBAL.
-    By default, fields under GLOBAL attribute are used. THey can be overwritten under LOCAL attribute at the level of flow. They, too, can be overwritten at the level of node.
+    By default, fields under GLOBAL attribute are used.
+    They can be overwritten under LOCAL attribute at the level of flow.
+    Fields overwritten under LOCAL attribute at the level of flow also can be overwritten at the level of node.
     """
 
     GLOBAL = auto()

@@ -21,7 +21,7 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`
     to the last node with a given  :py:const:`priority <float>`.
     If the priority is not given, `Actor.label_priority` is used as default.
-    
+
     Tl;dr - this function returns handler which stands for transition to the same node
 
     Parameters
@@ -194,7 +194,6 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
 
 def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
     """
-    
     Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
     :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
     This handler returns a :py:const:`label <df_engine.core.types.NodeLabelType>`

@@ -1,7 +1,8 @@
 import logging
 
 
-from df_engine.core.keywords import GLOBAL, LOCAL, RESPONSE, TRANSITIONS, PRE_RESPONSE_PROCESSING
+from df_engine.core.keywords import GLOBAL, LOCAL, RESPONSE
+from df_engine.core.keywords import TRANSITIONS, PRE_RESPONSE_PROCESSING
 from df_engine.core import Context, Actor
 import df_engine.labels as lbl
 import df_engine.conditions as cnd
@@ -10,8 +11,10 @@ from examples import example_1_basics
 
 logger = logging.getLogger(__name__)
 
+
 def print_(ctx: Context, actor: Actor, argument='first', *args, **kwargs):
     return argument
+
 
 def create_transitions():
     return {
@@ -20,9 +23,9 @@ def create_transitions():
         lbl.to_start(): "start",  # to start node
         lbl.forward(): "forward",  # to next node in dict
         lbl.backward(): "back",  # to previous node in dict
-        lbl.previous(): "previous", # to previously visited node
-        lbl.repeat(): "repeat", # to the same node
-        lbl.to_fallback(): cnd.true(), # to fallback node 
+        lbl.previous(): "previous",  # to previously visited node
+        lbl.repeat(): "repeat",  # to the same node
+        lbl.to_fallback(): cnd.true()  # to fallback node
     }
 
 

@@ -101,8 +101,8 @@ script = {
         "node3": {
             RESPONSE: "The band achieved commercial success with the release of five studio albums.",
             TRANSITIONS: {
-                lbl.forward(): cnd.regexp(r"next", re.IGNORECASE), # going to next node in dict
-                lbl.backward(): cnd.regexp(r"back", re.IGNORECASE), # going to the previous node in dict
+                lbl.forward(): cnd.regexp(r"next", re.IGNORECASE),  # going to next node in dict
+                lbl.backward(): cnd.regexp(r"back", re.IGNORECASE),  # going to the previous node in dict
                 lbl.repeat(): cnd.regexp(r"repeat", re.IGNORECASE),
                 lbl.to_fallback(): cnd.true(),
             },
