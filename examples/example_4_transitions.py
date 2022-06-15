@@ -67,7 +67,7 @@ script = {
         "node2": {
             RESPONSE: "Good. What do you want to talk about?",
             TRANSITIONS: {
-                lbl.to_fallback(0.1): cnd.true(),  # third check
+                lbl.to_fallback(0.1): cnd.true(),  # third check; it means going to the fallback node with 0.1 conf
                 # lbl.to_fallback(0.1) is equivalent to ("global_flow", "fallback_node", 0.1)
                 lbl.forward(0.5): cnd.regexp(r"talk about"),  # second check
                 # lbl.forward(0.5) is equivalent to ("greeting_flow", "node3", 0.5) - going to next node with 0.5 conf
