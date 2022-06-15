@@ -31,9 +31,7 @@ def repeat(priority: Optional[float] = None, *args, **kwargs) -> Callable:
         float priority of transition. Uses `Actor.label_priority` if priority not defined.
     """
 
-    def repeat_transition_handler(
-        ctx: Context, actor: Actor, *args, **kwargs
-    ) -> NodeLabel3Type:
+    def repeat_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 1:
             flow_label, label = list(ctx.labels.values())[-1]
@@ -61,9 +59,7 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
         float priority of transition. Uses `Actor.label_priority` if priority not defined.
     """
 
-    def previous_transition_handler(
-        ctx: Context, actor: Actor, *args, **kwargs
-    ) -> NodeLabel3Type:
+    def previous_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         if len(ctx.labels) >= 2:
             flow_label, label = list(ctx.labels.values())[-2]
@@ -91,9 +87,7 @@ def to_start(priority: Optional[float] = None, *args, **kwargs) -> Callable:
         float priority of transition. Uses `Actor.label_priority` if :py:const:`priority <float>` not defined.
     """
 
-    def to_start_transition_handler(
-        ctx: Context, actor: Actor, *args, **kwargs
-    ) -> NodeLabel3Type:
+    def to_start_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         return (*actor.start_label[:2], current_priority)
 
@@ -117,9 +111,7 @@ def to_fallback(priority: Optional[float] = None, *args, **kwargs) -> Callable:
         float priority of transition. Uses `Actor.label_priority` if :py:const:`priority <float>` not defined.
     """
 
-    def to_fallback_transition_handler(
-        ctx: Context, actor: Actor, *args, **kwargs
-    ) -> NodeLabel3Type:
+    def to_fallback_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         current_priority = actor.label_priority if priority is None else priority
         return (*actor.fallback_label[:2], current_priority)
 
@@ -156,9 +148,7 @@ def _get_label_by_index_shifting(
 
 
     """
-    flow_label, node_label, current_priority = repeat(priority, *args, **kwargs)(
-        ctx, actor, *args, **kwargs
-    )
+    flow_label, node_label, current_priority = repeat(priority, *args, **kwargs)(ctx, actor, *args, **kwargs)
     labels = list(actor.script.get(flow_label, {}))
 
     if node_label not in labels:
@@ -173,9 +163,7 @@ def _get_label_by_index_shifting(
     return (flow_label, labels[label_index], current_priority)
 
 
-def forward(
-    priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs
-) -> Callable:
+def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
     """
     Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
     :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
@@ -195,9 +183,7 @@ def forward(
     (e.g the element with index=len(labels) has index=0)
     """
 
-    def forward_transition_handler(
-        ctx: Context, actor: Actor, *args, **kwargs
-    ) -> NodeLabel3Type:
+    def forward_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
             ctx, actor, priority, increment_flag=True, cyclicality_flag=cyclicality_flag
         )
@@ -205,9 +191,7 @@ def forward(
     return forward_transition_handler
 
 
-def backward(
-    priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs
-) -> Callable:
+def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *args, **kwargs) -> Callable:
     """
     Returns transition handler that takes :py:class:`~df_engine.core.context.Context`,
     :py:class:`~df_engine.core.actor.Actor` and :py:const:`priority <float>`.
@@ -229,9 +213,7 @@ def backward(
 
     """
 
-    def back_transition_handler(
-        ctx: Context, actor: Actor, *args, **kwargs
-    ) -> NodeLabel3Type:
+    def back_transition_handler(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
         return _get_label_by_index_shifting(
             ctx,
             actor,

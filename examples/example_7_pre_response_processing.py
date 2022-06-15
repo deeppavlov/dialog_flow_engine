@@ -35,9 +35,7 @@ def add_prefix(prefix):
         if not callable(processed_node.response):
             processed_node.response = f"{prefix}: {processed_node.response}"
         elif callable(processed_node.response):
-            processed_node.response = (
-                f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
-            )
+            processed_node.response = f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
         if ctx.last_label != ("root", "fallback"):
             ctx.overwrite_current_node_in_processing(processed_node)
         return ctx
@@ -92,9 +90,7 @@ script = {
 }
 
 
-actor = Actor(
-    script, start_label=("root", "start"), fallback_label=("root", "fallback")
-)
+actor = Actor(script, start_label=("root", "start"), fallback_label=("root", "fallback"))
 
 
 # testing
@@ -111,9 +107,7 @@ testing_dialog = [
 def run_test():
     ctx = {}
     for in_request, true_out_response in testing_dialog:
-        _, ctx = example_1_basics.turn_handler(
-            in_request, ctx, actor, true_out_response=true_out_response
-        )
+        _, ctx = example_1_basics.turn_handler(in_request, ctx, actor, true_out_response=true_out_response)
 
 
 if __name__ == "__main__":

@@ -19,15 +19,11 @@ def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -
     return not isinstance(request, str)
 
 
-def flow_node_ok_transition(
-    ctx: Context, actor: Actor, *args, **kwargs
-) -> NodeLabel3Type:
+def flow_node_ok_transition(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
     return ("flow", "node_ok", 1.0)
 
 
-def save_previous_node_response_to_ctx_processing(
-    ctx: Context, actor: Actor, prefix=None, *args, **kwargs
-) -> Context:
+def save_previous_node_response_to_ctx_processing(ctx: Context, actor: Actor, prefix=None, *args, **kwargs) -> Context:
     processed_node = ctx.current_node
     ctx.misc["previous_node_response"] = processed_node.response
     if prefix is not None:
@@ -44,9 +40,7 @@ def add_prefix(prefix):
         if not callable(processed_node.response):
             processed_node.response = f"{prefix}: {processed_node.response}"
         elif callable(processed_node.response):
-            processed_node.response = (
-                f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
-            )
+            processed_node.response = f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
         ctx.overwrite_current_node_in_processing(processed_node)
         return ctx
 
@@ -57,13 +51,10 @@ def add_misc():
     def add_misc_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
         processed_node = ctx.current_node
         if not callable(processed_node.response):
-            processed_node.response = (
-                f"misc: {processed_node.misc} {processed_node.response}"
-            )
+            processed_node.response = f"misc: {processed_node.misc} {processed_node.response}"
         elif callable(processed_node.response):
             processed_node.response = (
-                f"misc: {processed_node.misc} "
-                f"{processed_node.response(ctx, actor, *args, **kwargs)}"
+                f"misc: {processed_node.misc} " f"{processed_node.response(ctx, actor, *args, **kwargs)}"
             )
         ctx.overwrite_current_node_in_processing(processed_node)
         return ctx
@@ -102,9 +93,7 @@ def talk_about_topic_response(ctx: Context, actor: Actor, *args, **kwargs) -> An
     topic = topic_pattern.findall(request)
     topic = topic and topic[0] and topic[0][-1]
     if topic:
-        return (
-            f"Sorry, I can not talk about {topic} now. Dialog len {len(ctx.requests)}"
-        )
+        return f"Sorry, I can not talk about {topic} now. Dialog len {len(ctx.requests)}"
     else:
         return f"Sorry, I can not talk about that now. {len(ctx.requests)}"
 
@@ -132,9 +121,7 @@ script = {
             "proc_name_1": add_prefix("l1_global"),
             "proc_name_2": add_prefix("l2_global"),
         },
-        PRE_TRANSITIONS_PROCESSING: {
-            "proc_tr__name_1": save_previous_node_response_to_ctx_processing
-        },
+        PRE_TRANSITIONS_PROCESSING: {"proc_tr__name_1": save_previous_node_response_to_ctx_processing},
     },
     "global_flow": {
         "start_node": {
@@ -164,9 +151,7 @@ script = {
                 "proc_name_1": add_prefix("l1_flow"),
                 "proc_name_2": add_prefix("l2_flow"),
             },
-            PRE_TRANSITIONS_PROCESSING: {
-                "proc_tr__name_2": save_previous_node_response_to_ctx_processing
-            },
+            PRE_TRANSITIONS_PROCESSING: {"proc_tr__name_2": save_previous_node_response_to_ctx_processing},
         },
         "node_hi": {
             MISC: {"var3": "rewrite_by_hi"},
@@ -179,13 +164,9 @@ script = {
             TRANSITIONS: {
                 ("flow", "node_complex"): complex_user_answer_condition,
                 ("flow", "node_hi"): cnd.exact_match("Hi"),
-                high_priority_node_transition(
-                    "flow", "node_no"
-                ): no_lower_case_condition,
+                high_priority_node_transition("flow", "node_no"): no_lower_case_condition,
                 ("flow", "node_topic"): talk_about_topic_condition,
-                flow_node_ok_transition: cnd.all(
-                    [cnd.true(), cnd.has_last_labels(flow_labels=["global_flow"])]
-                ),
+                flow_node_ok_transition: cnd.all([cnd.true(), cnd.has_last_labels(flow_labels=["global_flow"])]),
             },
         },
         "node_no": {
@@ -224,9 +205,7 @@ script = {
             TRANSITIONS: {
                 ("flow", "node_complex"): complex_user_answer_condition,
                 lbl.forward(0.5): cnd.any([cnd.regexp(r"ok"), cnd.regexp(r"o k")]),
-                lbl.backward(0.5): cnd.any(
-                    [cnd.regexp(r"node complex"), complex_user_answer_condition]
-                ),
+                lbl.backward(0.5): cnd.any([cnd.regexp(r"node complex"), complex_user_answer_condition]),
             },
         },
         "node_ok": {
@@ -287,9 +266,7 @@ def turn_handler(
         msg = f"in_request={in_request} -> true_out_response != out_response: {true_out_response} != {out_response}"
         raise Exception(msg)
     else:
-        print(
-            f"in_request={in_request} -> NODE {list(ctx.labels.values())[-1]} RESPONSE {out_response}"
-        )
+        print(f"in_request={in_request} -> NODE {list(ctx.labels.values())[-1]} RESPONSE {out_response}")
     return out_response, ctx
 
 
@@ -337,9 +314,7 @@ testing_dialog = [
 def run_test(mode=None):
     ctx = {}
     for in_request, true_out_response in testing_dialog:
-        _, ctx = turn_handler(
-            in_request, ctx, actor, true_out_response=true_out_response
-        )
+        _, ctx = turn_handler(in_request, ctx, actor, true_out_response=true_out_response)
         if mode == "json":
             ctx = ctx.json()
             if isinstance(ctx, str):
