@@ -3,6 +3,7 @@ from df_engine.core import Context, Actor
 import df_engine.conditions as cnd
 import df_engine.responses as rsp
 import df_engine.labels as lbl
+import example_1_basics
 from df_engine.core.types import NodeLabel3Type
 from typing import Union, Optional, Any
 import logging
@@ -223,16 +224,17 @@ def run_test(mode=None):
                 raise Exception(f"ctx={ctx} has to be serialized to dict")
 ​
 ​
-# interactive mode
-def run_interactive_mode(actor):
+def run_test():
     ctx = {}
-    while True:
-        in_request = input("type your answer: ")
-        _, ctx = turn_handler(in_request, ctx, actor)
-​
-#run_test()
-#run_test('json')
-#run_test('dict')
-                               
-print('TESTED WELL')
-run_interactive_mode(actor)
+    for in_request, true_out_response in testing_dialog:
+        _, ctx = example_1_basics.turn_handler(in_request, ctx, actor, true_out_response=true_out_response)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s-%(name)15s:%(lineno)3s:%(funcName)20s():%(levelname)s - %(message)s",
+        level=logging.INFO,
+    )
+    # run_test()
+    example_1_basics.run_interactive_mode(actor)
+
