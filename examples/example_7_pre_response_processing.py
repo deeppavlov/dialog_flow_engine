@@ -24,18 +24,12 @@ def create_transitions():
     }
 
 
-def add_label_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
-    processed_node = ctx.current_node
-    processed_node.response = f"{ctx.last_label}: {processed_node.response}"
-    ctx.overwrite_current_node_in_processing(processed_node)
-    return ctx
-
-
 def add_prefix(prefix):
     def add_prefix_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
         processed_node = ctx.current_node
         processed_node.response = f"{prefix}: {processed_node.response}"
-        ctx.overwrite_current_node_in_processing(processed_node)
+        if ctx.last_label != ("root", "fallback"):
+            ctx.overwrite_current_node_in_processing(processed_node)
         return ctx
 
     return add_prefix_processing
@@ -50,7 +44,7 @@ script = {
     GLOBAL: {
         PRE_RESPONSE_PROCESSING: {
             "proc_name_1": add_prefix("l1_global"),
-            "proc_name_2": add_prefix("l2_global"),
+            "proc_name_2": add_prefix("l2_global")
         }
     },
     "flow": {
