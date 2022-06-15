@@ -29,7 +29,10 @@ def create_transitions():
 def add_prefix(prefix):
     def add_prefix_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
         processed_node = ctx.current_node
-        processed_node.response = f"{prefix}: {processed_node.response}"
+        if not callable(processed_node.response):
+            processed_node.response = f"{prefix}: {processed_node.response}"
+        elif callable(processed_node.response):
+            processed_node.response = f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
         if ctx.last_label != ("root", "fallback"):
             ctx.overwrite_current_node_in_processing(processed_node)
         return ctx
