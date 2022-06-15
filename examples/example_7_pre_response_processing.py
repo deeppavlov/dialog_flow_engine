@@ -10,6 +10,8 @@ from examples import example_1_basics
 
 logger = logging.getLogger(__name__)
 
+def print_(argument="first"):
+    return argument
 
 def create_transitions():
     return {
