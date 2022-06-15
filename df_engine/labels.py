@@ -50,7 +50,7 @@ def previous(priority: Optional[float] = None, *args, **kwargs) -> Callable:
     to the previous node with a given :py:const:`priority <float>`.
     If the priority is not given, `Actor.label_priority` is used as default.
 
-    Tl;dr - this function returns handler which stands for the transition to the previous node
+    Tl;dr - this function returns handler which stands for the transition to the previously visited node
 
     Parameters
     -----------
@@ -172,7 +172,7 @@ def forward(priority: Optional[float] = None, cyclicality_flag: bool = True, *ar
     and :py:const:`cyclicality_flag <bool>`.
     If the priority is not given, `Actor.label_priority` is used as default.
 
-    Tl;dr - this function returns handler which stands for the transition to the next node
+    Tl;dr - this function returns handler which stands for the transition to the next node in dict
 
     Parameters
     ----------
@@ -202,7 +202,7 @@ def backward(priority: Optional[float] = None, cyclicality_flag: bool = True, *a
     and :py:const:`cyclicality_flag <bool>`.
     If the priority is not given, `Actor.label_priority` is used as default.
 
-    Tl;dr - this function returns handler which stands for the transition to the previous node
+    Tl;dr - this function returns handler which stands for the transition to the previous node in dict
 
     Parameters
     ----------
