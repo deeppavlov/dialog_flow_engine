@@ -12,8 +12,11 @@ from examples import example_1_basics
 logger = logging.getLogger(__name__)
 
 
-def print_(ctx: Context, actor: Actor, argument="first", *args, **kwargs):
-    return argument
+def print_function_response(argument: str):
+    def response(ctx: Context, actor: Actor, *args, **kwargs):
+        return argument
+
+    return response
 
 
 def create_transitions():
@@ -63,27 +66,27 @@ script = {
             }
         },
         "step_0": {
-            RESPONSE: print_(argument="first"),
+            RESPONSE: print_function_response("first"),
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
         "step_1": {
             PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_step_1")},
-            RESPONSE: "second",
+            RESPONSE: print_function_response("second"),
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
         "step_2": {
             PRE_RESPONSE_PROCESSING: {"proc_name_2": add_prefix("l2_step_2")},
-            RESPONSE: "third",
+            RESPONSE: print_function_response("third"),
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
         "step_3": {
             PRE_RESPONSE_PROCESSING: {"proc_name_3": add_prefix("l3_step_3")},
-            RESPONSE: "fourth",
+            RESPONSE: print_function_response("fourth"),
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
         "step_4": {
             PRE_RESPONSE_PROCESSING: {"proc_name_4": add_prefix("l4_step_4")},
-            RESPONSE: "fifth",
+            RESPONSE: print_function_response("fifth"),
             TRANSITIONS: {"step_0": cnd.true()},
         },
     },
