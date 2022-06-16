@@ -4,7 +4,7 @@ from df_engine.core import Context, Actor
 import df_engine.conditions as cnd
 import df_engine.responses as rsp
 import df_engine.labels as lbl
-import example_1_basics
+from examples import example_1_basics
 from df_engine.core.types import NodeLabel3Type
 from typing import Union, Optional, Any
 import logging
@@ -15,8 +15,13 @@ logger = logging.getLogger(__name__)
 
 def complex_user_answer_condition(ctx: Context, actor: Actor, *args, **kwargs) -> bool:
     request = ctx.last_request
-    # the user request can be any dict
-    return not isinstance(request, str)
+    request_is_castable = False
+    try:  # check if request is castable from str
+        request = eval(request)
+        request_is_castable = True
+    except:
+        pass
+    return (not isinstance(request, str)) or request_is_castable
 
 
 def flow_node_ok_transition(ctx: Context, actor: Actor, *args, **kwargs) -> NodeLabel3Type:
@@ -200,7 +205,11 @@ script = {
         },
         "node_topic": {
             MISC: {"var3": "rewrite_by_TOPIC"},
-            # PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_flow_topic"), "proc_name_2": add_prefix("l2_flow_topic"),"proc_name_3": add_misc()},
+            PRE_RESPONSE_PROCESSING: {
+                "proc_name_1": add_prefix("l1_flow_topic"),
+                "proc_name_2": add_prefix("l2_flow_topic"),
+                "proc_name_3": add_misc(),
+            },
             RESPONSE: talk_about_topic_response,
             TRANSITIONS: {
                 ("flow", "node_complex"): complex_user_answer_condition,
@@ -263,6 +272,12 @@ def turn_handler(
     out_response = ctx.last_response
     # the next condition branching needs for testing
     if true_out_response is not None and true_out_response != out_response:
+        print("request")
+        print(in_request)
+        print("response was")
+        print(out_response)
+        print("response must be")
+        print(true_out_response)
         msg = f"in_request={in_request} -> true_out_response != out_response: {true_out_response} != {out_response}"
         raise Exception(msg)
     else:
@@ -276,37 +291,37 @@ def turn_handler(
 testing_dialog = [
     (
         "base",
-        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_hi'} response: l2_flow_hi: l1_flow_hi: Hi!!!",
+        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_hi'} l2_flow_hi: l1_flow_hi: Hi!!!",
     ),
     # start_node -> node1
     (
         "no",
-        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_NO'} response: l2_flow_no: l1_flow_no: NO",
+        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_NO'} l2_flow_no: l1_flow_no: NO",
     ),
     # node1 -> node2
     (
         "talk about books",
-        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_TOPIC'} response: l2_flow_topic: l1_flow_topic:",
+        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_TOPIC'} l2_flow_topic: l1_flow_topic: Sorry, I can not talk about that now. 3",
     ),
     # node3 -> node4
     (
         "ok",
-        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_OK'} response: l2_flow_ok: l1_flow_ok: ",
+        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_OK'} l2_flow_ok: l1_flow_ok: OK",
     ),
     # node4 -> node1
     (
         "previous",
-        "NODE ('flow', 'node_topic') RESPONSE misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_TOPIC'} response: l2_flow_topic: l1_flow_topic: ",
+        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_TOPIC'} l2_flow_topic: l1_flow_topic: Sorry, I can not talk about that now. 5",
     ),
     # node1 -> fallback_node
     (
         "{1:2}",
-        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_COMPLEX'} response: l2_flow_complex: l1_flow_complex:",
+        "misc: {'var1': 'global_data', 'var2': 'rewrite_by_flow', 'var3': 'rewrite_by_COMPLEX'} l2_flow_complex: l1_flow_complex: Not string detected",
     ),
     # fallback_node -> fallback_node
     (
         "f",
-        "misc: {'var1': 'global_data', 'var2': 'global_data', 'var3': 'global_data'} response: l2_global: l1_global: oops ",
+        "l2_global: l1_global: oops",
     ),
 ]
 

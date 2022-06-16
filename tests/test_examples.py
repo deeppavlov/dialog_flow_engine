@@ -50,3 +50,9 @@ def test_pre_transitions_processing():
     from .examples.example_9_pre_transitions_processing import run_test
 
     run_test()
+
+
+def test_example_of_bot():
+    from .examples.example_10_example_of_bot import run_test
+
+    run_test()
