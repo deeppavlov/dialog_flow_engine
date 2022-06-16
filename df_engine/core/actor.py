@@ -149,7 +149,7 @@ class Actor(BaseModel):
 
         # rewrite previous node
         ctx = self._rewrite_previous_node(ctx, *args, **kwargs)
-        self._run_handlers(ctx, ActorStage.GET_PREVIOUS_NODE, *args, **kwargs)
+        self._run_handlers(ctx, ActorStage.REWRITE_PREVIOUS_NODE, *args, **kwargs)
 
         # run pre transitions processing
         ctx = self._run_pre_transitions_processing(ctx, *args, **kwargs)
