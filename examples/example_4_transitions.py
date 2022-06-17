@@ -29,6 +29,7 @@ def high_priority_node_transition(flow_label, label):
 
     return transition
 
+
 # Transition returns tuple (flow, label, priority)
 
 # We need priority to choose what condition to select.
