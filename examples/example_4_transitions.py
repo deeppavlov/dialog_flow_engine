@@ -30,6 +30,13 @@ def high_priority_node_transition(flow_label, label):
     return transition
 
 
+# Transition returns tuple (flow, label, priority)
+
+# We need priority to choose what condition to select.
+# In TRANSITIONS, all conditions ( values of dict) are being checked.
+# Of true conditions, condition with largest priority is executed.
+# Of true conditions with largest priority, the first-met condition in dictionary is used.
+
 script = {
     "global_flow": {
         "start_node": {  # This is an initial node, it doesn't need an `RESPONSE`

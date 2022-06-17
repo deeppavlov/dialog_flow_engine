@@ -50,4 +50,3 @@ def test_pre_transitions_processing():
     from .examples.example_9_pre_transitions_processing import run_test
 
     run_test()
-
