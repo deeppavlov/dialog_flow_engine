@@ -1,8 +1,7 @@
 import logging
 
 
-from df_engine.core.keywords import GLOBAL, LOCAL, RESPONSE
-from df_engine.core.keywords import TRANSITIONS, PRE_RESPONSE_PROCESSING
+from df_engine.core.keywords import GLOBAL, LOCAL, RESPONSE, TRANSITIONS, PRE_RESPONSE_PROCESSING
 from df_engine.core import Context, Actor
 import df_engine.labels as lbl
 import df_engine.conditions as cnd
@@ -12,35 +11,32 @@ from examples import example_1_basics
 logger = logging.getLogger(__name__)
 
 
-def print_function_response(argument: str):
-    def response(ctx: Context, actor: Actor, *args, **kwargs):
-        return argument
-
-    return response
-
-
 def create_transitions():
     return {
         ("left", "step_2"): "left",
         ("right", "step_2"): "right",
-        lbl.to_start(): "start",  # to start node
-        lbl.forward(): "forward",  # to next node in dict
-        lbl.backward(): "back",  # to previous node in dict
-        lbl.previous(): "previous",  # to previously visited node
-        lbl.repeat(): "repeat",  # to the same node
-        lbl.to_fallback(): cnd.true(),  # to fallback node
+        lbl.previous(): "previous",
+        lbl.to_start(): "start",
+        lbl.forward(): "forward",
+        lbl.backward(): "back",
+        lbl.previous(): "previous",
+        lbl.repeat(): "repeat",
+        lbl.to_fallback(): cnd.true(),
     }
+
+
+def add_label_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
+    processed_node = ctx.current_node
+    processed_node.response = f"{ctx.last_label}: {processed_node.response}"
+    ctx.overwrite_current_node_in_processing(processed_node)
+    return ctx
 
 
 def add_prefix(prefix):
     def add_prefix_processing(ctx: Context, actor: Actor, *args, **kwargs) -> Context:
         processed_node = ctx.current_node
-        if not callable(processed_node.response):
-            processed_node.response = f"{prefix}: {processed_node.response}"
-        elif callable(processed_node.response):
-            processed_node.response = f"{prefix}: {processed_node.response(ctx, actor, *args, **kwargs)}"
-        if ctx.last_label != ("root", "fallback"):
-            ctx.overwrite_current_node_in_processing(processed_node)
+        processed_node.response = f"{prefix}: {processed_node.response}"
+        ctx.overwrite_current_node_in_processing(processed_node)
         return ctx
 
     return add_prefix_processing
@@ -60,33 +56,27 @@ script = {
     },
     "flow": {
         LOCAL: {
-            PRE_RESPONSE_PROCESSING: {
-                "proc_name_2": add_prefix("l2_local"),
-                "proc_name_3": add_prefix("l3_local"),
-            }
+            PRE_RESPONSE_PROCESSING: {"proc_name_2": add_prefix("l2_local"), "proc_name_3": add_prefix("l3_local")}
         },
-        "step_0": {
-            RESPONSE: print_function_response("first"),
-            TRANSITIONS: {lbl.forward(): cnd.true()},
-        },
+        "step_0": {RESPONSE: "first", TRANSITIONS: {lbl.forward(): cnd.true()}},
         "step_1": {
             PRE_RESPONSE_PROCESSING: {"proc_name_1": add_prefix("l1_step_1")},
-            RESPONSE: print_function_response("second"),
+            RESPONSE: "second",
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
         "step_2": {
             PRE_RESPONSE_PROCESSING: {"proc_name_2": add_prefix("l2_step_2")},
-            RESPONSE: print_function_response("third"),
+            RESPONSE: "third",
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
         "step_3": {
             PRE_RESPONSE_PROCESSING: {"proc_name_3": add_prefix("l3_step_3")},
-            RESPONSE: print_function_response("fourth"),
+            RESPONSE: "fourth",
             TRANSITIONS: {lbl.forward(): cnd.true()},
         },
         "step_4": {
             PRE_RESPONSE_PROCESSING: {"proc_name_4": add_prefix("l4_step_4")},
-            RESPONSE: print_function_response("fifth"),
+            RESPONSE: "fifth",
             TRANSITIONS: {"step_0": cnd.true()},
         },
     },
