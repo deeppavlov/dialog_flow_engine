@@ -7,11 +7,14 @@ adding data, data serialization, type checking etc.
 
 """
 import logging
+from functools import partial
 from uuid import UUID, uuid4
 
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, Dict, Type, Callable
 
 from pydantic import BaseModel, validate_arguments, Field, validator
+from pydantic.json import custom_pydantic_encoder
+
 from .types import NodeLabel2Type, ModuleName
 
 logger = logging.getLogger(__name__)
@@ -108,6 +111,8 @@ class Context(BaseModel):
     _sort_requests = validator("requests", allow_reuse=True)(sort_dict_keys)
     _sort_responses = validator("responses", allow_reuse=True)(sort_dict_keys)
 
+    _custom_encoders: Dict[Type[Any], Callable[[Any], Any]] = {}
+
     @classmethod
     def cast(cls, ctx: Union[Context, dict, str] = {}, *args, **kwargs) -> Context:
         """
@@ -135,6 +140,22 @@ class Context(BaseModel):
                 f"context expected as sub class of Context class or object of dict/str(json) type, but got {ctx}"
             )
         return ctx
+
+    @classmethod
+    def add_json_encoder(cls, t: Type[Any], encoder: Callable[[Any], Any]):
+        cls._custom_encoders[t] = encoder
+
+    def json(self, **kwargs) -> str:
+        if 'encoder' in kwargs:
+            return super().json(**kwargs)
+        else:
+            if self.__config__.json_encoders:
+                encoders = {**self._custom_encoders, **self.__config__.json_encoders}
+            else:
+                encoders = self._custom_encoders
+
+            encoder_fn = partial(custom_pydantic_encoder, encoders)
+            return super().json(encoder=encoder_fn, **kwargs)
 
     @validate_arguments
     def add_request(self, request: Any):
